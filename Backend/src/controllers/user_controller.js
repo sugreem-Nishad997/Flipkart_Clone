@@ -72,5 +72,17 @@ const login = async(req, res) => {
     }
 }
 
+const getUserProfile = async(req, res) => {
+    try {
+        const id = req.params.id;
+        const user = await User.findById(id);
+        if(!user) return res.json({message:"User not found", success:false});
 
-export {register, verifyOtp, login};
+        res.status(httpStatus.OK).json({message:"User founded", user, success:true})
+    } catch (error) {
+        res.status(500).json({error:error.message});
+    }
+}
+
+
+export {register, verifyOtp, login, getUserProfile};

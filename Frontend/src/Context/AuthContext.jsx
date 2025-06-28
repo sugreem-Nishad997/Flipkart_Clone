@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import axios from 'axios';
 import server from "../environment";
 
@@ -10,7 +10,8 @@ export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
 
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState(null);
+    const [loader, setLoader] = useState(true);
     const register = async (fullName, email, password, otp) => {
         try {
             let response = await client.post("/users/register", {
@@ -44,11 +45,11 @@ export const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         try {
             let response = await client.post("/users/login", {
-                email:email,
-                password:password
+                email: email,
+                password: password
             })
-            if(response.data.success){
-                const {user, token} = response.data;
+            if (response.data.success) {
+                const { user, token } = response.data;
                 localStorage.setItem("token", token);
                 setUser(user);
                 return response.data.message;
@@ -59,7 +60,50 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const data = { register, verifyOtp, login, user }
+     const logout = () => {
+        localStorage.removeItem("token");
+        setUser(null)
+    }
+
+    const getProfile = async (userId) => {
+        try {
+           
+            let id = userId.id
+            let token = localStorage.getItem("token");
+            let request = await client.get(`/users/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return request.data.success ? request.data : request.data.message;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const token = localStorage.getItem("token");
+            if (token) {
+                try {
+                    const decoded = jwtDecode(token); // decode the JWT
+                    const result = await getProfile(decoded);
+
+                    if (result.user) {
+                        setUser(result.user);
+                    }
+                } catch (err) {
+                    console.error("Invalid token or fetch failed:", err);
+                    localStorage.removeItem("token");
+                    setUser(null);
+                }
+            }
+            setLoader(false);
+        };
+
+        fetchUserData();
+    }, []);
+    const data = { register, verifyOtp, login, user, getProfile, logout }
     return (
         <AuthContext.Provider value={data}>
             {children}

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useState, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormControl, { useFormControl } from '@mui/material/FormControl';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -15,6 +15,7 @@ import Badge, { badgeClasses } from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 import "../../styles/header.css";
 import { Button } from '@mui/material';
+import { AuthContext } from '../../Context/AuthContext';
 
 
 const CartBadge = styled(Badge)`
@@ -25,9 +26,12 @@ const CartBadge = styled(Badge)`
 `;
 export default function header() {
 
-    const [dropDown, setDropDown] = React.useState(false);
-    const [input, setInput] = React.useState('');
-    const [focus, setFocus] = React.useState(false);
+    const [dropDown, setDropDown] = useState(false);
+    const [input, setInput] = useState('');
+    const [focus, setFocus] = useState(false);
+    const {user} = useContext(AuthContext);
+
+    console.log(user);
     const handleform = (event) => {
         event.preventDefault();
     }
