@@ -166,8 +166,9 @@ export default function authentication() {
     }, [intervalId]);
 
     return (
-        <div style={{ backgroundColor: '#f1f3f6', opacity: loader ? '0.4' : '1' }}>
-            <div className="auth">
+        <div style={{ backgroundColor: '#f1f3f6' }}>
+            {loader && (<Spinner />)}
+            <div className="auth" style={{opacity: loader ? '0.4' : '1'}}>
                 <div className='imageContainer'>
                     <img src={formState ? "Screenshot.png" :
                         "Screenshot-1.png"} alt="" />
@@ -243,7 +244,7 @@ export default function authentication() {
 
                                 <TextField id="standard-basic" label="Enter 4-digit OTP" name='otp' variant="standard" value={formData.otp} onChange={handleChange} />
                             </div>)}
-                            {loader && (<Spinner />)}
+                            
                             <div>
                                 <button className='button' onClick={() => handleSubmit(SlideTransition)}>{formState ? 'Continue' : 'Login'}</button>
                                 <p onClick={() => (setFormState(!formState))} className='textLink'>{formState ? 'Existing User? Log in' : 'New to Flipkart? Create an Account'}</p>
