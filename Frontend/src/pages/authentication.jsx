@@ -163,8 +163,8 @@ export default function authentication() {
         <div style={{ backgroundColor: '#f1f3f6', opacity: loader ? '0.4' : '1' }}>
             <div className="auth">
                 <div className='imageContainer'>
-                    <img src={formState ? "../public/Screenshot.png" :
-                        "../public/Screenshot-1.png"} alt="" />
+                    <img src={formState ? "Screenshot.png" :
+                        "Screenshot-1.png"} alt="" />
                 </div>
                 <div className='mobileImage' style={{
                     backgroundColor: 'rgb(30, 119, 235)',
