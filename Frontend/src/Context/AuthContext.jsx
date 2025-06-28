@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
                 setUser(user);
                 return response.data.message;
             }
-            return response.data
+            return response.data;
         } catch (error) {
             throw error
         }
