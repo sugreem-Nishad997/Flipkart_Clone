@@ -1,0 +1,47 @@
+.clientContainer{
+    height: 100vh;
+}
+.profile{
+    height: 4.2rem;
+    margin: 0.7rem;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    border-radius: 0.2rem;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .08);
+}
+.profileManagement{
+    background-color: white;
+    margin: 0.7rem;
+    border-radius: 0.2rem;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .08);
+}
+.profileManagement>div{
+    border-bottom: 1.5px solid rgb(185, 190, 192);
+}
+.accountSettings > p:hover{
+    background-color: rgb(235, 240, 243);
+    cursor: pointer;
+    color: rgb(5, 101, 190);
+}
+.accountSettings>p{
+    padding: 0.7rem 2rem 0.7rem 2rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+.icon-div{
+    display: flex;
+    padding: 0.9rem
+}
+.icon-tag{
+    opacity: 0.7;
+    margin-left: 0.5rem;
+    margin-top: 0.2rem;
+    font-size: 1rem;
+}
+.order:hover{
+    color: rgb(5, 101, 190);
+    opacity:1;
+    cursor: pointer;
+    font-weight: bolder;
+}

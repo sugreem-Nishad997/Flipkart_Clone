@@ -1,0 +1,154 @@
+.container-1{
+    background-color:rgb(245, 247, 247);
+    background-image: linear-gradient(rgb(245, 247, 247), rgb(209, 247, 247));
+    height: 100%;
+    overflow-y: hidden;
+    padding-bottom: 0.9rem;
+}
+
+.catigory-items{
+    display: flex;
+    background-color: white;
+    position: relative;
+    justify-content: space-evenly;
+    min-height: 100px;
+    margin: 0.7rem;
+    top: 0.5rem;
+    padding: 0.5rem;
+    overflow-y: hidden;
+    overflow-x: auto;
+    height: 3rem;
+    column-gap: 0.8rem;
+}
+/* Ellipses */
+
+.elipse{
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/* Ellipses */
+.catigory-items > div{
+    height: 6rem;
+    width: 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0.7rem;
+}
+.catigory-items>div>div{
+    height: 50%;
+    width: 100%;
+}
+.catigory-items>div>div>img{
+    object-fit: contain;
+    height: 100%;
+    width: 100%;
+}
+
+.carousel{
+    position: relative;
+    top: 0.5rem;
+    margin: 0.7rem;
+}
+.catFont{
+    font-size: 0.8rem;
+    font-weight: bolder;
+    text-align: center;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.containerOfBestElec{
+    background-color: white;
+    position: relative;
+    margin: 0.7rem;
+    top: 0.5rem;
+}
+
+.bestInElectronics{
+    height: 13rem;
+    display: flex;
+    justify-content: space-evenly;
+    position: relative;
+    padding: 0.3rem;
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+.bestInElectronics-li{
+    height: 12rem;
+    width: 27rem;
+    min-width: 7rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.7rem;
+}
+.bestInElectronics-li>div{
+    height: 50%;
+    width: 100%;
+    padding: 0.3rem;
+}
+.bestInElectronics-li> div> img{
+    object-fit: contain;
+    height: 100%;
+    width: 100%;
+}
+
+.li-tag>p{
+    text-align: center;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.9rem;
+}
+.li-tag{
+    position: relative;
+    top: 1rem;
+}
+
+
+.TopDealsContainer{
+    display: flex;
+}
+.fashTopDContainer{
+    background-color: white;
+    position: relative;
+    margin-top: 1rem;
+    top: 0.5rem;
+    margin: 0.5rem;
+    height:100%;
+    width:33%;
+}
+
+@media screen and (max-width: 480px){
+    .fashTopDContainer{
+        width:95%;
+    }
+    .TopDealsContainer{
+        flex-direction: column;
+    }
+}
+
+.custom-img{
+    width: 100%;
+    height: 9rem;
+    display: flex;
+}
+.custom-img>img{
+    object-fit: contain;
+    margin-top: 0.8rem;
+    border-radius: 0.2rem;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+.card-1{
+    padding: 0rem 0.5rem 0.5rem 0.5rem;
+}
+
+

@@ -1,0 +1,28 @@
+.adminContainer{
+    padding: 0.3rem;
+}
+
+.leftPannel{
+    width: 25%;
+}
+.rightPannel{
+    width: 75%;
+}
+
+.managements{
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+.managements>div{
+    margin: 0.5rem;
+    padding: 0.5rem;
+    font-weight: 500;
+}
+
+.managements>div:hover{
+    background-color: rgb(35, 111, 211);
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+

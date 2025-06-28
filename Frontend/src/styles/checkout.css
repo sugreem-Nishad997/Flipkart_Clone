@@ -1,0 +1,8 @@
+.checkoutHeader{
+    background-color:rgb(36, 112, 187);
+}
+img{
+    object-fit: contain;
+    height: 4rem;
+    margin-left: 5rem;
+}
