@@ -1,10 +1,12 @@
 import { useState, useEffect, useContext } from 'react';
+import {useNavigate} from 'react-router-dom'
 import '../styles/authentication.css';
 import {
     TextField, FormControl, InputLabel, FilledInput, InputAdornment,
-    IconButton, Snackbar, Slide, Fade, Button
+    IconButton, Snackbar, Slide, Fade, Button,
+    Alert
 } from '@mui/material';
-import { Tune, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { AuthContext } from '../Context/AuthContext';
 import Spinner from '../Loader/Spinner';
 
@@ -18,12 +20,12 @@ export default function authentication() {
     const [otpOpen, setOtpOpen] = useState(false);
     const [snakeOpen, setSnakeOpen] = useState({ open: false, Transition: Fade });
     const [showPass, setShowPass] = useState(false);
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState({ ms: '', type: '', color: '' });
     const [timer, setTimer] = useState(0);
     const [intervalId, setIntervalId] = useState(null);
     const [loader, setLoader] = useState(false);
     const { register, verifyOtp, login } = useContext(AuthContext);
-
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -40,18 +42,16 @@ export default function authentication() {
         const { fullName, email, password } = formData;
 
         if (!fullName || !email || !password) {
-            setMessage('Please fill all fields before sending OTP');
+            setMessage({ ms: 'Please fill all fields before sending OTP', type: 'warning', color: 'orange' });
             setSnakeOpen({ open: true, Transition });
-            console.log(message)
             return;
         }
 
         try {
             setLoader(true);
             const result = await register(fullName, email, password);
-            setMessage(result.message)
+            setMessage({ ms: result.message, type: 'success', color: 'green' })
             setSnakeOpen({ open: true, Transition });
-            console.log(snakeOpen, result.message);
 
             if (result.success) {
                 setOtpOpen(true);
@@ -70,7 +70,7 @@ export default function authentication() {
 
             }
         } catch (error) {
-            setMessage(error.message);
+            setMessage({ ms: error.message, type: 'error', color: 'red' });
             setSnakeOpen({ open: true, Transition });
             console.log(error);
         } finally {
@@ -83,7 +83,7 @@ export default function authentication() {
         if (formState) {
             if (!email || !otp || !password) {
                 console.log("All fields required");
-                setMessage("All fields required");
+                setMessage({ ms: "All fields required", type: 'warning', color: 'orange' });
                 setSnakeOpen({ open: true, Transition });
             } else {
                 try {
@@ -91,7 +91,7 @@ export default function authentication() {
                     const result = await verifyOtp(email, otp);
 
                     if (result.success) {
-                        setMessage(result.message);
+                        setMessage({ ms: result.message, type: 'success', color: 'green' });
                         setSnakeOpen({ open: true, Transition });
                         setFormState(false);
                         setFormData({
@@ -102,13 +102,13 @@ export default function authentication() {
                         });
                         setOtpOpen(false);
                     } else {
-                        setMessage(result.message);
+                        setMessage({ ms: result.message, type: 'error', color: 'red' });
                         setSnakeOpen({ open: true, Transition });
                     }
 
                 } catch (error) {
                     console.log(error);
-                    setMessage(error.message);
+                    setMessage({ ms: error.message, type: 'error', color: 'red' });
                     setSnakeOpen({ open: true, Transition });
                 } finally {
                     setLoader(false)
@@ -117,21 +117,27 @@ export default function authentication() {
         } else {
             if (!email || !password) {
                 console.log("All fields required");
-                setMessage("All fields required");
+                setMessage({ ms: "All fields required", type: 'warning', color: 'orange' });
                 setSnakeOpen({ open: true, Transition });
             } else {
                 try {
                     setLoader(true)
                     const result = await login(email, password);
-                    console.log(result)
-                    setMessage(result);
-                    setSnakeOpen({ open: true, Transition });
-                    setFormData({
-                        email: '',
-                        password: ''
-                    })
+                    if (result.success === false) {
+                        setMessage({ ms: result.message, type: 'error', color: 'red' });
+                        setSnakeOpen({ open: true, Transition });
+                        navigate("/")
+
+                    } else {
+                        setMessage({ ms: result, type: 'success', color: 'green' });
+                        setSnakeOpen({ open: true, Transition });
+                        setFormData({
+                            email: '',
+                            password: ''
+                        })
+                    }
                 } catch (error) {
-                    setMessage(error.message)
+                    setMessage({ ms: error.message, type: 'error', color: 'red' })
                     setSnakeOpen({ open: true, Transition });
                     console.log(error);
                 } finally {
@@ -195,7 +201,7 @@ export default function authentication() {
                                     name='email'
                                     value={formData.email}
                                     onChange={handleChange}
-                                    onClick={() => setOpen(!open)}
+                                    onClick={() => setOpen(true)}
                                     required />
                                 {open && formState && (
                                     <Button variant='outlined'
@@ -206,7 +212,7 @@ export default function authentication() {
                             </div>
                             <div className='mt-3'>
                                 <FormControl sx={{ backgroundColor: 'white', width: '23ch' }} variant="filled">
-                                    <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
+                                    <InputLabel htmlFor="filled-adornment-password">{formState?'Create Password':'Password'}</InputLabel>
                                     <FilledInput
                                         id="filled-adornment-password"
                                         sx={{ backgroundColor: 'white', '&:hover': { backgroundColor: 'white' } }}
@@ -235,8 +241,7 @@ export default function authentication() {
                             </div>
                             {otpOpen && formState && (<div style={{ display: 'flex', marginTop: '0.9rem', }}>
 
-                                <TextField id="standard-basic" label="Otp" name='otp' variant="standard" value={formData.otp} onChange={handleChange} />
-                                <p> Otp sent to email</p>
+                                <TextField id="standard-basic" label="Enter 4-digit OTP" name='otp' variant="standard" value={formData.otp} onChange={handleChange} />
                             </div>)}
                             {loader && (<Spinner />)}
                             <div>
@@ -252,11 +257,20 @@ export default function authentication() {
                 open={snakeOpen.open}
                 onClose={handleClose}
                 slots={{ transition: snakeOpen.Transition }}
-                message={message}
+
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 key={snakeOpen.Transition.name}
                 autoHideDuration={2200}
-            />
+            >
+                <Alert
+                    onClose={handleClose}
+                    severity={message.type}
+                    variant='filled'
+                    sx={{ color: 'white', backgroundColor: 'black', '& .MuiAlert-icon': { color: message.color } }}
+                >
+                    {message.ms}
+                </Alert>
+            </Snackbar>
         </div>
     )
 }
