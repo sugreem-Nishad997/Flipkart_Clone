@@ -4,8 +4,9 @@ import {
     TextField, FormControl, InputLabel, FilledInput, InputAdornment,
     IconButton, Snackbar, Slide, Fade, Button
 } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Tune, Visibility, VisibilityOff } from '@mui/icons-material';
 import { AuthContext } from '../Context/AuthContext';
+import Spinner from '../Loader/Spinner';
 
 function SlideTransition(props) {
     return <Slide {...props} direction="down" />;
@@ -20,6 +21,7 @@ export default function authentication() {
     const [message, setMessage] = useState("");
     const [timer, setTimer] = useState(0);
     const [intervalId, setIntervalId] = useState(null);
+    const [loader, setLoader] = useState(false);
     const { register, verifyOtp, login } = useContext(AuthContext);
 
     const [formData, setFormData] = useState({
@@ -45,6 +47,7 @@ export default function authentication() {
         }
 
         try {
+            setLoader(true);
             const result = await register(fullName, email, password);
             setMessage(result.message)
             setSnakeOpen({ open: true, Transition });
@@ -70,50 +73,70 @@ export default function authentication() {
             setMessage(error.message);
             setSnakeOpen({ open: true, Transition });
             console.log(error);
+        } finally {
+            setLoader(false)
         }
     };
 
     const handleSubmit = async (Transition) => {
         const { email, otp, password } = formData;
-
         if (formState) {
-            try {
-                const result = await verifyOtp(email, otp);
-                if (result.success) {
-                    setMessage(result.message);
-                    setSnakeOpen({ open: true, Transition });
-                    setFormState(false);
-                    setFormData({
-                        fullName: "",
-                        email: "",
-                        password: "",
-                        otp: "",
-                    });
-                    setOtpOpen(false);
-                } else {
-                    setMessage(result.message);
-                    setSnakeOpen({ open: true, Transition });
-                }
-
-            } catch (error) {
-                console.log(error);
-                setMessage(error.message);
+            if (!email || !otp || !password) {
+                console.log("All fields required");
+                setMessage("All fields required");
                 setSnakeOpen({ open: true, Transition });
+            } else {
+                try {
+                    setLoader(true);
+                    const result = await verifyOtp(email, otp);
+
+                    if (result.success) {
+                        setMessage(result.message);
+                        setSnakeOpen({ open: true, Transition });
+                        setFormState(false);
+                        setFormData({
+                            fullName: "",
+                            email: "",
+                            password: "",
+                            otp: "",
+                        });
+                        setOtpOpen(false);
+                    } else {
+                        setMessage(result.message);
+                        setSnakeOpen({ open: true, Transition });
+                    }
+
+                } catch (error) {
+                    console.log(error);
+                    setMessage(error.message);
+                    setSnakeOpen({ open: true, Transition });
+                } finally {
+                    setLoader(false)
+                }
             }
         } else {
-            try {
-                const result = await login(email, password);
-                console.log(result)
-                setMessage(result);
+            if (!email || !password) {
+                console.log("All fields required");
+                setMessage("All fields required");
                 setSnakeOpen({ open: true, Transition });
-                setFormData({
-                    email:'',
-                    password:''
-                })
-            } catch (error) {
-                setMessage(error.message)
-                setSnakeOpen({ open: true, Transition });
-                console.log(error);
+            } else {
+                try {
+                    setLoader(true)
+                    const result = await login(email, password);
+                    console.log(result)
+                    setMessage(result);
+                    setSnakeOpen({ open: true, Transition });
+                    setFormData({
+                        email: '',
+                        password: ''
+                    })
+                } catch (error) {
+                    setMessage(error.message)
+                    setSnakeOpen({ open: true, Transition });
+                    console.log(error);
+                } finally {
+                    setLoader(false)
+                }
             }
         }
     }
@@ -137,7 +160,7 @@ export default function authentication() {
     }, [intervalId]);
 
     return (
-        <div style={{ backgroundColor: '#f1f3f6' }}>
+        <div style={{ backgroundColor: '#f1f3f6', opacity: loader ? '0.4' : '1' }}>
             <div className="auth">
                 <div className='imageContainer'>
                     <img src={formState ? "../public/Screenshot.png" :
@@ -215,6 +238,7 @@ export default function authentication() {
                                 <TextField id="standard-basic" label="Otp" name='otp' variant="standard" value={formData.otp} onChange={handleChange} />
                                 <p> Otp sent to email</p>
                             </div>)}
+                            {loader && (<Spinner />)}
                             <div>
                                 <button className='button' onClick={() => handleSubmit(SlideTransition)}>{formState ? 'Continue' : 'Login'}</button>
                                 <p onClick={() => (setFormState(!formState))} className='textLink'>{formState ? 'Existing User? Log in' : 'New to Flipkart? Create an Account'}</p>
