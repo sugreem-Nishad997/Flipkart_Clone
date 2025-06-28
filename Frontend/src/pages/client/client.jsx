@@ -5,9 +5,15 @@ import FilterFramesSharpIcon from '@mui/icons-material/FilterFramesSharp';
 import AccountBalanceWalletSharpIcon from '@mui/icons-material/AccountBalanceWalletSharp';
 import FolderSharedSharpIcon from '@mui/icons-material/FolderSharedSharp';
 import PowerSettingsNewSharpIcon from '@mui/icons-material/PowerSettingsNewSharp';
+import { useContext } from 'react';
+import { AuthContext } from '../../Context/AuthContext';
 
 export default function client(){
+
+    const {user, logout} = useContext(AuthContext);
     let navigate = useNavigate();
+
+
     return(
          <div style={{backgroundColor:'rgb(234, 240, 245)', padding:'0.9rem 0.9rem 0.9rem 2rem', width:'30%'}}>
             <div className="clientContainer">
@@ -17,7 +23,7 @@ export default function client(){
                     </div>
                     <div style={{display:'flex', flexDirection:'column'}}>
                         <p style={{fontSize:'0.7rem', marginBottom:'0rem'}}>Hello,</p>
-                        <h6>Sugreem Nishad</h6>
+                        <h6>{user?user.name:'User'}</h6>
                     </div>
                 </div>
                 <div className='profileManagement'>
@@ -58,7 +64,9 @@ export default function client(){
                     <div>
                          <div className='icon-div'>
                             <PowerSettingsNewSharpIcon sx={{color:'rgb(5, 101, 190)'}}/>
-                            <h6 className='icon-tag'>LOGOUT</h6>
+                            <h6 className='icon-tag' onClick={()=>{logout()
+                                navigate("/")
+                            }}>LOGOUT</h6>
                         </div>
                     </div>
                 </div>

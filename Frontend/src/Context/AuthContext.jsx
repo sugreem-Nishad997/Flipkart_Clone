@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import axios from 'axios';
 import server from "../environment";
+import { jwtDecode } from "jwt-decode";
 
 const client = axios.create({
     baseURL: server
@@ -84,12 +85,14 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const fetchUserData = async () => {
             const token = localStorage.getItem("token");
+            
             if (token) {
                 try {
                     const decoded = jwtDecode(token); // decode the JWT
                     const result = await getProfile(decoded);
-
+                    console.log(result)
                     if (result.user) {
+                        
                         setUser(result.user);
                     }
                 } catch (err) {

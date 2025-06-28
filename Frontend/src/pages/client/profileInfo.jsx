@@ -1,27 +1,58 @@
 import { Button, TextField } from "@mui/material";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import '../../styles/profileInfo.css';
+import { AuthContext } from "../../Context/AuthContext";
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+import Spinner from "../../Loader/Spinner";
 
 
 export default function profileInfo() {
     const [nameEdit, setNameEdit] = useState(true);
     const [emailEdit, setEmailEdit] = useState(true);
+    const [loading, setLoading] = useState(true);
+    const [userForm, setUserForm] = useState({
+        fullName: "",
+        email: "",
+        gender: ""
+    })
+    const { user } = useContext(AuthContext);
+
+    useEffect(() => {
+        const fetchData = () => {
+            try {
+                if (user) {
+                    setUserForm({
+                        fullName: user.name || '',
+                        email: user.email || ''
+                    });
+                } else {
+                    console.log(user);
+                }
+            } catch (error) {
+                console.log(error)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchData();
+    }, [user])
+
+    if (loading) return (<Spinner />)
 
     return (
         <div style={{ backgroundColor: 'rgb(234, 240, 245)', padding: '0.9rem', width: '70%' }}>
+
             <div style={{ backgroundColor: 'white' }} className="p-5">
                 <div className="mb-3 d-flex">
                     <h6>Personal Information</h6>
                     <span className="ms-5 edit" onClick={() => setNameEdit(!nameEdit)}>{nameEdit ? 'Edit' : 'Cancel'}</span>
                 </div>
                 <div>
-                    <TextField id={nameEdit ? "outlined-basic" : "outlined-disabled"} variant="outlined" label={nameEdit ? "" : "First Name"} value="Sugreem" disabled={nameEdit} size="small" />
-                    <TextField id={nameEdit ? "outlined-basic" : "outlined-disabled"} variant="outlined" label={nameEdit ? "" : "Last Name"} value="Nishad" disabled={nameEdit} className="ms-3" size="small" />
+                    <TextField id={nameEdit ? "outlined-basic" : "outlined-disabled"} variant="outlined" label={nameEdit ? "" : "Full Name"} value={userForm.fullName} disabled={nameEdit} size="small" name="fullName" />
                     {nameEdit ? "" : <Button variant="contained" className="ms-3" >save</Button>}
                 </div>
                 <div className="mt-3">
@@ -51,7 +82,7 @@ export default function profileInfo() {
                     <span className="ms-5 edit" onClick={() => setEmailEdit(!emailEdit)}>{emailEdit ? 'Edit' : 'Cancel'}</span>
                 </div>
                 <div>
-                    <TextField id={emailEdit ? "outlined-basic" : "outlined-disabled"} variant="outlined" label={emailEdit ? "" : "Email"} value="sugreem86gmail.com" disabled={emailEdit} size="small" />
+                    <TextField id={emailEdit ? "outlined-basic" : "outlined-disabled"} variant="outlined" label={emailEdit ? "" : "Email"} value={userForm.email} disabled={emailEdit} size="small" name="email" type="email" />
                     {emailEdit ? "" : <Button variant="contained" className="ms-3" >save</Button>}
                 </div>
                 <div className="mb-3 mt-5">
@@ -76,9 +107,9 @@ export default function profileInfo() {
                                 </div>
                                 <div class="modal-body">
                                     <form>
-                                        
+
                                         <div class="mb-3">
-                                    
+
                                             <textarea class="form-control" id="message-text"></textarea>
                                         </div>
                                     </form>
@@ -92,6 +123,7 @@ export default function profileInfo() {
                     </div>
                 </div>
             </div>
+
 
         </div>
     )
