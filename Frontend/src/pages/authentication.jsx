@@ -126,7 +126,6 @@ export default function authentication() {
                     if (result.success === false) {
                         setMessage({ ms: result.message, type: 'error', color: 'red' });
                         setSnakeOpen({ open: true, Transition });
-                        navigate("/")
 
                     } else {
                         setMessage({ ms: result, type: 'success', color: 'green' });
@@ -135,6 +134,7 @@ export default function authentication() {
                             email: '',
                             password: ''
                         })
+                         navigate("/");
                     }
                 } catch (error) {
                     setMessage({ ms: error.message, type: 'error', color: 'red' })
