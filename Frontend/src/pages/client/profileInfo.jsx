@@ -44,14 +44,21 @@ export default function profileInfo() {
     if (loading) return (<Spinner />)
 
     return (
-        <div style={{ backgroundColor: 'rgb(234, 240, 245)', padding: '0.9rem', width: '70%' }}>
-
+        <div style={{ backgroundColor: 'rgb(234, 240, 245)', padding: '0.9rem' }} className="personalInfo">
+            <div className='mobileImage' style={{
+                backgroundColor: 'rgb(30, 119, 235)',
+                paddingTop: '1.2rem'
+            }}>
+                <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/flipkart-logo-login-5e2d0b.svg"
+                    alt=""
+                    style={{ display: 'flex', justifySelf: 'center', marginBottom: '0.5rem' }} />
+            </div>
             <div style={{ backgroundColor: 'white' }} className="p-5">
                 <div className="mb-3 d-flex">
                     <h6>Personal Information</h6>
                     <span className="ms-5 edit" onClick={() => setNameEdit(!nameEdit)}>{nameEdit ? 'Edit' : 'Cancel'}</span>
                 </div>
-                <div>
+                <div className="d-flex">
                     <TextField id={nameEdit ? "outlined-basic" : "outlined-disabled"} variant="outlined" label={nameEdit ? "" : "Full Name"} value={userForm.fullName} disabled={nameEdit} size="small" name="fullName" />
                     {nameEdit ? "" : <Button variant="contained" className="ms-3" >save</Button>}
                 </div>
@@ -81,7 +88,7 @@ export default function profileInfo() {
                     <h6>Email Address</h6>
                     <span className="ms-5 edit" onClick={() => setEmailEdit(!emailEdit)}>{emailEdit ? 'Edit' : 'Cancel'}</span>
                 </div>
-                <div>
+                <div className="d-flex">
                     <TextField id={emailEdit ? "outlined-basic" : "outlined-disabled"} variant="outlined" label={emailEdit ? "" : "Email"} value={userForm.email} disabled={emailEdit} size="small" name="email" type="email" />
                     {emailEdit ? "" : <Button variant="contained" className="ms-3" >save</Button>}
                 </div>

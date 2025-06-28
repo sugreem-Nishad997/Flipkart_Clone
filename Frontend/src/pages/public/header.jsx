@@ -111,7 +111,7 @@ export default function header() {
                 </div>
                 <div>
                     <div className="mobileLogin">
-                        <Button sx={{ color: 'black' }} startIcon={<AccountCircle />} onClick={() => navigate("/auth")}>{user?'YOU':'Login'}</Button>
+                        <Button sx={{ color: 'black' }} startIcon={<AccountCircle />} onClick={() =>{ user?navigate("/account"):navigate("/auth")}}>{user?'YOU':'Login'}</Button>
                     </div>
                     <div className='login' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                         <Button sx={{ color: 'black', ":hover": { backgroundColor: 'rgb(44, 89, 212)', color: 'white' } }} startIcon={<AccountCircle />} onClick={() => { user ? navigate("/account") : navigate("/auth") }}>{user ? user.name : 'Login'} {dropDown ? <ArrowUp /> : <ArrowDown />}</Button>

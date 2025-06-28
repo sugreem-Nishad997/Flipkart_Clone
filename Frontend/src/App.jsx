@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router, Routes, Outlet } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes, Outlet, useLocation } from 'react-router-dom';
 import Header from './pages/public/header';
 import Footer from './pages/public/footer';
 import Home from './pages/public/home';
@@ -16,6 +16,7 @@ import Wishlist from './pages/client/wishlist';
 import Checkout from './pages/public/checkout';
 import { AuthProvider } from './Context/AuthContext';
 import './App.css';
+import { useEffect, useState } from 'react';
 
 function BasicLayout() {
   return (
@@ -28,16 +29,30 @@ function BasicLayout() {
 }
 
 function ClientLayout() {
+  const location = useLocation();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const shouldHideHeader = isMobile && location.pathname.startsWith("/account");
+
   return (
     <>
-      <Header />
+      {!shouldHideHeader && <Header />}
       <div style={{ display: 'flex' }}>
         <Client />
         <Outlet />
       </div>
       <Footer />
     </>
-  )
+  );
 }
 
 function AdminLayout() {
