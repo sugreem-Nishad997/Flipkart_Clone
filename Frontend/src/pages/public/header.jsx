@@ -52,22 +52,22 @@ export default function header() {
             <div class="offcanvas offcanvas-start bg-light text-black" tabindex="-1" id="offcanvasMenu" style={{ width: '60%' }}>
                 <div class="offcanvas-header" style={{ backgroundColor: 'rgb(35,111, 211)', color: 'white' }}>
                     <AccountCircle sx={{ marginRight: '0.5rem' }} />
-                    <h5 class="offcanvas-title" onClick={() => navigate("/auth")}>Login & Signup</h5>
+                    <h5 class="offcanvas-title" onClick={() => {user?navigate("/account"):navigate("/auth")}} >{user?user.name:'Login & Signup'}</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link text-black" href="#">My Orders</a>
+                            <a class="nav-link text-black" onClick={()=>navigate("/account/orders")}>My Orders</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-black" onClick={() => navigate("/cart")}>My Cart</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-black" href="#">My Wishlist</a>
+                            <a class="nav-link text-black" onClick={()=>navigate("/account/wishlist")}>My Wishlist</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-black" href="#">My Account</a>
+                            <a class="nav-link text-black" onClick={()=>navigate("/account")}>My Account</a>
                         </li>
                     </ul>
                 </div>
@@ -78,7 +78,7 @@ export default function header() {
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 </nav>
-                <div className='logo'>
+                <div className='logo' onClick={()=>navigate("/")}>
                     <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/fkheaderlogo_exploreplus-44005d.svg" alt="" />
                 </div>
                 <div className='responsiveSearchA'>
@@ -111,7 +111,7 @@ export default function header() {
                 </div>
                 <div>
                     <div className="mobileLogin">
-                        <Button sx={{ color: 'black' }} startIcon={<AccountCircle />} onClick={() => navigate("/auth")}>Login</Button>
+                        <Button sx={{ color: 'black' }} startIcon={<AccountCircle />} onClick={() => navigate("/auth")}>{user?'YOU':'Login'}</Button>
                     </div>
                     <div className='login' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                         <Button sx={{ color: 'black', ":hover": { backgroundColor: 'rgb(44, 89, 212)', color: 'white' } }} startIcon={<AccountCircle />} onClick={() => { user ? navigate("/account") : navigate("/auth") }}>{user ? user.name : 'Login'} {dropDown ? <ArrowUp /> : <ArrowDown />}</Button>
@@ -119,7 +119,7 @@ export default function header() {
                     <ul className="dropDownList" style={{ display: dropDown === false ? 'none' : '', padding: '0.6rem' }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                         <li className='list-1' style={{ display: user ? 'none' : '' }}>
                             <span>New Customer?</span>
-                            <span onClick={() => navigate("/auth")}>SignUp</span>
+                            <span onClick={() => navigate("/auth")} className='signup'>SignUp</span>
                         </li>
                         <li>
                             <Button fullWidth sx={{ color: "black", ':hover': { color: 'white', backgroundColor: 'rgb(0, 102, 255)' }, justifyContent: 'flex-start' }} startIcon={<AccountCircle />} onClick={() => navigate("/account")}>My Profile</Button>

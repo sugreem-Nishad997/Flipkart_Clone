@@ -1,4 +1,4 @@
-.headerContainer{
+.headerContainer {
     background-color: white;
     top: 0;
     position: sticky;
@@ -7,42 +7,49 @@
     width: 100%;
 }
 
-.container{
+.container {
     display: flex;
     padding: 0.5rem;
     justify-content: space-evenly;
     align-items: center;
 }
-.logo{
+
+.logo {
     width: 10rem;
     position: relative;
     left: -3.5rem;
 }
-.logo>img{
+
+.logo>img {
     width: 100%;
     object-fit: contain;
 }
-img{
+
+img {
     margin-left: 0rem !important;
     height: 100% !important;
 }
-.search-input{
+
+.search-input {
     border: 0;
     outline: 0 none;
     width: 40rem;
-    background-color:rgb(225, 234, 238);
+    background-color: rgb(225, 234, 238);
     border-radius: 0 0.4rem 0.4rem 0;
     padding: 0.5rem;
 }
-.search{
+
+.search {
     display: flex;
     justify-content: center;
 }
-.login{
+
+.login {
     display: flex;
     align-items: center;
 }
-.dropDownList{
+
+.dropDownList {
     position: absolute;
     list-style: none;
     padding: 0.5rem;
@@ -56,7 +63,8 @@ img{
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
-.list-1{
+
+.list-1 {
     padding: 10px;
     border-bottom: 1px solid #e0e0e0;
     font-size: 16px;
@@ -65,7 +73,17 @@ img{
     justify-content: space-between;
 }
 
-.search-dropDown{
+.list-1>.signup:hover {
+    cursor: pointer;
+}
+
+.list-1>.signup {
+    color: rgb(0, 132, 255);
+    font-weight: bolder;
+    margin-left: 0.6rem;
+}
+
+.search-dropDown {
     position: absolute;
     list-style: none;
     padding: 0.5rem;
@@ -73,53 +91,58 @@ img{
     background-color: #fff;
     border: 1px solid #f0f0f0;
     min-width: 200px;
-    width: 42.5rem;
     box-shadow: 0 4px 16px 0 rgb(0, 0, 0, .2);
     z-index: 100;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
-/* .list-Buttons{
-    justify-content: flex-start;
-    color: black;
-}
-.list-Buttons:hover{
-    color: white;
-    background-color: rgb(0, 110, 255);
-} */
 
-@media screen and (max-width: 480px){
-    .responsiveSearchA{
+@media screen and (max-width: 480px) {
+    .responsiveSearchA {
         display: none;
     }
-    .container{
+
+    .container {
         margin: 0;
         position: relative;
     }
-    .login{
+
+    .login {
         display: none;
     }
-    .search-input{
+
+    .search-input {
         border: 1px solid rgb(25, 137, 241);
         background-color: white;
     }
+
+    .search-dropDown {
+        width: 23.5rem;
+    }
 }
-@media screen and (min-width: 480px){
-    .responsiveSearchB{
+
+@media screen and (min-width: 480px) {
+    .responsiveSearchB {
         display: none;
     }
-    .mobileLogin{
+
+    .mobileLogin {
         display: none;
     }
 }
 
- @media (min-width: 992px) {
-      .navbar-toggler {
+@media (min-width: 992px) {
+    .navbar-toggler {
         display: none;
-      }
-      #desktopMenu {
+    }
+
+    #desktopMenu {
         display: flex !important;
-      }
+    }
+
+    .search-dropDown {
+        width: 42.5rem;
+    }
 }
 
 /* .toggle{
