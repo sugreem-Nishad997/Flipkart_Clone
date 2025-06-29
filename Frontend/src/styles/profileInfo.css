@@ -74,9 +74,11 @@
         width: 100%;
         padding-top: 0rem !important;
     }
+   
 }
 @media screen and (mai-width: 480px) {
     .personalInfo{
         width: 70%;
     }
+    
 }

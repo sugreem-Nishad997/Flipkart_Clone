@@ -35,8 +35,6 @@ export const AuthProvider = ({ children }) => {
                 email: email,
                 otp: otp
             });
-
-            console.log(response.data);
             return response.data
         } catch (error) {
             throw error
@@ -82,6 +80,43 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const updateName = async(id , userForm) => {
+        try {
+            
+            const token = localStorage.getItem("token");
+            const response = await client.post(`/users/name/${id}`, userForm, {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if(response.data.success){
+                setUser(response.data.updatedProfile);
+            }
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    const updateEmail = async(id , userForm) => {
+        try {
+            
+            const token = localStorage.getItem("token");
+            const response = await client.post(`/users/email/${id}`, userForm, {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if(response.data.success){
+                setUser(response.data.updatedUser);
+            }
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
     useEffect(() => {
         const fetchUserData = async () => {
             const token = localStorage.getItem("token");
@@ -90,7 +125,7 @@ export const AuthProvider = ({ children }) => {
                 try {
                     const decoded = jwtDecode(token); // decode the JWT
                     const result = await getProfile(decoded);
-                    console.log(result)
+                    
                     if (result.user) {
                         
                         setUser(result.user);
@@ -106,7 +141,7 @@ export const AuthProvider = ({ children }) => {
 
         fetchUserData();
     }, []);
-    const data = { register, verifyOtp, login, user, getProfile, logout }
+    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail }
     return (
         <AuthContext.Provider value={data}>
             {children}
