@@ -116,7 +116,7 @@ const updateEmail = async (req, res) => {
         const user = await User.findById(id);
         if (!user || !user.isVerified) return res.json({ message: "User not verified", success: false });
 
-        if (email === user.email) return res.json({ message: "Email is verified", success: false });
+        if (email === user.email) return res.json({ message: "Email is already verified", success: false });
 
         const existingEmailUser = await User.findOne({ email });
         if (existingEmailUser && existingEmailUser._id.toString() !== id) {
@@ -125,7 +125,7 @@ const updateEmail = async (req, res) => {
 
         const otp = Math.floor(1000 + Math.random() * 9000);
         const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
-        const updatedUser = await User.findByIdAndUpdate(id, {email, otp, otpExpiry, isVerified:false}, { new: true });
+        const updatedUser = await User.findByIdAndUpdate(id, { email, otp, otpExpiry, isVerified: false }, { new: true });
         await sendEmail(email, "Your OTP code", `Your OTP is ${otp}`);
         res.status(httpStatus.CREATED).json({ message: "Email verificatoin code sended", updatedUser, success: true });
 
@@ -135,5 +135,107 @@ const updateEmail = async (req, res) => {
     }
 }
 
+const addAddress = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const address = req.body;
+        if (id !== req.user.id) return res.json({ message: "Not Acceptable", success: false });
 
-export { register, verifyOtp, login, getUserProfile, updatePersonalInfo, updateEmail };
+        const user = await User.findById(id);
+        if (!user || !user.isVerified) return res.json({ message: "User not verified", success: false });
+
+        const requiredFields = ['fullname', 'mobile', 'addressType', 'city', 'state', 'pincode', 'locality', 'area'];
+        for (let field of requiredFields) {
+            if (!address[field]) {
+                return res.json({ message: `Missing field: ${field}`, success: false })
+            }
+        }
+        const updatedUser = await User.findByIdAndUpdate(id, { $push: { addresses: address } }, { new: true });
+        if (!updatedUser) return res.json({ message: "address not added", success: false });
+
+        const lastAdded = updatedUser.addresses[updatedUser.addresses.length - 1];
+        res.status(httpStatus.CREATED).json({ message: "Address is added successfully", success: true, updatedUser, lastAdded });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+}
+
+const getAllAddress = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        if (id !== req.user.id) return res.json({ message: "Not Acceptable", success: false });
+
+        const user = await User.findById(id);
+        if (!user || !user.isVerified) return res.json({ message: "User not verified", success: false });
+
+        const result = await User.findById(id).select('addresses');
+        const addresses = result.addresses;
+        if (!addresses) return res.json({ message: "No addresses Added yet", success: false });
+
+        res.status(httpStatus.CREATED).json({ message: "Address founded", success: true, addresses });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+}
+
+const updateAddress = async (req, res) => {
+    try {
+        const { id, addressId } = req.params;
+        const address = req.body;
+        if (id !== req.user.id) return res.json({ message: "Not Acceptable", success: false });
+
+        const user = await User.findById(id);
+        if (!user || !user.isVerified) return res.json({ message: "User not verified", success: false });
+
+        const isAddressExist = user.addresses.id(addressId);
+        if (!isAddressExist) return res.json({ message: "Address  is not exist", success: false });
+
+        const requiredFields = ['fullname', 'mobile', 'addressType', 'city', 'state', 'pincode', 'locality', 'area'];
+        for (let field of requiredFields) {
+            if (!address[field]) {
+                return res.json({ message: `Missing field: ${field}`, success: false })
+            }
+        }
+
+        Object.assign(isAddressExist, address);
+
+        const updatedUser = await user.save();
+        
+        if (!updatedUser) return res.json({ message: "address not updated", success: false });
+
+        res.status(httpStatus.CREATED).json({ message: "Address is updated", success: true, updatedUser });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+}
+
+const deleteAddress = async(req, res) => {
+    try {
+        const {id, addressId} = req.params;
+
+        if(id !== req.user.id) return res.json({message:"Not Acceptable", success: false});
+
+        const user = await User.findById(id);
+        if(!user || !user.isVerified) return res.json({message:"User not verified"});
+
+        const isAddressExist = user.addresses.id(addressId);
+        if(!isAddressExist) return res.json({message:"Address not exist", success:false});
+
+        user.addresses = user.addresses.filter((addr) => addr._id.toString() !== addressId);
+        const updatedUser = await user.save();
+
+        if(!updatedUser) return res.json({message:"Address not deleted", success: false});
+
+        return res.status(httpStatus.OK).json({message:"Address deleted", success:true, updatedUser});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error:error.message});
+    }
+}
+
+
+export { register, verifyOtp, login, getUserProfile, updatePersonalInfo, updateEmail, addAddress, getAllAddress, updateAddress, deleteAddress };

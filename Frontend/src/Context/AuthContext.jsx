@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import axios from 'axios';
 import server from "../environment";
 import { jwtDecode } from "jwt-decode";
+import { CardHeader } from "@mui/material";
 
 const client = axios.create({
     baseURL: server
@@ -59,14 +60,14 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-     const logout = () => {
+    const logout = () => {
         localStorage.removeItem("token");
         setUser(null)
     }
 
     const getProfile = async (userId) => {
         try {
-           
+
             let id = userId.id
             let token = localStorage.getItem("token");
             let request = await client.get(`/users/${id}`, {
@@ -80,16 +81,16 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const updateName = async(id , userForm) => {
+    const updateName = async (id, userForm) => {
         try {
-            
+
             const token = localStorage.getItem("token");
             const response = await client.post(`/users/name/${id}`, userForm, {
-                headers:{
+                headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            if(response.data.success){
+            if (response.data.success) {
                 setUser(response.data.updatedProfile);
             }
             return response.data;
@@ -98,11 +99,76 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const updateEmail = async(id , userForm) => {
+    const updateEmail = async (id, userForm) => {
         try {
-            
+
             const token = localStorage.getItem("token");
             const response = await client.post(`/users/email/${id}`, userForm, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (response.data.success) {
+                setUser(response.data.updatedUser);
+            }
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    const getAddress = async (id) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await client.get(`/users/${id}/address`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    const addAddress = async (id, formData) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await client.post(`/users/${id}/address`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if(response.data.success){
+                setUser(response.data.updatedUser);
+            }
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    const updateAddress = async(id, addressId, formData) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await client.post(`/users/${id}/address/${addressId}`, formData, {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if(response.data.success){
+                setUser(response.data.updatedUser);
+            }
+            return response.data;
+        } catch (error) {
+            throw error
+        }
+    }
+
+    const deleteAddress = async(id, addressId) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await client.delete(`/users/${id}/address/${addressId}`, {
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
@@ -116,18 +182,17 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-
     useEffect(() => {
         const fetchUserData = async () => {
             const token = localStorage.getItem("token");
-            
+
             if (token) {
                 try {
                     const decoded = jwtDecode(token); // decode the JWT
                     const result = await getProfile(decoded);
-                    
+
                     if (result.user) {
-                        
+
                         setUser(result.user);
                     }
                 } catch (err) {
@@ -141,7 +206,7 @@ export const AuthProvider = ({ children }) => {
 
         fetchUserData();
     }, []);
-    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail }
+    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress }
     return (
         <AuthContext.Provider value={data}>
             {children}
