@@ -25,7 +25,7 @@ export default function address() {
         addressType:""
 
     });
-    const [addresses, setAddresses] = useState([{}]);
+    const [addresses, setAddresses] = useState([]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -49,16 +49,22 @@ export default function address() {
         });
         setOpen(!open)
     }
-
+    console.log(addresses);
 
     return (
-        <div style={{ backgroundColor: 'rgb(234, 240, 245)', padding: '0.9rem', width: '70%' }}>
-            <div style={{ backgroundColor: 'white' }} className="p-5">
-                <div className="mb-3">
+        <div  className='addressContainer'>
+            <div className='mobileImage1' >
+                <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/flipkart-logo-login-5e2d0b.svg"
+                    alt="" className='mx-3 mb-2' />
+                <span style={{textAlign:'right', color:'white', fontWeight:'bold'}}>My addresses</span>
+            </div>
+            
+            <div className="mobilehandler">
+                <div className="mb-3 mobile">
                     <h6>Manage Addresses</h6>
                 </div>
                 <div className='address'>
-                    <div style={{ display: open ? 'none' : '' }}>
+                    <div style={{ display: open ? 'none' : ''}}>
                         <AddIcon sx={{ color: 'rgb(0, 132, 255)' }} />
                         <span className='ms-3 text-primary' style={{ fontSize: '0.95rem', fontWeight: '500' }} onClick={() => setOpen(!open)}>Add A New Address</span>
                     </div>
@@ -66,12 +72,14 @@ export default function address() {
                         <p className='ms-1 text-primary' style={{ fontSize: '0.95rem', fontWeight: '500' }}>Add A New Address</p>
                         <div>
                             <div className='d-flex'>
-                                <div style={{ position: 'relative', width: '280px' }}>
+                                <div  className='input-div'>
                                     <input type="text" name='name'
-                                        className='name-input' value={formData.name} onChange={handleChange} />
+                                        className='name-input'
+                                        required 
+                                        value={formData.name} onChange={handleChange} />
                                     <label htmlFor="name" className='name-label'>Name</label>
                                 </div>
-                                <div style={{ position: 'relative', width: '280px', marginLeft: '2rem' }}>
+                                <div className='input-div ms-4'>
                                     <input type="text" name='mobile'
                                         className='name-input' value={formData.mobile} onChange={handleChange} />
                                     <label htmlFor="mobile" className='name-label'>10-digit mobile number</label>
@@ -79,46 +87,55 @@ export default function address() {
                             </div>
 
                             <div className='d-flex mt-3'>
-                                <div style={{ position: 'relative', width: '280px' }}>
+                                <div className='input-div'>
                                     <input type="text" name='pincode'
-                                        className='name-input' value={formData.pincode} onChange={handleChange} />
+                                        className='name-input'
+                                        required
+                                         value={formData.pincode} onChange={handleChange} />
                                     <label htmlFor="pincode" className='name-label'>Pincode</label>
                                 </div>
-                                <div style={{ position: 'relative', width: '280px', marginLeft: '2rem' }}>
-                                    <input type="text" name='locality'
+                                <div className='input-div ms-4'>
+                                    <input type="text" 
+                                    name='locality'
+                                    required
                                         className='name-input' value={formData.locality} onChange={handleChange} />
                                     <label htmlFor="locality" className='name-label'>Locality</label>
                                 </div>
                             </div>
 
                             <div className='d-flex mt-4'>
-                                <div style={{ position: 'relative', width: '595px' }}>
+                                <div style={{ position: 'relative', width: '100%'}}>
                                     <input type="text" name='area'
-                                        className='name-input' style={{ height: '5rem' }} value={formData.area} onChange={handleChange} />
+                                        className='name-input'
+                                        required 
+                                        style={{ height: '5rem' }} value={formData.area} onChange={handleChange} />
                                     <label htmlFor="area" className='name-label'>Address(Area and Street)</label>
                                 </div>
                             </div>
 
                             <div className='d-flex mt-3'>
-                                <div style={{ position: 'relative', width: '280px' }}>
+                                <div className='input-div'>
                                     <input type="text" name='city'
+                                    required
                                         className='name-input' value={formData.city} onChange={handleChange} />
                                     <label htmlFor="city" className='name-label'>City/District/Town</label>
                                 </div>
-                                <div style={{ position: 'relative', width: '280px', marginLeft: '2rem' }}>
-                                    <input type="text" name='state'
+                                <div className='input-div ms-4'>
+                                    <input type="text" 
+                                    name='state'
+                                    required
                                         className='name-input' value={formData.state} onChange={handleChange} />
                                     <label htmlFor="state" className='name-label'>State</label>
                                 </div>
                             </div>
 
                             <div className='d-flex mt-3'>
-                                <div style={{ position: 'relative', width: '280px' }}>
+                                <div className='input-div'>
                                     <input type="text" name='name'
                                         className='name-input' />
                                     <label htmlFor="name" className='name-label'>Landmark(Optional)</label>
                                 </div>
-                                <div style={{ position: 'relative', width: '280px', marginLeft: '2rem' }}>
+                                <div className='input-div ms-4'>
                                     <input type="text" name='name'
                                         className='name-input' />
                                     <label htmlFor="name" className='name-label'>Alternate Phone(Optional)</label>
@@ -133,12 +150,17 @@ export default function address() {
                                         name="row-radio-buttons-group"
                                         sx={{ marginTop: '-0.5rem' }}
                                     >
-                                        <FormControlLabel value='Home' name='addressType' control={<Radio sx={{
+                                        <FormControlLabel value='Home' name='addressType'
+                                        required 
+                                        control={<Radio sx={{
                                             '& .MuiSvgIcon-root': {
                                                 fontSize: 17,
                                             },
                                         }} onClick={handleChange}/>} label="Home" />
-                                        <FormControlLabel value="Office" name='addressType' control={<Radio sx={{
+                                        <FormControlLabel value="Office"
+                                         name='addressType'
+                                         required
+                                          control={<Radio sx={{
                                             '& .MuiSvgIcon-root': {
                                                 fontSize: 17,
                                             },
@@ -160,7 +182,7 @@ export default function address() {
                 <div className='mt-4'>
                     {addresses.map((add) => {
                         return (
-                            <div style={{ border: '1px solid gainsboro', padding: '1rem' }}>
+                            <div style={{ border: '1px solid gainsboro', padding: '1rem', backgroundColor:'white'}}>
                                 <div className='d-flex justify-content-between'>
                                     <p className='addressType'>{add.addressType}</p>
                                     <div className='addressEdit' style={{display:moreOpen?'':'none'}} onMouseLeave={()=>setMoreOpen(!moreOpen)}>
