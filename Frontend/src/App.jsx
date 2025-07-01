@@ -14,9 +14,12 @@ import Address from './pages/client/address';
 import Orders from './pages/client/order';
 import Wishlist from './pages/client/wishlist';
 import Checkout from './pages/public/checkout';
+import RequireAdmin from './Authenticate/RequireAdmin';
+import RequireAuth from './Authenticate/RequireAuth';
 import { AuthProvider } from './Context/AuthContext';
 import './App.css';
 import { useEffect, useState } from 'react';
+import NoRoutes from './pages/NoRoutes';
 
 function BasicLayout() {
   return (
@@ -81,13 +84,19 @@ function App() {
               <Route path='/cart' element={<Cart />} />
 
             </Route>
-            <Route path="/admin" element={<AdminLayout />}>
+            <Route path="/admin" element={
+              <RequireAuth>
+                <RequireAdmin>
+                  <AdminLayout />
+                </RequireAdmin>
+              </RequireAuth>
+            }>
               <Route index element={<Customers />} />
               <Route path='/admin/sellers' element={<Sellers />} />
               <Route path='/admin/products' element={<Products
               />} />
             </Route>
-            <Route path="/account" element={<ClientLayout />}>
+            <Route path="/account" element={<RequireAuth><ClientLayout /></RequireAuth>}>
               <Route index element={<ProfileInfo />} />
               <Route path='/account/addresses' element={<Address />} />
               <Route path='/account/orders' element={<Orders />} />
@@ -96,6 +105,7 @@ function App() {
             <Route path='/checkout' element={<CheckoutLayout />}>
               <Route index element={<Checkout />} />
             </Route>
+            <Route path='/*' element={<NoRoutes/>}/>
           </Routes>
         </Router>
       </AuthProvider>

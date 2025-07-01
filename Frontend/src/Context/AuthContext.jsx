@@ -192,7 +192,6 @@ export const AuthProvider = ({ children }) => {
                     const result = await getProfile(decoded);
 
                     if (result.user) {
-
                         setUser(result.user);
                     }
                 } catch (err) {
@@ -206,7 +205,7 @@ export const AuthProvider = ({ children }) => {
 
         fetchUserData();
     }, []);
-    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress }
+    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader }
     return (
         <AuthContext.Provider value={data}>
             {children}
