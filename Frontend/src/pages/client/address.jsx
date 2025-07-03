@@ -51,7 +51,6 @@ export default function address() {
         try {
             if (!user?._id) return;
             let result = await addAddress(user._id, formData);
-            console.log(result)
             if (result.success) {
 
                 setMessage({ ms: result.message, color: 'green', type: 'success' });
@@ -159,7 +158,7 @@ export default function address() {
             alternate: ""
         });
         setOpen(!open);
-    }
+    }                                     
     const handleClose = () => {
         setSnakeOpen(prev => ({ ...prev, open: false }));
     };

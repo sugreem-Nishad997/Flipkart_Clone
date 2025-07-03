@@ -13,21 +13,31 @@
 }
 .buyingProcess{
     width: 70%;
-    border-radius: 2px;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,.09);
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+   
 }
 .loginStep{
     background-color: white;
     display: flex;
     justify-content: space-between;
     padding: 1.2rem;
-    height: 5.5rem;
+     border-radius: 2px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.09);
+}
+.addressStep{
+    background-color: white;
+    padding: 1.2rem;
+     border-radius: 2px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.09);
 }
 .loginStep1{
     background-color: #2874f0;
     display: flex;
     justify-content: space-between;
     padding: 1.2rem 1.2rem 0 1.2rem;
+    
 }
 .number{
     background-color: #f0f3f8;
@@ -45,6 +55,13 @@
 }
 .desc{
     padding: 0.7rem 2rem 0 2rem;
+}
+.mappedAddress{
+    padding: 1.2rem;
+    border-bottom: 2px solid #c1c7c9;
+    width: 67vw;
+    display: flex;
+    justify-content: space-between;
 }
 @media(max-width: 768px){
     .checkoutBody>div{
@@ -68,5 +85,8 @@
     }
     .aboutLogin{
         display: none;
+    }
+    .mappedAddress{
+        width: 24.7rem;
     }
 }
