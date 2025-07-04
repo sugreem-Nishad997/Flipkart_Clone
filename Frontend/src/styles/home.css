@@ -124,6 +124,23 @@
     height:100%;
     width:33%;
 }
+/* Default carousel image styling */
+.carousel-img {
+  height: 18rem;
+  object-fit: cover;
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+
+/* On screens smaller than 768px (typical mobiles) */
+@media (max-width: 768px) {
+  .carousel-img {
+    height: 10rem !important ;/* Increased height for mobile */
+    border-radius: 1rem;
+    object-position: 38% 100% !important; /* Rounded corners */
+  }
+}
+
 
 @media screen and (max-width: 480px){
     .fashTopDContainer{

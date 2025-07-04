@@ -36,28 +36,28 @@ export default function home() {
                 </div>
             </div>
 
-            <div id="carouselExampleAutoplaying carousel" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="https://rukminim2.flixcart.com/fk-p-flap/2020/340/image/11980ec333f6aa03.jpg?q=60" class="d-block w-100" alt="..." />
+            <div id="carouselExampleAutoplaying" className="carousel slide" data-bs-ride="carousel" >
+                <div className="carousel-inner">
+                    <div className="carousel-item active">
+                        <img src="https://rukminim2.flixcart.com/fk-p-flap/2020/740/image/11980ec333f6aa03.jpg?q=60" className="d-block w-100 carousel-img"alt="..." />
                     </div>
-                    <div class="carousel-item">
-                        <img src="https://rukminim2.flixcart.com/fk-p-flap/2020/340/image/cc08176877cb794a.png?q=60" class="d-block w-100" alt="..." />
+                    <div className="carousel-item">
+                        <img src="https://rukminim2.flixcart.com/fk-p-flap/2020/340/image/cc08176877cb794a.png?q=60" className="d-block w-100 carousel-img" alt="..." />
                     </div>
-                    <div class="carousel-item">
-                        <img src="https://rukminim2.flixcart.com/fk-p-flap/2020/340/image/9e51c145e7782e85.jpeg?q=60" class="d-block w-100" alt="..." />
+                    <div className="carousel-item">
+                        <img src="https://rukminim2.flixcart.com/fk-p-flap/2020/340/image/9e51c145e7782e85.jpeg?q=60" className="d-block w-100 carousel-img" alt="..." />
                     </div>
-                    <div class="carousel-item">
-                        <img src="https://rukminim2.flixcart.com/fk-p-flap/2020/340/image/49c336ca72c1dcba.jpg?q=60" alt="..." />
+                    <div className="carousel-item">
+                        <img src="https://rukminim2.flixcart.com/fk-p-flap/1620/270/image/8b9174109572b3e4.jpeg?q=80" className="d-block w-100 carousel-img" alt="..." />
                     </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
+                <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span className="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
+                <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span className="visually-hidden">Next</span>
                 </button>
             </div>
             <div className='containerOfBestElec'>
