@@ -63,6 +63,15 @@
     display: flex;
     justify-content: space-between;
 }
+
+.priceDetails{
+    background-color: white;
+     border-radius: 2px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.09);
+    height: fit-content;
+    width: 30%;
+}
+
 @media(max-width: 768px){
     .checkoutBody>div{
         flex-direction: column;
@@ -88,5 +97,8 @@
     }
     .mappedAddress{
         width: 24.7rem;
+    }
+    .priceDetails{
+        width: 100%;
     }
 }

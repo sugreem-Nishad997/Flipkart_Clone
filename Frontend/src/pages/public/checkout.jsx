@@ -26,6 +26,7 @@ export default function checkout() {
     const [editFormOpen, setEditFormOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     const [editAddress, setEditAddress] = useState(false);
+    const [orderOpen, setOrderOpen] = useState(false);
     const [userData, setUserData] = useState(null);
     const [addresses, setAddresses] = useState([]);
     const [radioAddress, setRadioAddress] = useState("");
@@ -182,19 +183,19 @@ export default function checkout() {
         if (user) {
             setUserData(user);
             setAddresses(user.addresses);
-            if(user?.addresses.length > 0){
-                if(isFirstLoad.current){
+            if (user?.addresses.length > 0) {
+                if (isFirstLoad.current) {
                     setRadioAddress(user.addresses[0]);
                     isFirstLoad.current = false;
-                }else{
+                } else {
                     setRadioAddress(user.addresses[user.addresses.length - 1]);
                 }
-            }else{
+            } else {
                 console.log("yes")
                 setFormOpen(true);
                 setAddressOpen(true);
             }
-            
+
         } else {
             setUserData(null);
         }
@@ -206,7 +207,7 @@ export default function checkout() {
             <div className='checkoutHeader'>
                 <div style={{ height: '2.2rem' }} className='d-flex justify-content-around'>
                     <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/flipkart-logo-login-5e2d0b.svg"
-                        alt="" className='mt-2' />
+                        alt="" className='mt-2' onClick={()=>navigate("/")} />
                     <div></div>
                     <div></div>
                 </div>
@@ -580,9 +581,55 @@ export default function checkout() {
                             <AddIcon sx={{ color: 'rgb(0, 132, 255)' }} />
                             <span className='ms-3 text-primary' style={{ fontSize: '0.95rem', fontWeight: '500' }} onClick={handleFormOpen}>Add A New Address</span>
                         </div>}
+
+                        {/* Order Summary section */}
+
+                        {!orderOpen ? <div className='loginStep'>
+                            <div className='d-flex' style={{ columnGap: '0.4rem' }}>
+                                <span className='number'>3</span>
+                                <div>
+                                    <p className='fw-bold text-secondary'>ORDER SUMMARY
+                                        {userData && <CheckIcon sx={{ color: '#2874f0', fontSize: '1.3rem', marginLeft: '0.2rem' }} />
+                                        }
+                                    </p>
+                                    <p>1 item</p>
+                                </div>
+                            </div>
+                            {userData && <div>
+                                <Button variant='outlined' size='small' onClick={() => setOrderOpen(!orderOpen)}>Change</Button>
+                            </div>}
+                        </div> : (
+                            <div style={{ backgroundColor: 'white', borderRadius: '2px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, .09)' }}>
+                                <div className="loginStep1">
+                                    <div className='d-flex' style={{ columnGap: '0.4rem' }}>
+                                        <span className='number'>2</span>
+                                        <div>
+                                            <p className='fw-bold text-white'>ORDER SUMMARY<CheckIcon sx={{ color: '#2874f0', fontSize: '1.3rem', marginLeft: '0.2rem' }} /></p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div>ksdjfjs</div>
+                            </div>
+                        )}
+                        {orderOpen && <div style={{ backgroundColor: 'white', borderRadius: '2px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, .09)' }} >
+                            <div className='d-flex justify-content-between p-3'>
+                                <p style={{ fontSize: '0.88rem' }}>Order confirmation email sent to </p>
+                                <Button variant='contained' sx={{ backgroundColor: '#f8641b', boxShadow: 'none' }} onClick={() => setOrderOpen(!orderOpen)}>Continue</Button>
+                            </div>
+                        </div>}
                     </div>
                     <div className='priceDetails'>
-                        Price
+                        <p className='fw-bold text-secondary p-3' style={{ borderBottom: '2px solid rgb(235, 236, 236)' }}>PRICE DETAILS</p>
+                        <div className='d-flex justify-content-between p-3' style={{ borderBottom: '2px dashed rgb(235, 236, 236)' }} >
+                            <span>Price</span>
+                            <span>890</span>
+                        </div>
+                        <div className='d-flex justify-content-between mt-3 fw-bold p-3' style={{ borderBottom: '2px solid rgb(235, 236, 236)' }}>
+                            <span>Total Payable</span>
+                            <span>890</span>
+                        </div>
+                        <p className='mt-3 fw-bold text-success p-3'>Your Total Saving on this Order</p>
                     </div>
                 </div>
             </div>
