@@ -61,7 +61,7 @@ function ClientLayout() {
 
 function AdminLayout() {
   return (
-    <div style={{ display: 'flex', padding: '0.5rem' }}>
+    <div style={{ display: 'flex'}}>
       <Admin />
       <Outlet />
     </div>

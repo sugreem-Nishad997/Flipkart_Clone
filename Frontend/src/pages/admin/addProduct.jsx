@@ -150,155 +150,163 @@ const AddProductStyledForm = () => {
     };
 
     return (
-        <div className='rightPannel p-3' >
+        <div className='rightPannel' >
+            <div className='addProductHeader'>
+                <div style={{ height: '2.2rem' }} className='d-flex justify-content-around'>
+                    <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/flipkart-logo-login-5e2d0b.svg"
+                        alt="" className='mt-3 ms-3' onClick={() => navigate("/")} />
+                </div>
+            </div>
             {loading && <LinearProgress />}
-            <Typography variant="h6" mb={1}>Add New Product</Typography>
-            <Grid container spacing={3} sx={{ opacity: loading && '0.5' }}>
+            <div className='mb-2 d-flex justify-content-between p-3'>
+                <Typography variant="h6" mb={1}>Add New Product</Typography>
+                <Button variant="contained" color="success" onClick={() => handleSubmit(SlideTransition)} disabled={loading && true}>
+                    Add Product
+                </Button>
+            </div>
+            <Grid container spacing={3} sx={{ opacity: loading && '0.5'}} p={2}>
                 {/* General Info */}
-                <Grid xs={12} md={8} sx={{ width: '70%' }}>
-                    <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
-                        <Typography fontWeight={600} mb={2}>General Information</Typography>
-                        <TextField
-                            label="Name Product"
-                            name="title"
-                            fullWidth
-                            size='small'
-                            value={formData.title}
-                            onChange={handleInputChange}
-                            sx={{ mb: 2 }}
-                            disabled={loading && 'true'}
-                        />
-                        <TextField
-                            label="Description Product"
-                            name="description"
-                            fullWidth
-                            multiline
-                            rows={3}
-                            value={formData.description}
-                            onChange={handleInputChange}
-                            disabled={loading && 'true'}
-                            sx={{ mb: 1 }}
-                        />
+                <div className='section-1'>
+                    <Grid xs={12} md={8}>
+                        <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
+                            <Typography fontWeight={600} mb={2}>General Information</Typography>
+                            <TextField
+                                label="Name Product"
+                                name="title"
+                                fullWidth
+                                size='small'
+                                value={formData.title}
+                                onChange={handleInputChange}
+                                sx={{ mb: 2 }}
+                                disabled={loading && true}
+                            />
+                            <TextField
+                                label="Description Product"
+                                name="description"
+                                fullWidth
+                                multiline
+                                rows={3}
+                                value={formData.description}
+                                onChange={handleInputChange}
+                                disabled={loading && true}
+                                sx={{ mb: 1 }}
+                            />
 
 
-                    </Paper>
+                        </Paper>
 
-                    {/* Pricing & Stock */}
-                    <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
-                        <Typography fontWeight={600} mb={2}>Pricing And Stock</Typography>
-                        <Grid container spacing={2}>
-                            <Grid xs={6}>
-                                <TextField
-                                    label="Base Pricing"
-                                    name="price"
-                                    fullWidth
-                                    value={formData.price}
-                                    onChange={handleInputChange}
-                                    disabled={loading && 'true'}
-                                    size='small'
-                                />
+                        {/* Pricing & Stock */}
+                        <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
+                            <Typography fontWeight={600} mb={2}>Pricing And Stock</Typography>
+                            <Grid container spacing={2}>
+                                <Grid xs={6}>
+                                    <TextField
+                                        label="Base Pricing"
+                                        name="price"
+                                        fullWidth
+                                        value={formData.price}
+                                        onChange={handleInputChange}
+                                        disabled={loading && true}
+                                        size='small'
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        label="Stock"
+                                        name="stock"
+                                        fullWidth
+                                        value={formData.stock}
+                                        onChange={handleInputChange}
+                                        disabled={loading && true}
+                                        size='small'
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        label="Discount"
+                                        name="discount"
+                                        fullWidth
+                                        value={formData.discount}
+                                        onChange={handleInputChange}
+                                        disabled={loading && true}
+                                        size='small'
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        label="Brand"
+                                        name="brand"
+                                        fullWidth
+                                        value={formData.brand}
+                                        onChange={handleInputChange}
+                                        disabled={loading && true}
+                                        size='small'
+                                    />
+                                </Grid>
+
                             </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                    label="Stock"
-                                    name="stock"
-                                    fullWidth
-                                    value={formData.stock}
-                                    onChange={handleInputChange}
-                                    disabled={loading && 'true'}
-                                    size='small'
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                    label="Discount"
-                                    name="discount"
-                                    fullWidth
-                                    value={formData.discount}
-                                    onChange={handleInputChange}
-                                    disabled={loading && 'true'}
-                                    size='small'
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                    label="Brand"
-                                    name="brand"
-                                    fullWidth
-                                    value={formData.brand}
-                                    onChange={handleInputChange}
-                                    disabled={loading && 'true'}
-                                    size='small'
-                                />
-                            </Grid>
+                        </Paper>
 
-                        </Grid>
-                    </Paper>
-
-                    {/* Category */}
-                    <Paper elevation={2} sx={{ p: 2, display: 'flex', justifyContent: 'space-between' }}>
-                        <Box>
-                            <Typography fontWeight={600}>Category</Typography>
-
-                            <Grid xs={6}>
-                                <Select
-                                    displayEmpty
-                                    name="category"
-                                    value={formData.category}
-                                    onChange={handleInputChange}
-                                    sx={{ height: '2.3rem' }}
-                                    disabled={loading && 'true'}
-                                >
-                                    <MenuItem value="" disabled>Select Category</MenuItem>
-                                    {Category.map(type => (
-                                        <MenuItem key={type} value={type}>{type}</MenuItem>
-                                    ))}
-                                </Select>
-                            </Grid>
-                        </Box>
-                        {formData.category === 'clothing' && <> <Box>
-                            <Typography variant="subtitle2" fontWeight={600} >Size</Typography>
-                            <ToggleButtonGroup
-                                value={formData.size}
-                                onChange={handleSizeChange}
-                                multiple
-                                size="small"
-                            >
-                                {sizes.map(size => (
-                                    <ToggleButton key={size} value={size}>
-                                        {size}
-                                    </ToggleButton>
-                                ))}
-                            </ToggleButtonGroup>
-                        </Box>
-
+                        {/* Category */}
+                        <div className='category'>
                             <Box>
-                                <Typography variant="subtitle2" fontWeight={600}>Gender</Typography>
+                                <Typography fontWeight={600}>Category</Typography>
+
+                                <Grid xs={6}>
+                                    <Select
+                                        displayEmpty
+                                        name="category"
+                                        value={formData.category}
+                                        onChange={handleInputChange}
+                                        sx={{ height: '2.3rem' }}
+                                        disabled={loading && true}
+                                    >
+                                        <MenuItem value="" disabled>Select Category</MenuItem>
+                                        {Category.map(type => (
+                                            <MenuItem key={type} value={type}>{type}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </Grid>
+                            </Box>
+                            {formData.category === 'clothing' && <> <Box>
+                                <Typography variant="subtitle2" fontWeight={600} >Size</Typography>
                                 <ToggleButtonGroup
-                                    value={formData.gender}
-                                    exclusive
-                                    onChange={handleGenderChange}
+                                    value={formData.size}
+                                    onChange={handleSizeChange}
+                                    multiple
                                     size="small"
                                 >
-                                    {genders.map(g => (
-                                        <ToggleButton key={g} value={g}>
-                                            {g}
+                                    {sizes.map(size => (
+                                        <ToggleButton key={size} value={size}>
+                                            {size}
                                         </ToggleButton>
                                     ))}
                                 </ToggleButtonGroup>
-                            </Box></>}
+                            </Box>
 
-                    </Paper>
-                </Grid>
+                                <Box>
+                                    <Typography variant="subtitle2" fontWeight={600}>Gender</Typography>
+                                    <ToggleButtonGroup
+                                        value={formData.gender}
+                                        exclusive
+                                        onChange={handleGenderChange}
+                                        size="small"
+                                    >
+                                        {genders.map(g => (
+                                            <ToggleButton key={g} value={g}>
+                                                {g}
+                                            </ToggleButton>
+                                        ))}
+                                    </ToggleButtonGroup>
+                                </Box></>}
+
+                        </div>
+                    </Grid>
+                </div>
 
                 {/* Image Upload */}
                 {/* Submit */}
-                <div style={{ width: "25%" }}>
-                    <div className='mb-2'>
-                        <Button variant="contained" color="success" onClick={() => handleSubmit(SlideTransition)} disabled={loading && 'true'}>
-                            Add Product
-                        </Button>
-                    </div>
+                <div className='section-2'>
                     <Grid item xs={12} md={4} sx={{ width: '100%' }}>
                         <Paper elevation={2} sx={{ p: 3, width: '100%' }}>
                             <Typography fontWeight={600} mb={2}>Upload Img</Typography>
@@ -375,7 +383,7 @@ const AddProductStyledForm = () => {
                                 variant="outlined"
                                 startIcon={<AddPhotoAlternateIcon />}
                                 fullWidth
-                                disabled={loading && 'true'}
+                                disabled={loading && true}
                             >
                                 Upload Image
                                 <input type="file" hidden multiple accept="image/*" onChange={handleImageUpload} />
@@ -403,7 +411,7 @@ const AddProductStyledForm = () => {
                                 </IconButton>
                             </Box>
                         ))}
-                        <Button onClick={addSpecField} startIcon={<Add />} disabled={loading && 'true'}>
+                        <Button onClick={addSpecField} startIcon={<Add />} disabled={loading && true}>
                             Add Specification
                         </Button>
                     </Grid>
