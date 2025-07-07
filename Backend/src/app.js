@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user_routes.js';
-
+import productRoutes from './routes/product_routes.js';
 const app = express();
 dotenv.config();
 
@@ -14,6 +14,7 @@ app.use(express.json({limit:'40kb'}));
 app.use(express.urlencoded({limit:'40kb', extended:true}));
 
 app.use(userRoutes);
+app.use(productRoutes);
 
 const connectToDB = async() => {
     await mongoose.connect(dbUrl);

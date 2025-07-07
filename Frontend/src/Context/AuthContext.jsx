@@ -182,6 +182,20 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const addProduct = async(formData) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await client.post("/admin/addProduct", formData, {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            throw error         
+        }
+    }
+
     useEffect(() => {
         const fetchUserData = async () => {
             const token = localStorage.getItem("token");
@@ -205,7 +219,7 @@ export const AuthProvider = ({ children }) => {
 
         fetchUserData();
     }, []);
-    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader }
+    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct }
     return (
         <AuthContext.Provider value={data}>
             {children}

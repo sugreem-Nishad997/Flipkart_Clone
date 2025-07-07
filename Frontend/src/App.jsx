@@ -14,6 +14,7 @@ import Address from './pages/client/address';
 import Orders from './pages/client/order';
 import Wishlist from './pages/client/wishlist';
 import Checkout from './pages/public/checkout';
+import AddProduct from './pages/admin/addProduct';
 import RequireAdmin from './Authenticate/RequireAdmin';
 import RequireAuth from './Authenticate/RequireAuth';
 import { AuthProvider } from './Context/AuthContext';
@@ -94,6 +95,8 @@ function App() {
               <Route index element={<Customers />} />
               <Route path='/admin/sellers' element={<Sellers />} />
               <Route path='/admin/products' element={<Products
+              />} />
+              <Route path='/admin/addProduct' element={<AddProduct
               />} />
             </Route>
             <Route path="/account" element={<RequireAuth><ClientLayout /></RequireAuth>}>
