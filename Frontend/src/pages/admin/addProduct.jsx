@@ -104,6 +104,10 @@ const AddProductStyledForm = () => {
 
     const handleSubmit = async (Transition) => {
         setLoading(true);
+        if ((formData.category === 'laptop' || 'mobile' || 'electronics') && (formData.specs.length === 0)) {
+            setMessage({ ms: "Specifications required", color: 'orange', type: 'warning' });
+            setSnakeOpen({ open: true, Transition });
+        }
         const form = new FormData();
         Object.entries(formData).forEach(([key, val]) => {
             if (Array.isArray(val)) {
@@ -164,7 +168,7 @@ const AddProductStyledForm = () => {
                     Add Product
                 </Button>
             </div>
-            <Grid container spacing={3} sx={{ opacity: loading && '0.5'}} p={2}>
+            <Grid container spacing={3} sx={{ opacity: loading && '0.5' }} p={2}>
                 {/* General Info */}
                 <div className='section-1'>
                     <Grid xs={12} md={8}>

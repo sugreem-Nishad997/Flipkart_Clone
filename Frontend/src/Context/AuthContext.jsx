@@ -184,14 +184,12 @@ export const AuthProvider = ({ children }) => {
 
     const addProduct = async(formData) => {
         try {
-            console.log('es')
             const token = localStorage.getItem("token");
             const response = await client.post("/admin/addProduct", formData, {
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
             });
-            console.log(response)
             return response.data;
         } catch (error) {
             throw error         

@@ -17,8 +17,7 @@ export const createProduct = async (req, res) => {
         } = req.body;
 
         const images = req.files.map(file => file.path);
-
-        if (!title || !description || !price || !category || !brand || !images) {
+        if (!title || !description || !price || !category || !brand || images.length === 0) {
             return res.json({ message: "All fields are required", success: false });
         }
 
