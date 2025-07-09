@@ -47,6 +47,7 @@ img {
 .login {
     display: flex;
     align-items: center;
+    margin-left: 1rem;
 }
 
 .dropDownList {
@@ -119,6 +120,28 @@ img {
     .search-dropDown {
         width: 23.5rem;
     }
+
+    .logo {
+        left: -2.5rem;
+    }
+
+    .clientSidebar1 {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        height: 100%;
+        width: 80%;
+        max-width: 320px;
+        z-index: 999;
+        background-color: rgb(236, 245, 248);
+        transition: left 0.3s ease-in-out;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        padding: 0.3rem;
+    }
+    .clientSidebar1.open {
+        left: 0;
+    }
+
 }
 
 @media screen and (min-width: 480px) {
@@ -129,6 +152,7 @@ img {
     .mobileLogin {
         display: none;
     }
+
 }
 
 @media (min-width: 992px) {
@@ -142,6 +166,10 @@ img {
 
     .search-dropDown {
         width: 42.5rem;
+    }
+
+    .clientSidebar1 {
+        display: none;
     }
 }
 
