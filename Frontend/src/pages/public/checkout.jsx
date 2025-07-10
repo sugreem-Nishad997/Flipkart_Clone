@@ -21,10 +21,12 @@ export default function checkout() {
     const [snakeOpen, setSnakeOpen] = useState({ open: false, Transition: Fade });
     const [message, setMessage] = useState({ ms: '', type: '', color: '' });
     const [loginOpen, setLoginOpen] = useState(false);
+    const [buttonOpen, setButtonOpen] = useState(false);
     const [addressOpen, setAddressOpen] = useState(false);
     const [formOpen, setFormOpen] = useState(false);
-    const [editFormOpen, setEditFormOpen] = useState(false);
+    const [editFormOpenId, setEditFormOpenId] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [radioIdx, setRadioIdx] = useState(0);
     const [editAddress, setEditAddress] = useState(false);
     const [orderOpen, setOrderOpen] = useState(false);
     const [userData, setUserData] = useState(null);
@@ -111,7 +113,7 @@ export default function checkout() {
                     landmark: "",
                     alternate: ""
                 });
-                setEditFormOpen(false)
+                setEditFormOpenId(null)
             } else {
                 setMessage({ ms: result.message, color: 'orange', type: 'warning' });
                 setSnakeOpen({ open: true, Transition });
@@ -159,7 +161,7 @@ export default function checkout() {
     }
 
     const handleFormOpen = () => {
-        setEditFormOpen(false);
+        setEditFormOpenId(null);
         setFormOpen(!formOpen);
         setEditAddress(!editAddress);
         setAddressFormData({
@@ -174,6 +176,11 @@ export default function checkout() {
             landmark: "",
             alternate: ""
         });
+    }
+
+    const handleRadioChange = (e) => {
+        setRadioIdx(e.target.value);
+        setButtonOpen(true);
     }
 
     useEffect(() => {
@@ -207,7 +214,7 @@ export default function checkout() {
             <div className='checkoutHeader'>
                 <div style={{ height: '2.2rem' }} className='d-flex justify-content-around'>
                     <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/flipkart-logo-login-5e2d0b.svg"
-                        alt="" className='mt-2' onClick={()=>navigate("/")} />
+                        alt="" className='mt-2' onClick={() => navigate("/")} />
                     <div></div>
                     <div></div>
                 </div>
@@ -288,13 +295,18 @@ export default function checkout() {
                                 <div>
                                     <p className='fw-bold text-secondary'>DELIVERY ADDRESS
                                         {userData && <CheckIcon sx={{ color: '#2874f0', fontSize: '1.3rem', marginLeft: '0.2rem' }} />
-                                        }                                    </p>
+                                        }</p>
                                     {userData && radioAddress &&
                                         <p style={{ marginTop: '-0.5rem', fontWeight: '600', fontSize: '0.88rem' }}>{radioAddress.fullname}  <span style={{ fontWeight: '400' }}>{radioAddress.locality + " " + radioAddress.area + " " + radioAddress.state + " -  " + radioAddress.pincode}</span></p>}
+
                                 </div>
                             </div>
                             {userData && <div>
-                                <Button variant='outlined' size='small' onClick={() => setAddressOpen(!addressOpen)}>Change</Button>
+                                <Button variant='outlined' size='small' onClick={() => {
+                                    setAddressOpen(!addressOpen)
+                                    setRadioIdx(radioAddress._id)
+                                    setButtonOpen(true)
+                                }}>Change</Button>
                             </div>}
                         </div>) :
                             (<div style={{ backgroundColor: 'white', borderRadius: '2px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, .09)' }}>
@@ -311,28 +323,40 @@ export default function checkout() {
 
                                         <RadioGroup
                                             row
-                                            name="gender"
-                                            value={radioAddress}
-                                            onChange={() => setRadioAddress(e.target.value)}
+                                            name="addresses"
+                                            value={radioIdx}
+                                            onChange={handleRadioChange}
 
                                             sx={{ marginTop: '-0.5rem', display: 'flex', flexDirection: 'column' }}
                                         >
                                             {addresses.map((add, idx) => {
+                                                const addressId = add._id
+                                                const isSelected = radioIdx === addressId
+
                                                 return (
                                                     <div className='mappedAddress' key={idx}>
-                                                        {!editFormOpen ? <div className='d-flex' style={{ columnGap: '0.6rem' }}>
-                                                            <div>
-                                                                <FormControlLabel value={add} control={<Radio sx={{
-                                                                    '& .MuiSvgIcon-root': {
-                                                                        fontSize: 19,
-                                                                    },
-                                                                }} />} />
-                                                            </div>
-                                                            <div>
-                                                                <p className='fw-bold'>{add.fullname + "  "}<span style={{ color: 'gray', padding: '0.3rem', backgroundColor: '#f0f3f8' }}> {add.addressType} </span> {add.mobile}</p>
-                                                                <p style={{ marginTop: '0.5rem', fontWeight: '400', fontSize: '0.88rem', }}>{add.locality + " " + add.area + " " + add.state}<span style={{ fontWeight: '600' }}> - {add.pincode}</span></p>
-                                                                <Button variant='contained' sx={{ backgroundColor: '#f8641b' }} onClick={() => setAddressOpen(!addressOpen)}>deliver here</Button>
-                                                            </div>
+                                                        {editFormOpenId !== add._id ? <div className='d-flex' style={{ columnGap: '0.6rem' }}>
+                                                            <FormControlLabel control={<Radio />}
+                                                                value={addressId}
+                                                                label={
+                                                                    <div>
+                                                                        <p className='fw-bold'>{add.fullname + "  "}<span style={{ color: 'gray', padding: '0.3rem', backgroundColor: '#f0f3f8' }}> {add.addressType} </span> {add.mobile}</p>
+                                                                        <p style={{ marginTop: '0.5rem', fontWeight: '400', fontSize: '0.88rem', }}>{add.locality + " " + add.area + " " + add.state}<span style={{ fontWeight: '600' }}> - {add.pincode}</span></p>
+                                                                        {buttonOpen && isSelected && (
+                                                                            <Button
+                                                                                variant='contained'
+                                                                                sx={{ backgroundColor: '#f8641b' }}
+                                                                                onClick={() => {
+                                                                                    setRadioAddress(userData.addresses.find((add) => add._id === addressId)); // ✅ fixed
+                                                                                    setAddressOpen(false); // ✅ close the address step
+                                                                                }}
+                                                                            >
+                                                                                deliver here
+                                                                            </Button>
+                                                                        )}
+
+                                                                    </div>} />
+
                                                         </div> :
                                                             <div>
                                                                 <p className='ms-1 text-primary' style={{ fontSize: '0.95rem', fontWeight: '500' }}>Update Address</p>
@@ -444,16 +468,16 @@ export default function checkout() {
                                                                     <div className='mt-3'>
                                                                         <div className='d-flex'>
                                                                             <Button variant='contained' sx={{ backgroundColor: '#f8641b' }} onClick={() => handleAddressUpdate(SlideTransition, idx)}>deliver here</Button>
-                                                                            <Button sx={{ marginLeft: '1rem' }} onClick={() => setEditFormOpen(!editFormOpen)}>Cancel</Button>
+                                                                            <Button sx={{ marginLeft: '1rem' }} onClick={() => setEditFormOpenId(null)}>Cancel</Button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         }
 
-                                                        {!editFormOpen && <Button sx={{ height: '2rem' }} onClick={() => {
-                                                            setEditFormOpen(!editFormOpen)
-                                                            setAddressFormData(userData.addresses[0])
+                                                        {!editFormOpenId && <Button sx={{ height: '2rem' }} onClick={() => {
+                                                            setEditFormOpenId(add._id)
+                                                            setAddressFormData(userData.addresses[idx])
                                                         }}>Edit</Button>}
                                                     </div>)
                                             })}

@@ -23,11 +23,13 @@ import { useEffect, useState } from 'react';
 import NoRoutes from './pages/NoRoutes';
 
 function BasicLayout() {
+  const location = useLocation();
+  const shouldShow = true && location.pathname.startsWith("/cart");
   return (
     <>
       <Header />
       <Outlet />
-      <Footer />
+      {!shouldShow && <Footer />}
     </>
   )
 }
