@@ -34,6 +34,7 @@ export const createProduct = async (req, res) => {
             specs: JSON.parse(specs),
             images,
         });
+        console.log(product);
         await product.save();
         res.status(httpStatus.CREATED).json({ success: true, message: 'Product created successfully', product });
     } catch (error) {

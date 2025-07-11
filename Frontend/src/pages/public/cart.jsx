@@ -82,6 +82,8 @@ export default function cart() {
     const [selectedAddress, setSelectedAddress] = useState(null);
     const navigate = useNavigate();
 
+    const images = ["img","img","img","img","img","img","img","img","img"]
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -111,7 +113,7 @@ export default function cart() {
     }, [user])
     if (loading) return <Spinner />
     return (
-        <div style={{ backgroundColor: 'rgb(248, 248, 248)', padding: '2rem' }}>
+        <div style={{ backgroundColor: 'rgb(248, 248, 248)'}}>
             {!userData ? <div className="cartContainer">
                 <div style={{ width: '15rem', height: '16rem' }}>
                     <img src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90" alt="" style={{ width: '100%' }} />
@@ -149,6 +151,17 @@ export default function cart() {
                                     open={open}
                                     onClose={handleClose}
                                 />
+                            </div>
+                            <div>
+                               {images.map((img) => {
+                                return(
+                                    <div style={{backgroundColor:'white', height:"5rem", borderRadius:'2px', borderBottom:'2px solid #f8f3f8'}}>{img}</div>
+                                )
+                               })}
+                            </div>
+                            <div className="placeOrder">
+                                <span>67</span>
+                                <Button variant="contained" sx={{backgroundColor:'#fb641b'}}>place order</Button>
                             </div>
                         </div>
                         <div className='priceDetails'>
