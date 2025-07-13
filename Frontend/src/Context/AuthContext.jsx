@@ -139,7 +139,7 @@ export const AuthProvider = ({ children }) => {
                     Authorization: `Bearer ${token}`
                 }
             });
-            if(response.data.success){
+            if (response.data.success) {
                 setUser(response.data.updatedUser);
             }
             return response.data;
@@ -148,15 +148,15 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const updateAddress = async(id, addressId, formData) => {
+    const updateAddress = async (id, addressId, formData) => {
         try {
             const token = localStorage.getItem("token");
             const response = await client.post(`/users/${id}/address/${addressId}`, formData, {
-                headers:{
+                headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            if(response.data.success){
+            if (response.data.success) {
                 setUser(response.data.updatedUser);
             }
             return response.data;
@@ -165,15 +165,15 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const deleteAddress = async(id, addressId) => {
+    const deleteAddress = async (id, addressId) => {
         try {
             const token = localStorage.getItem("token");
             const response = await client.delete(`/users/${id}/address/${addressId}`, {
-                headers:{
+                headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            if(response.data.success){
+            if (response.data.success) {
                 setUser(response.data.updatedUser);
             }
             return response.data;
@@ -182,17 +182,42 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const addProduct = async(formData) => {
+    const addProduct = async (formData) => {
         try {
             const token = localStorage.getItem("token");
             const response = await client.post("/admin/addProduct", formData, {
-                headers:{
+                headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
             return response.data;
         } catch (error) {
-            throw error         
+            throw error
+        }
+    }
+
+    const showProduct = async (productId) => {
+        try {
+            const id = productId.id;
+            const response = await client.get(`/${id}`);
+            return response.data;
+        } catch (error) {
+            throw error
+        }
+    }
+
+    const showAllProducts = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await client.get("/admin/allProducts", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+            );
+            return response.data;
+        } catch (error) {
+            throw error;
         }
     }
 
@@ -219,7 +244,7 @@ export const AuthProvider = ({ children }) => {
 
         fetchUserData();
     }, []);
-    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct }
+    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct, showProduct, showAllProducts }
     return (
         <AuthContext.Provider value={data}>
             {children}

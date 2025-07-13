@@ -133,7 +133,6 @@ export default function home() {
                                 <div class="card-body">
                                     <p class="elipse">Air Coolers</p>
                                     <p class="card-text fw-bold text-success">Min. 50% Off</p>
-
                                 </div>
                             </div>
                         </div>

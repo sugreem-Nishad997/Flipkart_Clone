@@ -13,6 +13,7 @@ import ProfileInfo from './pages/client/profileInfo';
 import Address from './pages/client/address';
 import Orders from './pages/client/order';
 import Wishlist from './pages/client/wishlist';
+import Product from './pages/public/Product';
 import Checkout from './pages/public/checkout';
 import AddProduct from './pages/admin/addProduct';
 import RequireAdmin from './Authenticate/RequireAdmin';
@@ -85,7 +86,7 @@ function App() {
               <Route index element={<Home />} />
               <Route path='/auth' element={<Authenticate />} />
               <Route path='/cart' element={<Cart />} />
-
+              <Route path='/:id' element={<Product/>}/>
             </Route>
             <Route path="/admin" element={
               <RequireAuth>

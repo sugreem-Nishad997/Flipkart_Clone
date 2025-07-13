@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import '../../styles/admin.css';
 import {
     TextField,
@@ -34,6 +34,7 @@ const AddProductStyledForm = () => {
 
     const { addProduct } = useContext(AuthContext);
     const [showImages, setShowImages] = useState([]);
+    const [showImageIndex, setShowImageIndex] = useState(0);
     const [loading, setLoading] = useState(false);
     const [snakeOpen, setSnakeOpen] = useState({ open: false, Transition: Fade });
     const [message, setMessage] = useState({ ms: '', type: '', color: '' });
@@ -96,11 +97,16 @@ const AddProductStyledForm = () => {
             ...prev,
             images: prev.images.filter((_, index) => index !== indexToRemove),
         }));
+        setShowImages(prev => prev.filter((_, index) => index !== indexToRemove));
     };
 
     const handleClose = () => {
         setSnakeOpen(prev => ({ ...prev, open: false }));
     };
+
+    const handleImageClick = (index) => {
+        setShowImageIndex(index);
+    }
 
     const handleSubmit = async (Transition) => {
         setLoading(true);
@@ -141,6 +147,8 @@ const AddProductStyledForm = () => {
                     images: [],
                     specs: []
                 });
+                setShowImageIndex(0);
+                setShowImages([])
             } else {
                 setMessage({ ms: result.message, color: 'orange', type: 'warning' });
                 setSnakeOpen({ open: true, Transition });
@@ -152,6 +160,7 @@ const AddProductStyledForm = () => {
             setLoading(false);
         }
     };
+
 
     return (
         <div className='rightPannel' >
@@ -328,9 +337,9 @@ const AddProductStyledForm = () => {
                                     justifyContent: 'center',
                                 }}
                             >
-                                {showImages[0] ? (
+                                {showImages[showImageIndex] ? (
                                     <img
-                                        src={showImages[0]}
+                                        src={showImages[showImageIndex]}
                                         alt="Product"
                                         style={{ width: '100%', objectFit: 'cover' }}
                                     />
@@ -339,18 +348,22 @@ const AddProductStyledForm = () => {
                                 )}
                             </Box>
 
-                            <Box display="flex" gap={1} flexWrap="wrap" mb={2}>
+                            <Box mb={2} sx={{ height: '5rem', overflowX: 'auto', display: 'flex', overflowY: 'hidden', columnGap: '0.3rem' }}>
                                 {showImages.map((img, i) => (
                                     <Box
                                         key={i}
                                         sx={{
                                             position: 'relative',
-                                            width: 60,
-                                            height: 60,
+                                            flex: '0 0 auto',
+                                            width: { xs: 50, sm: 60 },
+                                            height: { xs: 50, sm: 60 },
+                                            maxWidth: 80,
+                                            minWidth: 40,
                                             borderRadius: 1,
                                             overflow: 'hidden',
-                                            border: i === 0 ? '2px solid #4caf50' : '1px solid #ccc',
+                                            border: i === showImageIndex ? '2px solid #4caf50' : '1px solid #ccc',
                                         }}
+                                        onClick={() => handleImageClick(i)}
                                     >
                                         <img
                                             src={img}
