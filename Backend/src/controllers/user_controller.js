@@ -1,5 +1,6 @@
 import httpStatus from 'http-status'
 import User from '../models/user_models.js';
+import Product from '../models/product_model.js';
 import { sendEmail } from '../utils/sendEmail.js';
 import bcrypt from 'bcrypt';
 import { createSecretToken } from '../utils/secretToken.js';
@@ -237,5 +238,132 @@ const deleteAddress = async(req, res) => {
     }
 }
 
+const addToWishlist = async(req, res) => {
+    try {
+        const product = req.body;
+        if(!product) return res.json({message:"Product required to add in wishlist", success:false});
 
-export { register, verifyOtp, login, getUserProfile, updatePersonalInfo, updateEmail, addAddress, getAllAddress, updateAddress, deleteAddress };
+        const id = req.user.id;
+        const user = await User.findById(id);
+        if(!user || !user.isVerified) return res.json({message:"User not exist", success:false});
+
+        const updatedUser = await User.findByIdAndUpdate(id, {$push: {wishlist: product}}, {new: true});
+
+        if(!updatedUser) return res.json({message:'Product not added in wishlist', success:false});
+
+        const lastAdded = updatedUser.wishlist[updatedUser.wishlist.length - 1];
+        res.status(httpStatus.CREATED).json({message:"Product added in wishlist", success:true, lastAdded, updatedUser});
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error:error.message, success:false});
+    }
+}
+
+const getWishlists = async(req, res) => {
+    try {
+
+        const id = req.user.id;
+        const user = await User.findById(id);
+        if(!user || !user.isVerified) return res.json({message:"User not exist", success:false});
+
+        const wishlists = await User.findById(id).select('wishlist');
+
+        if(!wishlists) return res.json({message:'wishlist is empty', success:false});
+
+        res.status(httpStatus.CREATED).json({success:true, wishlists});
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error:error.message, success:false});
+    }
+}
+
+const removeWishlist = async(req, res) => {
+    try {
+        const product = req.body;
+        const id = req.user.id;
+        if(!id || !product._id) return res.json({message:"user or productId required", success:false});
+
+        const user = await User.findById(id);
+        if(!user || !user.isVerified) return res.json({messsage:"User not found or verified", success:true});
+        
+        const arrayOfObjectIds = user.wishlist.map((wish) => wish._id);
+        
+        const isProductExist = arrayOfObjectIds.some(id => id.toString() === product._id);
+        if(!isProductExist) return res.json({message:"Product not found", success:false});
+
+        user.wishlist = user.wishlist.filter((wish) => wish._id.toString() !== product._id);
+
+        await user.save();
+        res.status(httpStatus.OK).json({message:"Wishlist Removed", success:true});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error:error.message, success:false});
+    }
+}
+
+const addToCart = async(req, res) => {
+    try {
+        const product = req.body;
+        if(!product) return res.json({message:"Product required to add in cart", success:false});
+
+        const id = req.user.id;
+        const user = await User.findById(id);
+        if(!user || !user.isVerified) return res.json({message:"User not exist", success:false});
+
+        const updatedUser = await User.findByIdAndUpdate(id, {$push: {cart: product}}, {new: true});
+
+        if(!updatedUser) return res.json({message:'Product not added in cart', success:false});
+
+        res.status(httpStatus.CREATED).json({message:"Product added in cart", success:true, updatedUser});
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error:error.message, success:false});
+    }
+}
+
+const getCartItems = async(req, res) => {
+    try {
+        const id = req.user.id;
+        const user = await User.findById(id);
+        if(!user || !user.isVerified) return res.json({message:"User not exist", success:false});
+
+        const user1 = await User.findById(id).populate("cart");
+        if(!user1.cart) return res.json({message:'Cart is empty', success:false});
+        const carts = user1.cart;
+        res.status(httpStatus.CREATED).json({success:true, carts});
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error:error.message, success:false});
+    }
+}
+
+const removeFromCart = async(req, res) => {
+    try {
+        const product = req.body;
+        const id = req.user.id;
+        if(!id || !product._id) return res.json({message:"user or productId required", success:false});
+
+        const user = await User.findById(id);
+        if(!user || !user.isVerified) return res.json({messsage:"User not found or verified", success:true});
+        
+        const arrayOfObjectIds = user.cart.map((c) => c._id);
+        
+        const isProductExist = arrayOfObjectIds.some(id => id.toString() === product._id);
+        if(!isProductExist) return res.json({message:"Product not found", success:false});
+
+        user.cart = user.cart.filter((c) => c._id.toString() !== product._id);
+
+        const updatedUser = await user.save();
+        res.status(httpStatus.OK).json({message:"Product removed from Cart", success:true, updatedUser});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error:error.message, success:false});
+    }
+}
+
+
+export { register, verifyOtp, login, getUserProfile, updatePersonalInfo, updateEmail, addAddress, getAllAddress, updateAddress, deleteAddress, addToWishlist, addToCart, getWishlists, removeWishlist, getCartItems, removeFromCart };

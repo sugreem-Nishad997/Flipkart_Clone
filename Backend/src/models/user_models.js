@@ -13,7 +13,9 @@ const userSchema = new Schema({
     addresses: {
         type: [addressSchema],
         required: true
-    }
+    },
+    wishlist: [{type:mongoose.Types.ObjectId, ref:'Product'}],
+    cart: [{type:mongoose.Types.ObjectId, ref:"Product"}]
 });
 
 const User = mongoose.model("User", userSchema);

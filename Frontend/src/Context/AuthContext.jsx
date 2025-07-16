@@ -221,6 +221,94 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const addToCart = async (product) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await client.post("/users/cart", product, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+            );
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    const getCartItems = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await client.get("/users/product/cart", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    const removeFromCart = async (product) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await client.put("/users/cart", product, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            if(response.data.success){
+                setUser(response.data.updatedUser);
+            }
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    const addToWishlist = async (product) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await client.post("/users/wishlist", product, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    const getWishlists = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await client.get("/users/wishlist", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    const removeWishlist = async (product) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await client.put("/users/wishlist", product, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     useEffect(() => {
         const fetchUserData = async () => {
             const token = localStorage.getItem("token");
@@ -244,7 +332,7 @@ export const AuthProvider = ({ children }) => {
 
         fetchUserData();
     }, []);
-    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct, showProduct, showAllProducts }
+    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct, showProduct, showAllProducts, addToCart, addToWishlist, getWishlists, removeWishlist, getCartItems, removeFromCart}
     return (
         <AuthContext.Provider value={data}>
             {children}
