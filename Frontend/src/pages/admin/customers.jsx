@@ -12,7 +12,7 @@ export default function customers(){
                         </Button>
                     </div>
                     <div>
-                        customers
+                        customers showing
                     </div>
                 </div>
             </div>
