@@ -284,11 +284,12 @@ export const AuthProvider = ({ children }) => {
     const getWishlists = async () => {
         try {
             const token = localStorage.getItem("token");
-            const response = await client.get("/users/wishlist", {
+            const response = await client.get("/users/client/wishlist", {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
-            })
+            });
+            console.log(response);
             return response.data;
         } catch (error) {
             throw error;

@@ -15,7 +15,7 @@ router.route("/users/:id/address").post(authMiddleware, addAddress);
 router.route("/users/:id/address/:addressId").post(authMiddleware, updateAddress);
 router.route("/users/:id/address/:addressId").delete(authMiddleware, deleteAddress);
 router.route("/users/wishlist").post(authMiddleware, addToWishlist);
-router.route("/users/wishlist").get(authMiddleware, getWishlists);
+router.route("/users/client/wishlist").get(authMiddleware, getWishlists);
 router.route("/users/wishlist").put(authMiddleware, removeWishlist);
 router.route("/users/cart").post(authMiddleware, addToCart);
 router.route("/users/cart").put(authMiddleware, removeFromCart);

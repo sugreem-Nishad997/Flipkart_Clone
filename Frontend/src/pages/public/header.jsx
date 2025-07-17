@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormControl, { useFormControl } from '@mui/material/FormControl';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -31,7 +31,8 @@ export default function header() {
     const [input, setInput] = useState('');
     const [focus, setFocus] = useState(false);
     const [open, setOpen] = useState(false);
-    const { user, logout } = useContext(AuthContext);
+    const [cart, setCart] = useState([]);
+    const { user, logout, getCartItems } = useContext(AuthContext);
 
     const handleform = (event) => {
         event.preventDefault();
@@ -46,6 +47,22 @@ export default function header() {
     }
 
     let navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchCart = async() => {
+            try {
+                const result = await getCartItems();
+                if(result.success){
+                    setCart(result.carts);
+                }else{
+                    console.log(result)
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchCart();
+    },[cart]);
 
     return (
 
@@ -108,7 +125,7 @@ export default function header() {
                         <Menu onClick={() => setOpen(true)} sx={{ fontSize: 30, cursor: 'pointer', color: 'black' }} />
                     </div>
                 )}
-                <div className='logo' onClick={() => navigate("/")}>
+                <div className='logo' onClick={() => navigate("/")} style={{cursor:'pointer'}}>
                     <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/fkheaderlogo_exploreplus-44005d.svg" alt="" />
                 </div>
                 <div className='responsiveSearchA'>
@@ -170,7 +187,7 @@ export default function header() {
                 </div>
                 <div>
                     <Button sx={{ color: 'black' }} startIcon={<ShoppingCart />} onClick={() => navigate("/cart")}>
-                        <CartBadge badgeContent={2} overlap='circular' />
+                        <CartBadge badgeContent={cart && cart.length} overlap='circular' color='error'/>
                         Cart
                     </Button>
                 </div>

@@ -165,17 +165,17 @@ export default function cart() {
 
     if (loading) return <Spinner />
     return (
-        <div style={{ backgroundColor: 'rgb(248, 248, 248)' , padding:'1rem'}}>
-            {!userData || (userData && carts.length === 0)? <div className="cartContainer">
+        <div style={{ backgroundColor: 'rgb(248, 248, 248)', padding: '1rem' }}>
+            {!userData || (userData && carts.length === 0) ? <div className="cartContainer">
                 <div style={{ width: '15rem', height: '16rem' }}>
                     <img src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90" alt="" style={{ width: '100%' }} />
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                    <h5>{userData ? 'Your cart is empty!' :'Missing Cart Items'}</h5>
-                    <p>{userData ? 'Add items to it now': 'Login to see the items you added previously'}</p>
+                    <h5>{userData ? 'Your cart is empty!' : 'Missing Cart Items'}</h5>
+                    <p>{userData ? 'Add items to it now' : 'Login to see the items you added previously'}</p>
                 </div>
                 <div>
-                    <Button variant="contained" sx={{ backgroundColor: userData? 'rgba(54, 130, 245, 1)':'rgb(245, 102, 54)' }} size="large" onClick={() => userData?navigate("/"):navigate("/auth")}>{userData? 'Shop now':'Login'}</Button>
+                    <Button variant="contained" sx={{ backgroundColor: userData ? 'rgba(54, 130, 245, 1)' : 'rgb(245, 102, 54)' }} size="large" onClick={() => userData ? navigate("/") : navigate("/auth")}>{userData ? 'Shop now' : 'Login'}</Button>
                 </div>
             </div> :
                 <div className="checkoutBody">
@@ -209,22 +209,24 @@ export default function cart() {
                                     return (
                                         <div style={{ backgroundColor: 'white', borderRadius: '2px', borderBottom: '2px solid #f8f3f8', padding: '1rem' }} key={idx}>
                                             <div className="d-flex" style={{ columnGap: '1rem' }}>
-                                                <div style={{ height: '9rem', width: '9rem', padding: '0.5rem' }}>
-                                                    <img src={cart.images[2]} alt="" style={{ height: '100%', width: '100%', objectFit: 'cover' }} />
+                                                <div style={{ padding: '0.5rem' }}>
+                                                    <img src={cart.images[2]} alt="" style={{ height: '5rem', width: '5rem', objectFit: 'contain' }} />
                                                 </div>
 
                                                 <div className="my-3">
-                                                    <p className="fs-5">{cart.title}</p>
+                                                    <p className="fs-5" onClick={()=>navigate(`/${cart._id}`)}>{cart.title}</p>
 
                                                     <span style={{ textDecoration: ' line-through', color: 'gray' }}>₹{cart.price}</span>
                                                     <span className="fw-bold fs-3 mx-2">₹{cart.price - (cart.price * cart.discount / 100)}</span>
                                                     <span className="text-success fw-bold p-1">{cart.discount}%off</span>
                                                 </div>
-                                                <div style={{ marginLeft: "10rem" }}>
-                                                    <Button color="red" size="small" variant="outlined" onClick={()=>handleRemoveCart(idx, SlideTransition)}>Remove</Button>
-                                                </div>
-                                            </div>
 
+                                            </div>
+                                            <div style={{ marginLeft: "7rem" }}>
+                                                <Button color="red" size="small" variant="outlined" onClick={() => handleRemoveCart(idx, SlideTransition)}
+                                                    sx={{':hover':{color:'blue'}}}
+                                                >Remove</Button>
+                                            </div>
                                         </div>
                                     )
                                 })}
@@ -238,7 +240,7 @@ export default function cart() {
                             <p className='fw-bold text-secondary p-3' style={{ borderBottom: '2px solid rgb(235, 236, 236)' }}>PRICE DETAILS</p>
                             <div className='p-3' style={{ borderBottom: '2px dashed rgba(217, 218, 218, 1)' }} >
                                 <div className="d-flex justify-content-between ">
-                                    <span>Price({ carts && carts.length})</span>
+                                    <span>Price({carts && carts.length})</span>
                                     <span>₹{totals && totals.totalPrice}</span>
                                 </div>
                                 <div className="d-flex justify-content-between my-4">

@@ -262,15 +262,13 @@ const addToWishlist = async(req, res) => {
 
 const getWishlists = async(req, res) => {
     try {
-
         const id = req.user.id;
         const user = await User.findById(id);
         if(!user || !user.isVerified) return res.json({message:"User not exist", success:false});
 
-        const wishlists = await User.findById(id).select('wishlist');
-
-        if(!wishlists) return res.json({message:'wishlist is empty', success:false});
-
+        const user1 = await User.findById(id).populate('wishlist');
+        if(!user1.wishlist) return res.json({message:'wishlist is empty', success:false});
+        const wishlists = user1.wishlist;
         res.status(httpStatus.CREATED).json({success:true, wishlists});
 
     } catch (error) {

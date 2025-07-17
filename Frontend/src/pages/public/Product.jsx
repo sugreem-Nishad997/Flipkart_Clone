@@ -83,7 +83,7 @@ export default function Product() {
                     setButtonLoading(false);
                     navigate("/cart");
                 }, 1000);
-                
+
             } else {
                 console.log(result);
                 setMessage({ ms: result.message, color: 'orange', type: 'warning' });
@@ -149,11 +149,13 @@ export default function Product() {
                                 >
                                     {liked ? <FavoriteIcon sx={{ color: 'red', transition: 'all 0.3s ease' }} /> : <FavoriteBorderIcon />}
                                 </IconButton>
-                                {product?.images?.length > 0 && <img src={product.images[showImageIndex]} alt="Product" style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover',
-                                }} />}
+                                {product?.images?.length > 0 && <div style={{height:'19rem'}}>
+                                    <img src={product.images[showImageIndex]} alt="Product" style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'contain',
+                                    }} />
+                                </div>}
 
                             </div>
 
@@ -164,7 +166,7 @@ export default function Product() {
                                         <img src={img} alt="" style={{
                                             width: '100%',
                                             height: '100%',
-                                            objectFit: 'cover',
+                                            objectFit: 'contain',
                                         }} />
                                     </div>
                                 ))}
