@@ -204,9 +204,9 @@ export default function Product() {
                     {product && <div style={{ paddingTop: '0.8rem' }}>
                         <div>{product.title}</div>
                         <div className="d-flex my-3">
-                            <h3>₹{product.price - (product.price * product.discount)/100}</h3>
+                            <h3>₹{product.discount?product.price - (product.price * product.discount)/100: product.price}</h3>
                             <span style={{ textDecoration: ' line-through', color: 'gray', marginInline: '1rem', padding: '0.3rem' }}>₹{product.price}</span>
-                            <span className="text-success fw-bold p-1">{product.discount}%off</span>
+                            {product.discount&&<span className="text-success fw-bold p-1">{product.discount}%off</span>}
                         </div>
                         <div style={{ border: '1px solid #e4e6eb', width: '100%' }}>
                             <div style={{ borderBottom: '1px solid #e4e6eb', padding: '0.9rem' }}>
