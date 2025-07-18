@@ -41,11 +41,11 @@ export default function products() {
                             Log Out
                         </Button>
                     </div>
-                    <div>
+                    <div className='p-2'>
                         {products.map(p => (
                            <div key={p._id} onClick={()=>navigate(`/${p._id}`)}>
                             {p.title}
-                            {console.log(p)}
+                            <div onClick={()=>navigate(`/admin/addProduct/${p._id}`)} className='mt-3'>update</div>
                            </div>
                         ))}
                     </div>

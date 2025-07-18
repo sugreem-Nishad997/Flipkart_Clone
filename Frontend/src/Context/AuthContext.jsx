@@ -221,6 +221,23 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const updateProduct = async (form) => {
+        try {
+            const token = localStorage.getItem("token");
+            console.log(form)
+            const response = await client.put("/admin/updateProduct", form, {
+                headers:{
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type":"multipart/form-data"
+                }
+            });
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     const addToCart = async (product) => {
         try {
             const token = localStorage.getItem("token");
@@ -333,7 +350,7 @@ export const AuthProvider = ({ children }) => {
 
         fetchUserData();
     }, []);
-    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct, showProduct, showAllProducts, addToCart, addToWishlist, getWishlists, removeWishlist, getCartItems, removeFromCart}
+    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct, showProduct, showAllProducts, addToCart, addToWishlist, getWishlists, removeWishlist, getCartItems, removeFromCart, updateProduct}
     return (
         <AuthContext.Provider value={data}>
             {children}

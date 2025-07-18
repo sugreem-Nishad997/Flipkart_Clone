@@ -139,7 +139,7 @@ export default function profileInfo() {
     if (loading) return (<Spinner />)
 
     return (
-        <div style={{ backgroundColor: 'rgb(234, 240, 245)', padding: '0.9rem' }} className="personalInfo">
+        <div style={{ backgroundColor: 'rgb(234, 240, 245)' }} className="personalInfo">
             <div className='mobileImage' style={{
                 backgroundColor: 'rgb(30, 119, 235)',
                 paddingTop: '1.2rem'

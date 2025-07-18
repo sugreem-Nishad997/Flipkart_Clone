@@ -101,6 +101,8 @@ function App() {
               />} />
               <Route path='/admin/addProduct' element={<AddProduct
               />} />
+              <Route path='/admin/addProduct/:id' element={<AddProduct
+              />} />
             </Route>
             <Route path="/account" element={<RequireAuth><ClientLayout /></RequireAuth>}>
               <Route index element={<ProfileInfo />} />

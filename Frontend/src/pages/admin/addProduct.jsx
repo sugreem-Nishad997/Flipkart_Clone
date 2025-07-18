@@ -21,6 +21,7 @@ import {
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { Add, Close, Remove } from '@mui/icons-material';
 import { AuthContext } from '../../Context/AuthContext';
+import { useParams } from 'react-router-dom';
 
 const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 const genders = ['Men', 'Woman'];
@@ -32,7 +33,7 @@ function SlideTransition(props) {
 
 const AddProductStyledForm = () => {
 
-    const { addProduct } = useContext(AuthContext);
+    const { addProduct, showProduct, updateProduct } = useContext(AuthContext);
     const [showImages, setShowImages] = useState([]);
     const [showImageIndex, setShowImageIndex] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -52,6 +53,7 @@ const AddProductStyledForm = () => {
         images: [],
         specs: []
     });
+    const productId = useParams();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -69,7 +71,7 @@ const AddProductStyledForm = () => {
     const handleImageUpload = (e) => {
         const files = Array.from(e.target.files);
         const urls = files.map(file => URL.createObjectURL(file));
-        setShowImages(prev => ([...prev, urls]));
+        setShowImages(prev => ([...prev,{ url:urls}]));
         setFormData(prev => ({ ...prev, images: [...prev.images, ...files] }));
     };
 
@@ -113,10 +115,22 @@ const AddProductStyledForm = () => {
         if ((formData.category === 'laptop' || 'mobile' || 'electronics') && (formData.specs.length === 0)) {
             setMessage({ ms: "Specifications required", color: 'orange', type: 'warning' });
             setSnakeOpen({ open: true, Transition });
+            setLoading(false);
+            return;
         }
+
         const form = new FormData();
         Object.entries(formData).forEach(([key, val]) => {
-            if (Array.isArray(val)) {
+            if (productId.id && key === 'images') {
+                val.forEach((file) => {
+                    if (file instanceof File) {
+                        form.append('newImages', file);
+                    } else {
+                        form.append('existingImages[]', file);
+                    }
+                });
+            }
+            else if (Array.isArray(val)) {
                 if (key === "specs") {
                     form.append(key, JSON.stringify(val));
                 } else {
@@ -128,9 +142,18 @@ const AddProductStyledForm = () => {
                 form.append(key, val);
             }
         });
+        
 
         try {
-            let result = await addProduct(form);
+
+            let result
+            if (productId?.id) {
+                console.log("update")
+                form.append("productId", productId.id);
+                result = await updateProduct(form);
+            } else {
+                result = await addProduct(form);
+            }
             if (result.success) {
                 setMessage({ ms: result.message, color: 'green', type: 'success' });
                 setSnakeOpen({ open: true, Transition });
@@ -162,6 +185,23 @@ const AddProductStyledForm = () => {
     };
 
 
+    useEffect(() => {
+        const fetchUpdateProduct = async () => {
+            if (productId) {
+                const result = await showProduct(productId);
+                if (result.success) {
+                    setFormData(result.product);
+                    if (result.product.images.length > 0) {
+                        setShowImages(result.product.images);
+                    }
+
+                } else {
+                    console.log(result);
+                }
+            }
+        }
+        fetchUpdateProduct();
+    }, [])
     return (
         <div className='rightPannel' >
             <div className='addProductHeader'>
@@ -172,9 +212,9 @@ const AddProductStyledForm = () => {
             </div>
             {loading && <LinearProgress />}
             <div className='mb-2 d-flex justify-content-between p-3'>
-                <Typography variant="h6" mb={1}>Add New Product</Typography>
+                <Typography variant="h6" mb={1}>{productId.id ? 'Update Product' : 'Add Product'}</Typography>
                 <Button variant="contained" color="success" onClick={() => handleSubmit(SlideTransition)} disabled={loading && true}>
-                    Add Product
+                    {productId.id ? 'Update Product' : 'Add Product'}
                 </Button>
             </div>
             <Grid container spacing={3} sx={{ opacity: loading && '0.5' }} p={2}>
@@ -339,7 +379,7 @@ const AddProductStyledForm = () => {
                             >
                                 {showImages[showImageIndex] ? (
                                     <img
-                                        src={showImages[showImageIndex]}
+                                        src={showImages[showImageIndex].url}
                                         alt="Product"
                                         style={{ width: '100%', objectFit: 'cover' }}
                                     />
@@ -366,7 +406,7 @@ const AddProductStyledForm = () => {
                                         onClick={() => handleImageClick(i)}
                                     >
                                         <img
-                                            src={img}
+                                            src={img.url}
                                             alt={`thumb-${i}`}
                                             style={{
                                                 width: '100%',

@@ -210,14 +210,14 @@ export default function cart() {
                                         <div style={{ backgroundColor: 'white', borderRadius: '2px', borderBottom: '2px solid #f8f3f8', padding: '1rem' }} key={idx}>
                                             <div className="d-flex" style={{ columnGap: '1rem' }}>
                                                 <div style={{ padding: '0.5rem' }}>
-                                                    <img src={cart.images[2]} alt="" style={{ height: '5rem', width: '5rem', objectFit: 'contain' }} />
+                                                    <img src={cart.images[3].url} alt="" style={{ height: '5rem', width: '5rem', objectFit: 'contain' }} />
                                                 </div>
 
                                                 <div className="my-3">
                                                     <p className="fs-5" onClick={()=>navigate(`/${cart._id}`)}>{cart.title}</p>
 
                                                     <span style={{ textDecoration: ' line-through', color: 'gray' }}>₹{cart.price}</span>
-                                                    <span className="fw-bold fs-3 mx-2">₹{cart.price - (cart.price * cart.discount / 100)}</span>
+                                                    <span className="fw-bold fs-3 mx-2">₹{Math.round(cart.price - (cart.price * cart.discount / 100))}</span>
                                                     <span className="text-success fw-bold p-1">{cart.discount}%off</span>
                                                 </div>
 
@@ -256,7 +256,7 @@ export default function cart() {
                             </div>
                             <div className='d-flex justify-content-between mt-3 fw-bold p-3 fs-5' style={{ borderBottom: '2px solid rgb(235, 236, 236)' }}>
                                 <span>Total Payable</span>
-                                <span>₹{totals && totals.totalPayable + 166}</span>
+                                <span>₹{Math.round(totals && totals.totalPayable + 166)}</span>
                             </div>
                             <p className='mt-3 text-success p-3' style={{ fontSize: "1.1rem", fontWeight: '500' }}>Your will save ₹{totals && totals.totalDiscount} on this Order</p>
                         </div>

@@ -30,7 +30,6 @@ export default function Product() {
     const { addToWishlist, addToCart, user, removeWishlist } = useContext(AuthContext)
 
     const handleImageClick = (index) => {
-        console.log(index)
         setShowImageIndex(index);
     }
 
@@ -149,12 +148,14 @@ export default function Product() {
                                 >
                                     {liked ? <FavoriteIcon sx={{ color: 'red', transition: 'all 0.3s ease' }} /> : <FavoriteBorderIcon />}
                                 </IconButton>
-                                {product?.images?.length > 0 && <div style={{height:'19rem'}}>
-                                    <img src={product.images[showImageIndex]} alt="Product" style={{
+                                {product?.images?.length > 0 && <div style={{ height: '19rem' }}>
+
+                                    <img src={product.images[showImageIndex].url} alt="Product" style={{
                                         width: '100%',
                                         height: '100%',
                                         objectFit: 'contain',
                                     }} />
+
                                 </div>}
 
                             </div>
@@ -163,7 +164,7 @@ export default function Product() {
                                 {product?.images?.length > 0 && product.images.map((img, idx) => (
                                     <div key={idx} className="imageMappedDiv" style={{ border: idx === showImageIndex ? '2px solid rgb(45, 139, 226)' : '1px solid #e4e6eb', cursor: 'pointer' }}
                                         onMouseEnter={() => handleImageClick(idx)}>
-                                        <img src={img} alt="" style={{
+                                        <img src={img.url} alt="" style={{
                                             width: '100%',
                                             height: '100%',
                                             objectFit: 'contain',
@@ -187,7 +188,7 @@ export default function Product() {
                                 >
                                     {liked ? <FavoriteIcon sx={{ color: 'red', transition: 'all 0.3s ease' }} /> : <FavoriteBorderIcon />}
                                 </IconButton>
-                                {product?.images?.length > 0 && <img src={product.images[showImageIndex]} alt="Product" style={{
+                                {product?.images?.length > 0 && <img src={product.images[showImageIndex].url} alt="Product" style={{
                                     width: '100%',
                                     height: '100%',
                                     objectFit: 'cover',
@@ -201,10 +202,10 @@ export default function Product() {
                             <Button variant="contained" sx={{ backgroundColor: '#fb641b', marginLeft: '1rem', padding: '0.7rem', width: '9.9rem' }} startIcon={<FlashOnIcon />}>buy now</Button>
                         </div>
                     </div>
-                    {product && <div style={{ paddingTop: '0.8rem' }}>
+                    {product && <div style={{ paddingTop: '0.8rem' , height:'100%'}}>
                         <div>{product.title}</div>
                         <div className="d-flex my-3">
-                            <h3>₹{product.price - (product.price * product.discount / 100)}</h3>
+                            <h3>₹{Math.round(product.price - (product.price * product.discount / 100))}</h3>
                             <span style={{ textDecoration: ' line-through', color: 'gray', marginInline: '1rem', padding: '0.3rem' }}>₹{product.price}</span>
                             <span className="text-success fw-bold p-1">{product.discount}%off</span>
                         </div>
@@ -226,6 +227,12 @@ export default function Product() {
                                 </table>
 
                             </div>
+                        </div>
+                        <div style={{ border: '1px solid #e4e6eb', width: '100%', marginTop:'1rem', padding:'1rem'}}>
+                           <div className="d-flex justify-content-between" style={{ borderBottom: '1px solid #e4e6eb'}}>
+                            <h4>Rating & Reviews</h4>
+                            <Button color="black" sx={{boxShadow:'0 1px 2px 0 rgba(0, 0, 0, .26)', padding:'1rem'}}>Rate Product</Button>
+                           </div>
                         </div>
                     </div>}
                 </div>

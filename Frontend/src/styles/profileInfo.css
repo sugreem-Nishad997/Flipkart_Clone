@@ -110,11 +110,22 @@
         width: 9.5rem;
         position:relative;
     }
+    .mobileFlex{
+        flex-direction: column;
+    }
+   
+    .desktopDelete{
+        z-index: 100;
+        position: relative;
+        top: -3.2rem;
+        left: 18.7rem;
+    }
 }
 
 @media screen and (min-width: 480px) {
     .personalInfo {
         width: 70%;
+        padding: 1.5rem;
     }
 
     .addressContainer {
@@ -135,5 +146,11 @@
     .input-div{
         position: relative;
         width: 17.3rem;
+    }
+   .desktopDelete{
+        z-index: 100;
+        position: relative;
+        top: 0.6rem;
+        margin-left: 8rem;
     }
 }
