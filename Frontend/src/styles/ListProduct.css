@@ -31,14 +31,10 @@
   font-size: 0.94rem;
 }
 
-.row {
-  display: flex;
-}
-
 @media (min-width:480px) {
-  .col>div {
+  /* .Customcol>div {
     width: 90%;
-  }
+  } */
 
   .ListProductContainer {
     padding: 1rem 1.5rem 1rem 1.5rem;
@@ -51,16 +47,8 @@
 }
 
 @media (max-width:480px) {
-  .row {
-    flex-direction: row;
-  }
-
-  .row .col:nth-child(odd) {
+  .Customrow .Customcol:nth-child(odd) {
     border-right: 1px solid #ccc;
-  }
-
-  .col{
-    width: 30%;
   }
 
   .prodImage {

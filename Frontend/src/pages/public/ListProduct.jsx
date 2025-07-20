@@ -120,10 +120,10 @@ export default function ListProduct() {
                     <h5 className="p-3">{name}</h5>
                 </div>
                 <div style={{ borderTop: '1px solid #e4e6eb' }} >
-                    <div className="row">
+                    <div className="Customrow row row-cols-2 row-cols-md-4 row-clos-sm-2 row-cols-xl-4 row-cols-sm-2">
                         {products.length > 0 && products.map((prod, idx) => {
                             return (
-                                <div key={idx} className="col">
+                                <div key={idx} className="Customcol col">
                                     <div style={{ boxShadow: hoveredProd && hoveredProd === prod._id ? '0 2px 8px 0 rgba(144, 142, 142, 0.25)' : '', padding: '1rem', cursor: 'pointer', borderRadius: '2px'}}
                                         onMouseEnter={() => handleMouseEnter(prod)}
                                         onMouseLeave={handleMouseLeave}
