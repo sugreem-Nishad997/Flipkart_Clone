@@ -16,6 +16,7 @@ const createProduct = async (req, res) => {
             brand,
             category,
             specs,
+            search,
         } = req.body;
 
         const images = req.files.map(file => ({
@@ -38,6 +39,7 @@ const createProduct = async (req, res) => {
             category,
             specs: JSON.parse(specs),
             images,
+            search,
         });
         await product.save();
         res.status(httpStatus.CREATED).json({ success: true, message: 'Product created successfully', product });
@@ -123,6 +125,7 @@ const updateProduct = async (req, res) => {
             category: req.body.category,
             brand: req.body.brand,
             specs,
+            search,
         });
 
         const Updatedproduct = await product.save();

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { addAddress, addToCart, addToWishlist, deleteAddress, getAllAddress, getCartItems, getUserProfile, getWishlists, login, register, removeFromCart, removeWishlist, updateAddress, updateEmail, updatePersonalInfo, verifyOtp } from "../controllers/user_controller.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { showAllProducts } from "../controllers/product_controller.js";
 
 const router = Router();
 
@@ -20,4 +21,5 @@ router.route("/users/wishlist").put(authMiddleware, removeWishlist);
 router.route("/users/cart").post(authMiddleware, addToCart);
 router.route("/users/cart").put(authMiddleware, removeFromCart);
 router.route("/users/product/cart").get(authMiddleware, getCartItems);
+router.route("/allProducts").get(showAllProducts);
 export default router;

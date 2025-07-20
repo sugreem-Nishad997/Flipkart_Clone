@@ -292,6 +292,9 @@ export const AuthProvider = ({ children }) => {
                     Authorization: `Bearer ${token}`
                 }
             })
+            if(response.data.success){
+                setUser(response.data.updatedUser);
+            }
             return response.data;
         } catch (error) {
             throw error;
@@ -327,6 +330,16 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+
+    //public route
+    const listAllProducts = async() => {
+         try {
+            const response = await client.get("/allProducts");
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
     useEffect(() => {
         const fetchUserData = async () => {
             const token = localStorage.getItem("token");
@@ -350,7 +363,7 @@ export const AuthProvider = ({ children }) => {
 
         fetchUserData();
     }, []);
-    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct, showProduct, showAllProducts, addToCart, addToWishlist, getWishlists, removeWishlist, getCartItems, removeFromCart, updateProduct}
+    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct, showProduct, showAllProducts, addToCart, addToWishlist, getWishlists, removeWishlist, getCartItems, removeFromCart, updateProduct, listAllProducts}
     return (
         <AuthContext.Provider value={data}>
             {children}

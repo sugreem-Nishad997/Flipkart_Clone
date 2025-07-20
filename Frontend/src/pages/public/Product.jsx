@@ -209,9 +209,19 @@ export default function Product() {
                             <span style={{ textDecoration: ' line-through', color: 'gray', marginInline: '1rem', padding: '0.3rem' }}>₹{product.price}</span>
                             {product.discount&&<span className="text-success fw-bold p-1">{product.discount}%off</span>}
                         </div>
-                        <div style={{ border: '1px solid #e4e6eb', width: '100%' }}>
+                        {product.category === 'clothing' && <div style={{height:'3rem'}}>
+                            <span className="me-4">Size</span>
+                            {product.size.map((s, idx) => {
+                                return(
+                                    <span key={idx} style={{border:'1px solid #dcdddfff', marginLeft:
+                                        '1rem', padding:'0.5rem', width:"1.1rem", height:'0.7rem', fontWeight:'bold'
+                                    }}>{s}</span>
+                                )
+                            })}
+                            </div>}
+                        <div style={{ border: '1px solid #e4e6eb', width: '42rem' }}>
                             <div style={{ borderBottom: '1px solid #e4e6eb', padding: '0.9rem' }}>
-                                <h4>Specification</h4>
+                                <h4>{product.category === 'clothing' ? 'Product Details':'Specification'}</h4>
                             </div>
 
                             <div className="p-3">

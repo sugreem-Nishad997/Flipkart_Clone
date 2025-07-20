@@ -50,6 +50,7 @@ const AddProductStyledForm = () => {
         discount: '',
         category: '',
         brand: '',
+        search: '',
         images: [],
         specs: []
     });
@@ -71,7 +72,7 @@ const AddProductStyledForm = () => {
     const handleImageUpload = (e) => {
         const files = Array.from(e.target.files);
         const urls = files.map(file => URL.createObjectURL(file));
-        setShowImages(prev => ([...prev,{ url:urls}]));
+        setShowImages(prev => ([...prev, { url: urls }]));
         setFormData(prev => ({ ...prev, images: [...prev.images, ...files] }));
     };
 
@@ -142,7 +143,7 @@ const AddProductStyledForm = () => {
                 form.append(key, val);
             }
         });
-        
+
 
         try {
 
@@ -352,7 +353,15 @@ const AddProductStyledForm = () => {
                                         ))}
                                     </ToggleButtonGroup>
                                 </Box></>}
-
+                            <TextField
+                                label="Search"
+                                name="search"
+                                value={formData.search}
+                                onChange={handleInputChange}
+                                disabled={loading && true}
+                                size='small'
+                                sx={{marginTop:'1.2rem'}}
+                            />
                         </div>
                     </Grid>
                 </div>

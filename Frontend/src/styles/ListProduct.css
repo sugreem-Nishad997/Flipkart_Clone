@@ -1,0 +1,31 @@
+.navigation{
+    cursor: pointer;
+    color: #898989;
+    font-size: 0.8rem;
+}
+.navigation:hover{
+    color: rgb(0, 149, 255);
+}
+
+.progress-point {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+   border-color: #dddddf;
+  background-color: rgb(252, 249, 249);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.progress-point.filled {
+  background-color: #e9ebeb;
+}
+
+.elipse2{
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 3rem;
+    font-size: 0.94rem;
+}

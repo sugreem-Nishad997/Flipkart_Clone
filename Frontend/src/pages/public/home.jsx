@@ -1,5 +1,8 @@
+import { useNavigate } from 'react-router-dom';
 import '../../styles/home.css';
 export default function home() {
+
+    const navigate = useNavigate();
     return (
         <div className='container-1'>
             <div className="catigory-items">
@@ -64,7 +67,7 @@ export default function home() {
                 <h3 style={{ padding: '1rem' }}>Best of Electronics</h3>
 
                 <div className="bestInElectronics">
-                    <div className='bestInElectronics-li'>
+                    <div className='bestInElectronics-li' onClick={()=>navigate(`/showList/${"Headset"}`)}>
                         <div>
                             <img src="https://rukminim1.flixcart.com/image/128/128/kwxv98w0/headphone/s/c/j/-original-imag9hxj7qmmyqmh.jpeg?q=60&crop=false" />
                         </div>

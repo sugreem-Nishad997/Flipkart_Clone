@@ -61,6 +61,7 @@ const productSchema = new Schema({
     type: mongoose.Schema.Types.Mixed, // e.g., { ram, model, material, etc. }
     default: {},
   },
+  search:{type:String},
   size: [String],
   gender: { type: String },
   isAvailable: {
