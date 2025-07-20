@@ -61,6 +61,6 @@
   }
   .prodImage{
     width: 10rem;
-    object-fit: cover;
+    object-fit: contain;
   }
 }
