@@ -39,10 +39,12 @@
   .col>div {
     width: 90%;
   }
-  .ListProductContainer{
-    padding:1rem 1.5rem 1rem  1.5rem;
+
+  .ListProductContainer {
+    padding: 1rem 1.5rem 1rem 1.5rem;
   }
-  .prodImage{
+
+  .prodImage {
     width: 100%;
     object-fit: contain;
   }
@@ -52,14 +54,16 @@
   .row {
     flex-direction: row;
   }
+
   .row .col:nth-child(odd) {
-  border-right: 1px solid #ccc;
-}
+    border-right: 1px solid #ccc;
+  }
 
   .col {
-    width: 50%;
+    width: 46%;
   }
-  .prodImage{
+
+  .prodImage {
     width: 10rem;
     object-fit: contain;
   }
