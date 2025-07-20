@@ -110,7 +110,7 @@ export default function ListProduct() {
     }, [user, products])
 
     return (
-        <div style={{ backgroundColor: 'rgb(242, 249, 252)', padding: '1rem' }}>
+        <div style={{ backgroundColor: 'rgb(242, 249, 252)'}} className="ListProductContainer">
             <div style={{ backgroundColor: 'white' }}>
                 <div className="p-2">
                     <span onClick={() => navigate('/')} className="navigation">Home{' > '}</span>
@@ -120,11 +120,11 @@ export default function ListProduct() {
                     <h5 className="p-3">{name}</h5>
                 </div>
                 <div style={{ borderTop: '1px solid #e4e6eb' }} >
-                    <div class="row row-cols-2 row-cols-md-2 g-4 row-clos-sm-2 row-cols-xl-2 row-cols-xsm-2">
+                    <div className="row">
                         {products.length > 0 && products.map((prod, idx) => {
                             return (
-                                <div key={idx} class="col-xsm-6">
-                                    <div style={{ boxShadow: hoveredProd && hoveredProd === prod._id ? '0 2px 8px 0 rgba(144, 142, 142, 0.25)' : '', padding: '1rem', cursor: 'pointer', borderRadius: '2px', width: '35%' }}
+                                <div key={idx} className="col">
+                                    <div style={{ boxShadow: hoveredProd && hoveredProd === prod._id ? '0 2px 8px 0 rgba(144, 142, 142, 0.25)' : '', padding: '1rem', cursor: 'pointer', borderRadius: '2px'}}
                                         onMouseEnter={() => handleMouseEnter(prod)}
                                         onMouseLeave={handleMouseLeave}
                                     >
@@ -155,13 +155,13 @@ export default function ListProduct() {
                                                 </IconButton>
                                             </div>
                                         </div>
-                                        <div style={{ height: "11rem", width: '6rem' }}>
-                                            <img src={prod.images[hoveredProd && hoveredProd === prod._id ? hoveredIndex : 0].url} alt="Product images" />
+                                        <div style={{ height: "12rem", width: '11rem' }}>
+                                            <img src={prod.images[hoveredProd && hoveredProd === prod._id ? hoveredIndex : 0].url} alt="Product images"  className="prodImage"/>
                                         </div>
                                         <div className="elipse2" style={{ color: hoveredProd && hoveredProd === prod._id && '#2a91db' }}>{prod.title}</div>
                                         <div className="d-flex my-3">
                                             <h5>₹{prod.discount ? Math.floor(prod.price - (prod.price * prod.discount) / 100) : prod.price}</h5>
-                                            <span style={{ textDecoration: ' line-through', color: 'gray', marginInline: '0.7rem' }}>₹{prod.price}</span>
+                                            <span style={{ textDecoration: ' line-through', color: 'gray', marginInline: '0.7rem', fontSize:'0.78rem'}}>₹{prod.price}</span>
                                             {prod.discount && <span className="text-success">{prod.discount}%off</span>}
                                         </div>
                                     </div>

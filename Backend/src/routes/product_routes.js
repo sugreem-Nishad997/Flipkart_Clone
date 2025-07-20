@@ -6,8 +6,8 @@ import {upload} from '../utils/cloudinary.js';
 
 const router = Router();
 
-router.route("/admin/addProduct").post(authMiddleware, adminMiddleware, upload.array("images", 5), createProduct);
+router.route("/admin/addProduct").post(authMiddleware, adminMiddleware, upload.array("images", 10), createProduct);
 router.route("/:id").get(showProduct);
 router.route("/admin/allProducts").get(authMiddleware, adminMiddleware, showAllProducts);
-router.route("/admin/updateProduct").put(authMiddleware, adminMiddleware,  upload.array("newImages", 5), updateProduct);
+router.route("/admin/updateProduct").put(authMiddleware, adminMiddleware,  upload.array("newImages", 10), updateProduct);
 export default router;
