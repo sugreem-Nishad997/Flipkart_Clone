@@ -169,7 +169,8 @@ const AddProductStyledForm = () => {
                     category: '',
                     brand: '',
                     images: [],
-                    specs: []
+                    specs: [],
+                    search:''
                 });
                 setShowImageIndex(0);
                 setShowImages([])
