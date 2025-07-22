@@ -171,7 +171,6 @@ const AddProductStyledForm = () => {
                     search:'',
                     images: [],
                     specs: [],
-                    search:''
                 });
                 setShowImageIndex(0);
                 setShowImages([])
