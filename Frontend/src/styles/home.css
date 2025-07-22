@@ -1,12 +1,12 @@
-.container-1{
-    background-color:rgb(245, 247, 247);
+.container-1 {
+    background-color: rgb(245, 247, 247);
     background-image: linear-gradient(rgb(245, 247, 247), rgb(209, 247, 247));
     height: 100%;
     overflow-y: hidden;
     padding-bottom: 0.9rem;
 }
 
-.catigory-items{
+.catigory-items {
     display: flex;
     background-color: white;
     position: relative;
@@ -20,16 +20,18 @@
     height: 3rem;
     column-gap: 0.8rem;
 }
+
 /* Ellipses */
 
-.elipse{
+.elipse {
     display: block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 /* Ellipses */
-.catigory-items > div{
+.catigory-items>div {
     height: 6rem;
     width: 6rem;
     display: flex;
@@ -37,22 +39,25 @@
     align-items: center;
     margin: 0.7rem;
 }
-.catigory-items>div>div{
+
+.catigory-items>div>div {
     height: 50%;
     width: 100%;
 }
-.catigory-items>div>div>img{
+
+.catigory-items>div>div>img {
     object-fit: contain;
     height: 100%;
     width: 100%;
 }
 
-.carousel{
+.carousel {
     position: relative;
     top: 0.5rem;
     margin: 0.7rem;
 }
-.catFont{
+
+.catFont {
     font-size: 0.8rem;
     font-weight: bolder;
     text-align: center;
@@ -62,14 +67,14 @@
     text-overflow: ellipsis;
 }
 
-.containerOfBestElec{
+.containerOfBestElec {
     background-color: white;
     position: relative;
     margin: 0.7rem;
     top: 0.5rem;
 }
 
-.bestInElectronics{
+.bestInElectronics {
     height: 13rem;
     display: flex;
     justify-content: space-evenly;
@@ -78,7 +83,8 @@
     overflow-y: hidden;
     overflow-x: auto;
 }
-.bestInElectronics-li{
+
+.bestInElectronics-li {
     height: 12rem;
     width: 27rem;
     min-width: 7rem;
@@ -87,18 +93,29 @@
     align-items: center;
     padding: 0.7rem;
 }
-.bestInElectronics-li>div{
+
+.bestInElectronics-li>div {
     height: 50%;
     width: 100%;
     padding: 0.3rem;
+    cursor: pointer;
 }
-.bestInElectronics-li> div> img{
+
+.bestInElectronics-li>div>img {
     object-fit: contain;
     height: 100%;
     width: 100%;
 }
 
-.li-tag>p{
+.bestInElectronics-li div:hover img {
+    transform: scale(1.3);
+}
+
+.bestInElectronics-li div img {
+    transition: transform 0.3s ease-in-out;
+}
+
+.li-tag>p {
     text-align: center;
     display: block;
     white-space: nowrap;
@@ -106,57 +123,64 @@
     text-overflow: ellipsis;
     font-size: 0.9rem;
 }
-.li-tag{
+
+.li-tag {
     position: relative;
     top: 1rem;
 }
 
 
-.TopDealsContainer{
+.TopDealsContainer {
     display: flex;
 }
-.fashTopDContainer{
+
+.fashTopDContainer {
     background-color: white;
     position: relative;
     margin-top: 1rem;
     top: 0.5rem;
     margin: 0.5rem;
-    height:100%;
-    width:33%;
+    height: 100%;
+    width: 33%;
 }
+
 /* Default carousel image styling */
 .carousel-img {
-  height: 18rem;
-  object-fit: cover;
-  border-radius: 0;
-  transition: all 0.3s ease;
+    height: 18rem;
+    object-fit: cover;
+    border-radius: 0;
+    transition: all 0.3s ease;
 }
 
 /* On screens smaller than 768px (typical mobiles) */
 @media (max-width: 768px) {
-  .carousel-img {
-    height: 10rem !important ;/* Increased height for mobile */
-    border-radius: 1rem;
-    object-position: 38% 100% !important; /* Rounded corners */
-  }
+    .carousel-img {
+        height: 10rem !important;
+        /* Increased height for mobile */
+        border-radius: 1rem;
+        object-position: 38% 100% !important;
+        /* Rounded corners */
+    }
 }
 
 
-@media screen and (max-width: 480px){
-    .fashTopDContainer{
-        width:95%;
+@media screen and (max-width: 480px) {
+    .fashTopDContainer {
+        width: 95%;
     }
-    .TopDealsContainer{
+
+    .TopDealsContainer {
         flex-direction: column;
     }
 }
 
-.custom-img{
+.custom-img {
     width: 100%;
     height: 9rem;
     display: flex;
 }
-.custom-img>img{
+
+.custom-img>img {
     object-fit: contain;
     margin-top: 0.8rem;
     border-radius: 0.2rem;
@@ -164,8 +188,7 @@
     width: 100%;
     text-align: center;
 }
-.card-1{
+
+.card-1 {
     padding: 0rem 0.5rem 0.5rem 0.5rem;
 }
-
-

@@ -162,7 +162,7 @@ export default function Product() {
 
                             <div className="leftSideImage">
                                 {product?.images?.length > 0 && product.images.map((img, idx) => (
-                                    <div key={idx} className="imageMappedDiv" style={{ border: idx === showImageIndex ? '2px solid rgb(45, 139, 226)' : '1px solid #e4e6eb', cursor: 'pointer' }}
+                                    <div key={idx} className="imageMappedDiv" style={{ border: idx === showImageIndex ? '2px solid rgb(45, 139, 226)' : '1px solid #e4e6eb', cursor: 'pointer'}}
                                         onMouseEnter={() => handleImageClick(idx)}>
                                         <img src={img.url} alt="" style={{
                                             width: '100%',
@@ -191,15 +191,15 @@ export default function Product() {
                                 {product?.images?.length > 0 && <img src={product.images[showImageIndex].url} alt="Product" style={{
                                     width: '100%',
                                     height: '100%',
-                                    objectFit: 'cover',
+                                    objectFit: 'contain',
                                 }} />}
 
                             </div>
                         </div>
                         <div className="buttonDiv">
-                            <Button variant="contained" sx={{ backgroundColor: cart ? '#bacad3ff' : '#ff9f00', padding: '0.7rem', width: '9.9rem' }}
+                            <Button variant="contained" sx={{ backgroundColor: cart ? '#bacad3ff' : '#ff9f00', padding: '0.7rem', width: '9.5rem' }}
                                 startIcon={<ShoppingCartIcon />} loading={buttonLoading} loadingPosition="start" onClick={() => { cart ? navigate("/cart") : handleCart(SlideTransition) }}>{cart ? 'Go to Cart' : 'Add to Cart'}</Button>
-                            <Button variant="contained" sx={{ backgroundColor: '#fb641b', marginLeft: '1rem', padding: '0.7rem', width: '9.9rem' }} startIcon={<FlashOnIcon />}>buy now</Button>
+                            <Button variant="contained" sx={{ backgroundColor: '#fb641b', marginLeft: '1rem', padding: '0.7rem', width: '9.5rem' }} startIcon={<FlashOnIcon />}>buy now</Button>
                         </div>
                     </div>
                     {product && <div style={{ paddingTop: '0.8rem' , height:'100%'}}>
@@ -219,7 +219,7 @@ export default function Product() {
                                 )
                             })}
                             </div>}
-                        <div style={{ border: '1px solid #e4e6eb', width: '42rem' }}>
+                        <div style={{ border: '1px solid #e4e6eb', width: '95%' }}>
                             <div style={{ borderBottom: '1px solid #e4e6eb', padding: '0.9rem' }}>
                                 <h4>{product.category === 'clothing' ? 'Product Details':'Specification'}</h4>
                             </div>
@@ -238,7 +238,7 @@ export default function Product() {
 
                             </div>
                         </div>
-                        <div style={{ border: '1px solid #e4e6eb', width: '100%', marginTop:'1rem', padding:'1rem'}}>
+                        <div style={{ border: '1px solid #e4e6eb', width: '95%', marginTop:'1rem', padding:'1rem', marginBottom:"2rem"}}>
                            <div className="d-flex justify-content-between" style={{ borderBottom: '1px solid #e4e6eb'}}>
                             <h4>Rating & Reviews</h4>
                             <Button color="black" sx={{boxShadow:'0 1px 2px 0 rgba(0, 0, 0, .26)', padding:'1rem'}}>Rate Product</Button>

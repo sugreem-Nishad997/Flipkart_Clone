@@ -168,6 +168,7 @@ const AddProductStyledForm = () => {
                     discount: '',
                     category: '',
                     brand: '',
+                    search:'',
                     images: [],
                     specs: []
                 });

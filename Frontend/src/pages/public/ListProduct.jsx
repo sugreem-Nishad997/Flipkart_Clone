@@ -5,6 +5,7 @@ import { AuthContext } from "../../Context/AuthContext";
 import { IconButton, Alert, Button, Fade, Slide, Snackbar } from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import Spinner from "../../Loader/Spinner";
 
 function SlideTransition(props) {
     return <Slide {...props} direction="down" />;
@@ -21,6 +22,7 @@ export default function ListProduct() {
     const [snakeOpen, setSnakeOpen] = useState({ open: false, Transition: Fade });
     const [liked, setLiked] = useState(false);
     const [hovering, setHovering] = useState(false);
+    const [loader, setLoader] = useState(true);
     const intervalRef = useRef(null);
 
     const handleMouseEnter = (prod) => {
@@ -88,27 +90,32 @@ export default function ListProduct() {
             try {
                 const result = await listAllProducts();
                 if (result.success) {
-                    const headsets = result.products.filter((prod) => prod.search === 'headset');
+                    const headsets = result.products.filter((prod) => prod.search === name);
                     setProducts(headsets);
                 } else {
                     console.log(result);
                 }
             } catch (error) {
                 console.log(error);
+            }finally{
+                setLoader(false);
             }
         }
         fetchproduct();
     }, []);
 
     useEffect(() => {
+        setLoader(true);
         if (user && Array.isArray(products)) {
             const likedStatuses = products.map(product =>
                 user.wishlist?.includes(product._id) || false
             );
             setLiked(likedStatuses);
         }
+        setLoader(false)
     }, [user, products])
 
+    if(loader) return <Spinner/>
     return (
         <div style={{ backgroundColor: 'rgb(242, 249, 252)'}} className="ListProductContainer">
             <div style={{ backgroundColor: 'white' }}>
@@ -158,7 +165,7 @@ export default function ListProduct() {
                                         <div style={{ height: "12rem", width: '11rem' }}>
                                             <img src={prod.images[hoveredProd && hoveredProd === prod._id ? hoveredIndex : 0].url} alt="Product images"  className="prodImage"/>
                                         </div>
-                                        <div className="elipse2" style={{ color: hoveredProd && hoveredProd === prod._id && '#2a91db' }}>{prod.title}</div>
+                                        <div className="elipse2" style={{ color: hoveredProd && hoveredProd === prod._id && '#2a91db' }} onClick={()=>navigate(`/${prod._id}`)}>{prod.title}</div>
                                         <div className="d-flex my-3">
                                             <h5>₹{prod.discount ? Math.floor(prod.price - (prod.price * prod.discount) / 100) : prod.price}</h5>
                                             <span style={{ textDecoration: ' line-through', color: 'gray', marginInline: '0.7rem', fontSize:'0.78rem'}}>₹{prod.price}</span>

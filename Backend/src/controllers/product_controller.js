@@ -125,7 +125,7 @@ const updateProduct = async (req, res) => {
             category: req.body.category,
             brand: req.body.brand,
             specs,
-            search,
+            search: req.body.search,
         });
 
         const Updatedproduct = await product.save();

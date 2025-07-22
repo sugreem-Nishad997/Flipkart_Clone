@@ -204,7 +204,7 @@ export default function cart() {
                                     onClose={handleClose}
                                 />
                             </div>
-                            <div>
+                            <div className="cartsMap">
                                 {carts && carts.map((cart, idx) => {
                                     return (
                                         <div style={{ backgroundColor: 'white', borderRadius: '2px', borderBottom: '2px solid #f8f3f8', padding: '1rem' }} key={idx}>

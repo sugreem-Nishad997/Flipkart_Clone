@@ -80,7 +80,7 @@ export default function wishlist() {
                                 </div>
                                 <div className="p-3" onClick={() => navigate(`/${wish._id}`)}>
                                     <p style={{ color: idx === hoverIndex && 'rgb(45, 139, 226)' }} className="mobilePara">{wish.title}</p>
-                                    <span className="fw-bold fs-4">₹{wish.price - (wish.price * wish.discount / 100)}</span>
+                                    <span className="fw-bold fs-4">₹{Math.round(wish.price - (wish.price * wish.discount)/100)}</span>
                                     <span style={{ textDecoration: ' line-through', color: 'gray', marginInline: '1rem', padding: '0.3rem' }}>₹{wish.price}</span>
                                     <span className="text-success fw-bold p-1">{wish.discount}%off</span>
                                 </div>
