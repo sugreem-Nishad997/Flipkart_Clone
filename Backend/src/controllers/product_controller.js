@@ -87,12 +87,22 @@ const updateProduct = async (req, res) => {
         if (!product) return res.status(404).json({ success: false, message: "Product not found" });
 
         const specs = JSON.parse(req.body.specs);
-        const existingImages = req.body["existingImages[]"]
-            ? Array.isArray(req.body["existingImages[]"])
-                ? req.body["existingImages[]"]
-                : [req.body["existingImages[]"]]
-            : product.images.map(img => img.url);
+        let existingImages = [];
         // console.log(req.body)
+        if (req.body.existingImages) {
+            const raw = req.body.existingImages;
+            const items = Array.isArray(raw) ? raw : [raw];
+
+            existingImages = items.map(item => {
+                try {
+                    return JSON.parse(item);
+                } catch (err) {
+                    return null;
+                }
+            }).filter(Boolean); // Remove failed parses (null)
+        } else {
+            existingImages = product.images.map(img => img.url);
+        }
 
 
         let newUploadedImages = [];
@@ -103,15 +113,28 @@ const updateProduct = async (req, res) => {
                 public_id: file.filename
             }));
         }
-        const removedImages = product.images.filter(img => !existingImages.includes(img.url));
+        
+        if (newUploadedImages.length === 0 && (existingImages.length === 0 || existingImages.length === 1)) return res.json({ message: 'Images required', success: false });
+        let removedImages = [];
 
-        for (const img of removedImages) {
-            if (img.public_id) {
-                await cloudinary.uploader.destroy(img.public_id);
+        if (existingImages && existingImages.length > 0) {
+            removedImages = product.images.filter(prodImg => {
+                return !existingImages.some(existImg => existImg.url === prodImg.url);
+            });
+        }
+
+        if (removedImages && removedImages.length > 0) {
+            for (const img of removedImages) {
+                if (img.public_id) {
+                    await cloudinary.uploader.destroy(img.public_id);
+                }
             }
         }
 
-        const keptImages = product.images.filter(img => existingImages.includes(img.url));
+        const keptImages = product.images.filter(prodImg => {
+            return existingImages.some(existImg => existImg.url === prodImg.url);
+        });
+
         product.images = [...keptImages, ...newUploadedImages];
         // Update fields
         Object.assign(product, {

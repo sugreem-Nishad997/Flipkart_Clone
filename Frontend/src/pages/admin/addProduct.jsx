@@ -127,9 +127,11 @@ const AddProductStyledForm = () => {
                     if (file instanceof File) {
                         form.append('newImages', file);
                     } else {
-                        form.append('existingImages[]', file);
+                        // Serialize the object to a string
+                        form.append('existingImages[]', JSON.stringify(file));
                     }
                 });
+
             }
             else if (Array.isArray(val)) {
                 if (key === "specs") {
@@ -168,7 +170,7 @@ const AddProductStyledForm = () => {
                     discount: '',
                     category: '',
                     brand: '',
-                    search:'',
+                    search: '',
                     images: [],
                     specs: [],
                 });
@@ -179,7 +181,7 @@ const AddProductStyledForm = () => {
                 setSnakeOpen({ open: true, Transition });
             }
         } catch (error) {
-            setMessage({ ms: error.message, color: 'red', type: 'error' });
+            setMessage({ ms: error.response.data.message, color: 'red', type: 'error' });
             setSnakeOpen({ open: true, Transition });
         } finally {
             setLoading(false);
@@ -361,7 +363,7 @@ const AddProductStyledForm = () => {
                                 onChange={handleInputChange}
                                 disabled={loading && true}
                                 size='small'
-                                sx={{marginTop:'1.2rem'}}
+                                sx={{ marginTop: '1.2rem' }}
                             />
                         </div>
                     </Grid>

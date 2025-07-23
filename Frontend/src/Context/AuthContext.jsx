@@ -222,16 +222,16 @@ export const AuthProvider = ({ children }) => {
     }
 
     const updateProduct = async (form) => {
+        const existingImages = form.getAll('existingImages[]');
+        console.log('existingImages[]:', existingImages);
         try {
             const token = localStorage.getItem("token");
-            console.log(form)
             const response = await client.put("/admin/updateProduct", form, {
-                headers:{
+                headers: {
                     Authorization: `Bearer ${token}`,
-                    "Content-Type":"multipart/form-data"
+                    "Content-Type": "multipart/form-data"
                 }
             });
-            console.log(response.data);
             return response.data;
         } catch (error) {
             throw error;
@@ -275,7 +275,7 @@ export const AuthProvider = ({ children }) => {
                     Authorization: `Bearer ${token}`
                 }
             })
-            if(response.data.success){
+            if (response.data.success) {
                 setUser(response.data.updatedUser);
             }
             return response.data;
@@ -292,7 +292,7 @@ export const AuthProvider = ({ children }) => {
                     Authorization: `Bearer ${token}`
                 }
             })
-            if(response.data.success){
+            if (response.data.success) {
                 setUser(response.data.updatedUser);
             }
             return response.data;
@@ -331,8 +331,8 @@ export const AuthProvider = ({ children }) => {
 
 
     //public route
-    const listAllProducts = async() => {
-         try {
+    const listAllProducts = async () => {
+        try {
             const response = await client.get("/allProducts");
             return response.data;
         } catch (error) {
@@ -362,7 +362,7 @@ export const AuthProvider = ({ children }) => {
 
         fetchUserData();
     }, []);
-    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct, showProduct, showAllProducts, addToCart, addToWishlist, getWishlists, removeWishlist, getCartItems, removeFromCart, updateProduct, listAllProducts}
+    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct, showProduct, showAllProducts, addToCart, addToWishlist, getWishlists, removeWishlist, getCartItems, removeFromCart, updateProduct, listAllProducts }
     return (
         <AuthContext.Provider value={data}>
             {children}

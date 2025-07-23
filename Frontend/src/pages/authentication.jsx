@@ -70,7 +70,7 @@ export default function authentication() {
 
             }
         } catch (error) {
-            setMessage({ ms: error.message, type: 'error', color: 'red' });
+            setMessage({ ms: error?.response?.data?.message, type: 'error', color: 'red' });
             setSnakeOpen({ open: true, Transition });
             console.log(error);
         } finally {
@@ -108,7 +108,7 @@ export default function authentication() {
 
                 } catch (error) {
                     console.log(error);
-                    setMessage({ ms: error.message, type: 'error', color: 'red' });
+                    setMessage({ ms: error?.response?.data?.message, type: 'error', color: 'red' });
                     setSnakeOpen({ open: true, Transition });
                 } finally {
                     setLoader(false)
@@ -137,7 +137,7 @@ export default function authentication() {
                          navigate("/");
                     }
                 } catch (error) {
-                    setMessage({ ms: error.message, type: 'error', color: 'red' })
+                    setMessage({ ms: error?.response?.data?.message, type: 'error', color: 'red' })
                     setSnakeOpen({ open: true, Transition });
                     console.log(error);
                 } finally {

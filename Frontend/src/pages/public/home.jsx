@@ -1,8 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import '../../styles/home.css';
+import { useState } from 'react';
 export default function home() {
 
     const navigate = useNavigate();
+    const links = ["Headset", "Smart Watches"];
+    const [linkIndex, setLinkIndex] = useState(0);
     const bestElectronics = [
         {
             title: "Best Truewireless Earebudds",
@@ -40,7 +43,7 @@ export default function home() {
                     </div>
                     <div className='catFont'>Mobiles</div>
                 </div>
-                <div style={{ cursor: 'pointer' }} onClick={() => navigate(`/showList/${"T-shirt"}`)}>
+                <div style={{ cursor: 'pointer' }} onClick={() => navigate(`/showList/${"T-shirts"}`)}>
                     <div>
                         <img src="https://rukminim1.flixcart.com/fk-p-flap/128/128/image/0d75b34f7d8fbcb3.png?q=100" />
                     </div>
@@ -70,7 +73,7 @@ export default function home() {
             <div id="carouselExampleAutoplaying" className="carousel slide" data-bs-ride="carousel" >
                 <div className="carousel-inner">
                     <div className="carousel-item active">
-                        <img src="https://rukminim2.flixcart.com/fk-p-flap/2020/740/image/11980ec333f6aa03.jpg?q=60" className="d-block w-100 carousel-img" alt="..." />
+                        <img src="https://rukminim2.flixcart.com/fk-p-flap/960/160/image/e26a921db8ae588e.jpeg?q=60" className="d-block w-100 carousel-img" alt="..." />
                     </div>
                     <div className="carousel-item">
                         <img src="https://rukminim2.flixcart.com/fk-p-flap/2020/340/image/cc08176877cb794a.png?q=60" className="d-block w-100 carousel-img" alt="..." />
@@ -97,7 +100,10 @@ export default function home() {
                 <div className="bestInElectronics">
                     {bestElectronics.map((best, idx) => {
                         return (
-                            <div className='bestInElectronics-li' onClick={() => navigate(`/showList/${"Headset"}`)}>
+                            <div className='bestInElectronics-li' onClick={() => {
+                                setLinkIndex(idx)
+                                idx === linkIndex && navigate(`/showList/${links[idx]}`)}}
+                            key={idx}>
                                 <div>
                                     <img src= {best.url}/>
                                 </div>

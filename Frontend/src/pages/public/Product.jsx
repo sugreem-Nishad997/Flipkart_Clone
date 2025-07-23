@@ -48,7 +48,7 @@ export default function Product() {
                 }
             } catch (error) {
                 console.log(error);
-                setMessage({ ms: error.message, color: 'red', type: 'error' });
+                setMessage({ ms: error.response.data.message, color: 'red', type: 'error' });
                 setSnakeOpen({ open: true, Transition });
             }
         } else {
@@ -65,7 +65,7 @@ export default function Product() {
                 }
             } catch (error) {
                 console.log(error);
-                setMessage({ ms: error.message, color: 'red', type: 'error' });
+                setMessage({ ms: error.response.data.message, color: 'red', type: 'error' });
                 setSnakeOpen({ open: true, Transition });
             }
         }
@@ -89,7 +89,7 @@ export default function Product() {
                 setSnakeOpen({ open: true, Transition });
             }
         } catch (error) {
-            setMessage({ ms: error.message, color: 'red', type: 'error' });
+            setMessage({ ms: error.response.data.message, color: 'red', type: 'error' });
             setSnakeOpen({ open: true, Transition });
         }
     }
@@ -202,10 +202,10 @@ export default function Product() {
                             <Button variant="contained" sx={{ backgroundColor: '#fb641b', marginLeft: '1rem', padding: '0.7rem', width: '9.5rem' }} startIcon={<FlashOnIcon />}>buy now</Button>
                         </div>
                     </div>
-                    {product && <div style={{ paddingTop: '0.8rem' , height:'100%'}}>
+                    {product && <div style={{ paddingTop: '0.8rem' , height:'100%', width:'95%'}}>
                         <div>{product.title}</div>
                         <div className="d-flex my-3">
-                            <h3>₹{product.discount?product.price - (product.price * product.discount)/100: product.price}</h3>
+                            <h3>₹{product.discount?Math.round(product.price - (product.price * product.discount)/100): product.price}</h3>
                             <span style={{ textDecoration: ' line-through', color: 'gray', marginInline: '1rem', padding: '0.3rem' }}>₹{product.price}</span>
                             {product.discount&&<span className="text-success fw-bold p-1">{product.discount}%off</span>}
                         </div>

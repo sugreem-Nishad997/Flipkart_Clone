@@ -124,7 +124,7 @@ export default function cart() {
                 setSnakeOpen({ open: true, Transition });
             }
         } catch (error) {
-            setMessage({ ms: error.message, color: 'red', type: 'error' });
+            setMessage({ ms: error?.response?.data?.message, color: 'red', type: 'error' });
             setSnakeOpen({ open: true, Transition });
         }
     }

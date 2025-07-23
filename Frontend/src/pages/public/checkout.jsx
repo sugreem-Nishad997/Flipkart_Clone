@@ -87,7 +87,7 @@ export default function checkout() {
 
                 }
             } catch (error) {
-                setMessage({ ms: error.message, type: 'error', color: 'red' })
+                setMessage({ ms: error.response?.data?.message, type: 'error', color: 'red' })
                 setSnakeOpen({ open: true, Transition });
                 console.log(error);
             }
@@ -120,7 +120,7 @@ export default function checkout() {
             }
         } catch (error) {
             console.log(error);
-            setMessage({ ms: error.message, color: 'red', type: 'error' });
+            setMessage({ ms: error?.response?.data?.message, color: 'red', type: 'error' });
             setSnakeOpen({ open: true, Transition });
         }
     }
@@ -155,7 +155,7 @@ export default function checkout() {
             }
         } catch (error) {
             console.log(error);
-            setMessage({ ms: error.message, color: 'red', type: 'error' });
+            setMessage({ ms: error?.response?.data?.message, color: 'red', type: 'error' });
             setSnakeOpen({ open: true, Transition });
         }
     }
