@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user_routes.js';
 import productRoutes from './routes/product_routes.js';
+import paymentRoutes from './routes/payment_routes.js';
 const app = express();
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(express.urlencoded({limit:'40kb', extended:true}));
 
 app.use(userRoutes);
 app.use(productRoutes);
+app.use(paymentRoutes);
 
 const connectToDB = async() => {
     await mongoose.connect(dbUrl);
@@ -28,6 +30,9 @@ const start = async() => {
     })
 }
 
+// app.post("/payment/create-order", (req, res) => {
+//     res.json({message:"feteched"});
+// })
 app.use((err, req, res, next) => {
     console.log("Unexpected Error", err);
     res.status(500).json({message:"Unexpected server error", error:err.message});

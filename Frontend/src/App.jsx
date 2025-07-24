@@ -19,6 +19,7 @@ import Checkout from './pages/public/checkout';
 import AddProduct from './pages/admin/addProduct';
 import RequireAdmin from './Authenticate/RequireAdmin';
 import RequireAuth from './Authenticate/RequireAuth';
+import PaymentButton from './pages/client/PaymentButton';
 import { AuthProvider } from './Context/AuthContext';
 import './App.css';
 import { useEffect, useState } from 'react';
@@ -89,6 +90,7 @@ function App() {
               <Route path='/cart' element={<Cart />} />
               <Route path='/:id' element={<Product/>}/>
               <Route path='/showList/:name' element={<ListProduct/>}/>
+              <Route path='/payment' element={<PaymentButton/>}/>
             </Route>
             <Route path="/admin" element={
               <RequireAuth>

@@ -81,7 +81,7 @@ export default function cart() {
     const [loading, setLoading] = useState(true);
     const [userData, setUserData] = useState(null);
     const [addresses, setAddresses] = useState([]);
-    const [carts, setCarts] = useState([]);
+    const [carts, setCarts] = useState(null);
     const [snakeOpen, setSnakeOpen] = useState({ open: false, Transition: Fade });
     const [message, setMessage] = useState({ ms: '', type: '', color: '' });
     const [radioAddress, setRadioAddress] = useState(null);
@@ -133,21 +133,18 @@ export default function cart() {
     };
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setLoading(false);
-        }, 1019);
-        if (user) {
-            setUserData(user);
-            setAddresses(user.addresses);
-            if (user.addresses && user.addresses.length > 0) {
-                setRadioAddress(user.addresses[0]);
-                setSelectedAddress(user.addresses[0]);
+        const initialize = async () => {
+            if (user) {
+                setUserData(user);
+                setAddresses(user.addresses || []);
+                if (user.addresses && user.addresses.length > 0) {
+                    setRadioAddress(user.addresses[0]);
+                    setSelectedAddress(user.addresses[0]);
+                }
+            } else {
+                setUserData(null);
             }
 
-        } else {
-            setUserData(null);
-        }
-        const fetchCartItems = async () => {
             try {
                 const result = await getCartItems();
                 if (result.success) {
@@ -157,11 +154,14 @@ export default function cart() {
                 }
             } catch (error) {
                 console.log(error);
+            } finally {
+                setLoading(false); // set loading to false only after everything is done
             }
-        }
-        fetchCartItems();
-        return () => clearTimeout(timer);
+        };
+
+        initialize();
     }, [user]);
+
 
     if (loading) return <Spinner />
     return (
@@ -214,7 +214,7 @@ export default function cart() {
                                                 </div>
 
                                                 <div className="my-3">
-                                                    <p className="fs-5" onClick={()=>navigate(`/${cart._id}`)}>{cart.title}</p>
+                                                    <p className="fs-5" onClick={() => navigate(`/${cart._id}`)}>{cart.title}</p>
 
                                                     <span style={{ textDecoration: ' line-through', color: 'gray' }}>₹{cart.price}</span>
                                                     <span className="fw-bold fs-3 mx-2">₹{Math.round(cart.price - (cart.price * cart.discount / 100))}</span>
@@ -224,7 +224,7 @@ export default function cart() {
                                             </div>
                                             <div style={{ marginLeft: "7rem" }}>
                                                 <Button color="red" size="small" variant="outlined" onClick={() => handleRemoveCart(idx, SlideTransition)}
-                                                    sx={{':hover':{color:'blue'}}}
+                                                    sx={{ ':hover': { color: 'blue' } }}
                                                 >Remove</Button>
                                             </div>
                                         </div>
@@ -232,8 +232,8 @@ export default function cart() {
                                 })}
                             </div>
                             <div className="placeOrder">
-                                <span>67</span>
-                                <Button variant="contained" sx={{ backgroundColor: '#fb641b' }}>place order</Button>
+                                <span>₹{Math.round(totals && totals.totalPayable + 166)}</span>
+                                <Button variant="contained" sx={{ backgroundColor: '#fb641b' }} onClick={() => navigate("/checkout")}>place order</Button>
                             </div>
                         </div>
                         <div className='priceDetails'>

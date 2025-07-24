@@ -3,7 +3,7 @@
     height: 3.8rem;
 }
 .checkoutBody{
-    height: 100%;
+    height: fit-content;
     background-color: #f0f3f8;
 }
 .checkoutBody>div{
@@ -12,7 +12,7 @@
     column-gap: 2rem;
 }
 .buyingProcess{
-    width: 60%;
+    width: 70%;
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
@@ -59,19 +59,36 @@
 .mappedAddress{
     padding: 1.2rem;
     border-bottom: 2px solid #c1c7c9;
-    width: 67vw;
+    width: 66.6vw;
     display: flex;
     justify-content: space-between;
 }
 
 .priceDetails{
     background-color: white;
-     border-radius: 2px;
+    border-radius: 2px;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,.09);
     height: fit-content;
     width: 27%;
 }
 
+.placeOrder2 {
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 2px;
+    box-shadow: 0 -2px 10px 0 rgba(0, 0, 0, .1);
+    padding: 1rem;
+    width: 100%;
+}
+
+@media(min-width: 480px){
+    .priceDetails{
+        top: 1.5rem;
+        position: sticky;
+        bottom: 0;
+    }
+}
 @media(max-width: 768px){
     .checkoutBody>div{
         flex-direction: column;
@@ -96,7 +113,7 @@
         display: none;
     }
     .mappedAddress{
-        width: 24.7rem;
+        width: 100%;
     }
     .priceDetails{
         width: 100%;

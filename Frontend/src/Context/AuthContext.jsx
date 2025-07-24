@@ -339,6 +339,39 @@ export const AuthProvider = ({ children }) => {
             throw error;
         }
     }
+
+    const createOrder = async (a) => {
+        try {
+            const res = await client.post("/payment/create-order", { amount: a });
+            return res.data?.order;
+        } catch (error) {
+            console.error("Create order failed:", error);
+            return null;
+        }
+    };
+
+    const verifyPayment = async (order_id, payment_id, signature, amount) => {
+        try {
+            const token = localStorage.getItem("token");
+
+            const res = await client.post(
+                "/payment/verify",
+                { order_id, payment_id, signature, amount }, // ✅ Axios sends body like this
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            return res.data?.success;
+        } catch (error) {
+            console.error("Verify payment failed:", error?.response?.data || error.message);
+            return false;
+        }
+    };
+
     useEffect(() => {
         const fetchUserData = async () => {
             const token = localStorage.getItem("token");
@@ -362,7 +395,7 @@ export const AuthProvider = ({ children }) => {
 
         fetchUserData();
     }, []);
-    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct, showProduct, showAllProducts, addToCart, addToWishlist, getWishlists, removeWishlist, getCartItems, removeFromCart, updateProduct, listAllProducts }
+    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct, showProduct, showAllProducts, addToCart, addToWishlist, getWishlists, removeWishlist, getCartItems, removeFromCart, updateProduct, listAllProducts, createOrder, verifyPayment }
     return (
         <AuthContext.Provider value={data}>
             {children}

@@ -14,8 +14,10 @@ const userSchema = new Schema({
         type: [addressSchema],
         required: true
     },
-    wishlist: [{type:mongoose.Types.ObjectId, ref:'Product'}],
-    cart: [{type:mongoose.Types.ObjectId, ref:"Product"}]
+    wishlist: [{ type: mongoose.Types.ObjectId, ref: 'Product' }],
+    cart: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
+    payments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Payment" }]
+
 });
 
 const User = mongoose.model("User", userSchema);

@@ -9,6 +9,7 @@ import { useContext, useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../../Loader/Spinner';
 import { AuthContext } from '../../Context/AuthContext';
+import PaymentButton from '../client/PaymentButton';
 
 function SlideTransition(props) {
     return <Slide {...props} direction="down" />;
@@ -16,7 +17,7 @@ function SlideTransition(props) {
 
 export default function checkout() {
 
-    const { logout, user, login, updateAddress, addAddress } = useContext(AuthContext);
+    const { logout, user, login, updateAddress, addAddress, getCartItems, removeFromCart } = useContext(AuthContext);
     const navigate = useNavigate();
     const [snakeOpen, setSnakeOpen] = useState({ open: false, Transition: Fade });
     const [message, setMessage] = useState({ ms: '', type: '', color: '' });
@@ -29,6 +30,7 @@ export default function checkout() {
     const [radioIdx, setRadioIdx] = useState(0);
     const [editAddress, setEditAddress] = useState(false);
     const [orderOpen, setOrderOpen] = useState(false);
+    const [cartItems, setCartItems] = useState(null);
     const [userData, setUserData] = useState(null);
     const [addresses, setAddresses] = useState([]);
     const [radioAddress, setRadioAddress] = useState("");
@@ -183,30 +185,74 @@ export default function checkout() {
         setButtonOpen(true);
     }
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setLoading(false);
-        }, 1009); // Delay of 500ms
-        if (user) {
-            setUserData(user);
-            setAddresses(user.addresses);
-            if (user?.addresses.length > 0) {
-                if (isFirstLoad.current) {
-                    setRadioAddress(user.addresses[0]);
-                    isFirstLoad.current = false;
-                } else {
-                    setRadioAddress(user.addresses[user.addresses.length - 1]);
-                }
+    const handleRemoveCart = async (idx, Transition) => {
+        try {
+            const product = cartItems[idx];
+            const result = await removeFromCart(product);
+            if (result.success) {
+                setMessage({ ms: result.message, color: 'green', type: 'success' });
+                setSnakeOpen({ open: true, Transition });
             } else {
-                console.log("yes")
-                setFormOpen(true);
-                setAddressOpen(true);
+                console.log(result);
+                setMessage({ ms: result.message, color: 'orange', type: 'warning' });
+                setSnakeOpen({ open: true, Transition });
             }
-
-        } else {
-            setUserData(null);
+        } catch (error) {
+            setMessage({ ms: error?.response?.data?.message, color: 'red', type: 'error' });
+            setSnakeOpen({ open: true, Transition });
         }
-        return () => clearTimeout(timer); // Clean up the timeout if component unmounts
+    }
+
+    const totals = cartItems && cartItems.reduce(
+        (acc, item) => {
+            const discountAmount = (item.price * item.discount) / 100;
+            acc.totalPrice += item.price;
+            acc.totalDiscount += discountAmount;
+            acc.totalPayable += item.price - discountAmount;
+            return acc;
+        },
+        { totalPrice: 0, totalDiscount: 0, totalPayable: 0 }
+    );
+
+    useEffect(() => {
+
+        const initialize = async () => {
+            if (user) {
+                setUserData(user);
+                setAddresses(user.addresses);
+                if (user?.addresses.length > 0) {
+                    if (isFirstLoad.current) {
+                        setRadioAddress(user.addresses[0]);
+                        setAddressOpen(true);
+                        setRadioIdx(user.addresses[0]._id)
+                        setButtonOpen(true)
+                        isFirstLoad.current = false;
+                    } else {
+                        setRadioAddress(user.addresses[user.addresses.length - 1]);
+                    }
+                } else {
+                    setFormOpen(true);
+                    setAddressOpen(true);
+                }
+
+            } else {
+                setUserData(null);
+            }
+            try {
+                const result = await getCartItems();
+                if (result.success) {
+                    setCartItems(result.carts);
+                } else {
+                    console.log(result);
+                }
+            } catch (error) {
+                setMessage({ ms: error?.response?.data?.message, color: 'red', type: 'error' });
+                setSnakeOpen({ open: true, Transition });
+            } finally {
+                setLoading(false); // set loading to false only after everything is done
+            }
+        }
+        initialize();
     }, [user]);
     if (loading) return <Spinner />
     return (
@@ -348,7 +394,8 @@ export default function checkout() {
                                                                                 sx={{ backgroundColor: '#f8641b' }}
                                                                                 onClick={() => {
                                                                                     setRadioAddress(userData.addresses.find((add) => add._id === addressId)); // ✅ fixed
-                                                                                    setAddressOpen(false); // ✅ close the address step
+                                                                                    setAddressOpen(false);
+                                                                                    setOrderOpen(true) // ✅ close the address step
                                                                                 }}
                                                                             >
                                                                                 deliver here
@@ -613,47 +660,81 @@ export default function checkout() {
                                 <span className='number'>3</span>
                                 <div>
                                     <p className='fw-bold text-secondary'>ORDER SUMMARY
-                                        {userData && <CheckIcon sx={{ color: '#2874f0', fontSize: '1.3rem', marginLeft: '0.2rem' }} />
+                                        {(userData && !addressOpen) && <CheckIcon sx={{ color: '#2874f0', fontSize: '1.3rem', marginLeft: '0.2rem' }} />
                                         }
                                     </p>
-                                    <p>1 item</p>
+                                    {(userData && !addressOpen) && <p>{cartItems && cartItems.length} item</p>}
                                 </div>
                             </div>
-                            {userData && <div>
+                            {(userData && !addressOpen) && <div>
                                 <Button variant='outlined' size='small' onClick={() => setOrderOpen(!orderOpen)}>Change</Button>
                             </div>}
                         </div> : (
                             <div style={{ backgroundColor: 'white', borderRadius: '2px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, .09)' }}>
                                 <div className="loginStep1">
                                     <div className='d-flex' style={{ columnGap: '0.4rem' }}>
-                                        <span className='number'>2</span>
+                                        <span className='number'>3</span>
                                         <div>
                                             <p className='fw-bold text-white'>ORDER SUMMARY<CheckIcon sx={{ color: '#2874f0', fontSize: '1.3rem', marginLeft: '0.2rem' }} /></p>
                                         </div>
 
                                     </div>
                                 </div>
-                                <div>ksdjfjs</div>
+                                <div className="cartsMap">
+                                    {cartItems && cartItems.map((cart, idx) => {
+                                        return (
+                                            <div style={{ backgroundColor: 'white', borderRadius: '2px', borderBottom: '2px solid #f8f3f8', padding: '1rem' }} key={idx}>
+                                                <div className="d-flex" style={{ columnGap: '1rem' }}>
+                                                    <div style={{ padding: '0.5rem' }}>
+                                                        <img src={cart.images[3].url} alt="" style={{ height: '5rem', width: '5rem', objectFit: 'contain' }} />
+                                                    </div>
+
+                                                    <div className="my-3">
+                                                        <p className="fs-5" onClick={() => navigate(`/${cart._id}`)}>{cart.title}</p>
+
+                                                        <span style={{ textDecoration: ' line-through', color: 'gray' }}>₹{cart.price}</span>
+                                                        <span className="fw-bold fs-3 mx-2">₹{Math.round(cart.price - (cart.price * cart.discount / 100))}</span>
+                                                        <span className="text-success fw-bold p-1">{cart.discount}%off</span>
+                                                    </div>
+
+                                                </div>
+                                                <div style={{ marginLeft: "7rem" }}>
+                                                    <Button color="red" size="small" variant="outlined" onClick={() => handleRemoveCart(idx, SlideTransition)}
+                                                        sx={{ ':hover': { color: 'blue' } }}
+                                                    >Remove</Button>
+                                                </div>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
                             </div>
                         )}
                         {orderOpen && <div style={{ backgroundColor: 'white', borderRadius: '2px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, .09)' }} >
                             <div className='d-flex justify-content-between p-3'>
-                                <p style={{ fontSize: '0.88rem' }}>Order confirmation email sent to </p>
+                                <p style={{ fontSize: '0.88rem' }}>Order confirmation email sent to your {userData && userData.email}</p>
                                 <Button variant='contained' sx={{ backgroundColor: '#f8641b', boxShadow: 'none' }} onClick={() => setOrderOpen(!orderOpen)}>Continue</Button>
                             </div>
                         </div>}
+                        <PaymentButton totals = {totals}/>
                     </div>
                     <div className='priceDetails'>
                         <p className='fw-bold text-secondary p-3' style={{ borderBottom: '2px solid rgb(235, 236, 236)' }}>PRICE DETAILS</p>
-                        <div className='d-flex justify-content-between p-3' style={{ borderBottom: '2px dashed rgb(235, 236, 236)' }} >
-                            <span>Price</span>
-                            <span>890</span>
+                        <div className='p-3' style={{ borderBottom: '2px dashed rgba(217, 218, 218, 1)' }} >
+                            <div className="d-flex justify-content-between ">
+                                <span>Price({cartItems && cartItems.length})</span>
+                                <span>₹{totals && totals.totalPrice}</span>
+                            </div>
+                            <div className="d-flex justify-content-between mt-3">
+                                <span>Protect Promise Fee</span>
+                                <span>₹166</span>
+                            </div>
+
                         </div>
-                        <div className='d-flex justify-content-between mt-3 fw-bold p-3' style={{ borderBottom: '2px solid rgb(235, 236, 236)' }}>
+                        <div className='d-flex justify-content-between mt-3 fw-bold p-3 fs-5' style={{ borderBottom: '2px solid rgb(235, 236, 236)' }}>
                             <span>Total Payable</span>
-                            <span>890</span>
+                            <span>₹{Math.round(totals && totals.totalPayable + 166)}</span>
                         </div>
-                        <p className='mt-3 fw-bold text-success p-3'>Your Total Saving on this Order</p>
+                        <p className='mt-3 text-success p-3' style={{ fontSize: "1.1rem", fontWeight: '500' }}>Your will save ₹{totals && totals.totalDiscount} on this Order</p>
                     </div>
                 </div>
             </div>
