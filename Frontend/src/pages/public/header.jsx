@@ -76,7 +76,7 @@ export default function header() {
         }
         fetchCart();
         fetchWishlist();
-    }, [cart, wishlist]);
+    }, [user]);
 
     return (
 

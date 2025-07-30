@@ -3,6 +3,9 @@ import crypto from 'crypto';
 import Payment from "../models/payment_model.js";
 import dotenv from 'dotenv';
 import User from '../models/user_models.js';
+import Order from "../models/order_model.js";
+import Product from "../models/product_model.js";
+import { sendEmail } from "../utils/sendEmail.js";
 
 dotenv.config();
 
@@ -25,7 +28,7 @@ const createOrder = async (req, res) => {
 }
 
 const verifyPayment = async (req, res) => {
-    const { order_id, payment_id, signature, amount} = req.body;
+    const { order_id, payment_id, signature, amount, orderItems, shippingInfo, totalAmount } = req.body;
     const id = req.user.id;
     const body = order_id + "|" + payment_id;
     const expectedSignature = crypto
@@ -54,10 +57,48 @@ const verifyPayment = async (req, res) => {
 
         // Add payment reference to user
         existingUser.payments.push(payment._id);
-        const updatedUser = await existingUser.save();
-        console.log(updatedUser)
+        await existingUser.save();
+        const productIds = orderItems.map(item => item._id);
+        const dbProducts = await Product.find({_id: {$in: productIds}});
+        const orderedItems = orderItems.map(ordered => {
+            const matchecProduct = dbProducts.find(prod => prod._id.toString() === ordered._id);
+            return{
+                product: matchecProduct._id,
+                name: matchecProduct.title,
+                price: matchecProduct.price,
+                discount: matchecProduct.discount,
+                image: matchecProduct.images[0]?.url||'',
+            }
+        });
 
-        return res.json({ success, message: success ? "Payment verified" : "Invalid signature" });
+        const order = new Order({
+            user: req.user.id,
+            orderItems: orderedItems,
+            shippingInfo,
+            totalAmount,
+            isPaid: true,
+            paidAt: new Date(),
+            paymentInfo: {
+                id: payment_id,
+                status: "Success"
+            },
+            status: 'Products Ordered'
+        });
+
+        await order.save();
+        existingUser.orders.push(order._id);
+        await existingUser.save();
+
+        if (existingUser.cart && existingUser.cart.length > 0) {
+            existingUser.cart = existingUser.cart.filter(cartItem => {
+                return !orderItems.some(ordered => ordered._id === cartItem._id.toString());
+            });
+        }
+        const updatedUser = await existingUser.save();
+
+        await sendEmail(existingUser.email, success ? "Payment Successfull" : "Payment Failed", success ? `Your payment is successful for OrderId: ${orderItems[0]._id} and Amount of ${totalAmount}`:   "FAiled");
+
+        return res.json({ success, message: success ? "Payment verified" : "Invalid signature", updatedUser });
 
     } catch (err) {
         console.error("Payment verification failed:", err);

@@ -97,6 +97,28 @@ export default function Product() {
     const handleClose = () => {
         setSnakeOpen(prev => ({ ...prev, open: false }));
     };
+
+    const handleBuy = async () => {
+        try {
+            if (product) {
+                const isInCart = user.cart?.some(item => item === product._id);
+                if (!isInCart) {
+                    const result = await addToCart(product);
+                    if (result.success) {
+                        navigate('/checkout');
+                    } else {
+                        console.log(result)
+                    }
+                }else{
+                    navigate('/checkout');
+                }
+
+            }
+        } catch (error) {
+            setMessage({ ms: error.response.data.message, color: 'red', type: 'error' });
+            setSnakeOpen({ open: true, Transition });
+        }
+    }
     useEffect(() => {
         const fetchProduct = async () => {
             try {
@@ -162,7 +184,7 @@ export default function Product() {
 
                             <div className="leftSideImage">
                                 {product?.images?.length > 0 && product.images.map((img, idx) => (
-                                    <div key={idx} className="imageMappedDiv" style={{ border: idx === showImageIndex ? '2px solid rgb(45, 139, 226)' : '1px solid #e4e6eb', cursor: 'pointer'}}
+                                    <div key={idx} className="imageMappedDiv" style={{ border: idx === showImageIndex ? '2px solid rgb(45, 139, 226)' : '1px solid #e4e6eb', cursor: 'pointer' }}
                                         onMouseEnter={() => handleImageClick(idx)}>
                                         <img src={img.url} alt="" style={{
                                             width: '100%',
@@ -198,30 +220,33 @@ export default function Product() {
                         </div>
                         <div className="buttonDiv">
                             <Button variant="contained" sx={{ backgroundColor: cart ? '#bacad3ff' : '#ff9f00', padding: '0.7rem', width: '9.5rem' }}
-                                startIcon={<ShoppingCartIcon />} loading={buttonLoading} loadingPosition="start" onClick={() => { cart ? navigate("/cart") : handleCart(SlideTransition) }}>{cart ? 'Go to Cart' : 'Add to Cart'}</Button>
-                            <Button variant="contained" sx={{ backgroundColor: '#fb641b', marginLeft: '1rem', padding: '0.7rem', width: '9.5rem' }} startIcon={<FlashOnIcon />}>buy now</Button>
+                                startIcon={<ShoppingCartIcon />} loading={buttonLoading} loadingPosition="start" onClick={() => { user ? (cart ? navigate("/cart") : handleCart(SlideTransition)) : navigate('/auth') }}>{cart ? 'Go to Cart' : 'Add to Cart'}</Button>
+                            <Button variant="contained" sx={{ backgroundColor: '#fb641b', marginLeft: '1rem', padding: '0.7rem', width: '9.5rem' }} startIcon={<FlashOnIcon />}
+                                onClick={() => (user ? handleBuy() : navigate("/auth"))}
+                            >buy now</Button>
                         </div>
                     </div>
-                    {product && <div style={{ paddingTop: '0.8rem' , height:'100%', width:'95%'}}>
+                    {product && <div style={{ paddingTop: '0.8rem', height: '100%', width: '55%' }}>
                         <div>{product.title}</div>
                         <div className="d-flex my-3">
-                            <h3>₹{product.discount?Math.round(product.price - (product.price * product.discount)/100): product.price}</h3>
+                            <h3>₹{product.discount ? Math.round(product.price - (product.price * product.discount) / 100) : product.price}</h3>
                             <span style={{ textDecoration: ' line-through', color: 'gray', marginInline: '1rem', padding: '0.3rem' }}>₹{product.price}</span>
-                            {product.discount&&<span className="text-success fw-bold p-1">{product.discount}%off</span>}
+                            {product.discount && <span className="text-success fw-bold p-1">{product.discount}%off</span>}
                         </div>
-                        {product.category === 'clothing' && <div style={{height:'3rem'}}>
+                        {product.category === 'clothing' && <div style={{ height: '3rem' }}>
                             <span className="me-4">Size</span>
                             {product.size.map((s, idx) => {
-                                return(
-                                    <span key={idx} style={{border:'1px solid #dcdddfff', marginLeft:
-                                        '1rem', padding:'0.5rem', width:"1.1rem", height:'0.7rem', fontWeight:'bold'
+                                return (
+                                    <span key={idx} style={{
+                                        border: '1px solid #dcdddfff', marginLeft:
+                                            '1rem', padding: '0.5rem', width: "1.1rem", height: '0.7rem', fontWeight: 'bold'
                                     }}>{s}</span>
                                 )
                             })}
-                            </div>}
+                        </div>}
                         <div style={{ border: '1px solid #e4e6eb', width: '95%' }}>
                             <div style={{ borderBottom: '1px solid #e4e6eb', padding: '0.9rem' }}>
-                                <h4>{product.category === 'clothing' ? 'Product Details':'Specification'}</h4>
+                                <h4>{product.category === 'clothing' ? 'Product Details' : 'Specification'}</h4>
                             </div>
 
                             <div className="p-3">
@@ -238,11 +263,11 @@ export default function Product() {
 
                             </div>
                         </div>
-                        <div style={{ border: '1px solid #e4e6eb', width: '95%', marginTop:'1rem', padding:'1rem', marginBottom:"2rem"}}>
-                           <div className="d-flex justify-content-between" style={{ borderBottom: '1px solid #e4e6eb'}}>
-                            <h4>Rating & Reviews</h4>
-                            <Button color="black" sx={{boxShadow:'0 1px 2px 0 rgba(0, 0, 0, .26)', padding:'1rem'}}>Rate Product</Button>
-                           </div>
+                        <div style={{ border: '1px solid #e4e6eb', width: '95%', marginTop: '1rem', padding: '1rem', marginBottom: "2rem" }}>
+                            <div className="d-flex justify-content-between" style={{ borderBottom: '1px solid #e4e6eb' }}>
+                                <h4>Rating & Reviews</h4>
+                                <Button color="black" sx={{ boxShadow: '0 1px 2px 0 rgba(0, 0, 0, .26)', padding: '1rem' }}>Rate Product</Button>
+                            </div>
                         </div>
                     </div>}
                 </div>

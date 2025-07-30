@@ -293,8 +293,8 @@ const removeWishlist = async(req, res) => {
 
         user.wishlist = user.wishlist.filter((wish) => wish._id.toString() !== product._id);
 
-        await user.save();
-        res.status(httpStatus.OK).json({message:"Wishlist Removed", success:true});
+        const updatedUser = await user.save();
+        res.status(httpStatus.OK).json({message:"Wishlist Removed", success:true, updatedUser});
     } catch (error) {
         console.log(error);
         res.status(500).json({error:error.message, success:false});

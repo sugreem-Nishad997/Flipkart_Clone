@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         localStorage.removeItem("token");
-        setUser(null)
+        setUser(null);
     }
 
     const getProfile = async (userId) => {
@@ -247,6 +247,9 @@ export const AuthProvider = ({ children }) => {
                 }
             }
             );
+            if (response.data.success) {
+                setUser(response.data.updatedUser);
+            }
             return response.data;
         } catch (error) {
             throw error;
@@ -323,6 +326,9 @@ export const AuthProvider = ({ children }) => {
                     Authorization: `Bearer ${token}`
                 }
             })
+            if (response.data.success) {
+                setUser(response.data.updatedUser);
+            }
             return response.data;
         } catch (error) {
             throw error;
@@ -342,7 +348,12 @@ export const AuthProvider = ({ children }) => {
 
     const createOrder = async (a) => {
         try {
-            const res = await client.post("/payment/create-order", { amount: a });
+            const token = localStorage.getItem("token");
+            const res = await client.post("/payment/create-order", { amount: a }, {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
             return res.data?.order;
         } catch (error) {
             console.error("Create order failed:", error);
@@ -350,13 +361,13 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const verifyPayment = async (order_id, payment_id, signature, amount) => {
+    const verifyPayment = async (order_id, payment_id, signature, amount, orderItems, shippingInfo, totalAmount) => {
         try {
             const token = localStorage.getItem("token");
 
             const res = await client.post(
                 "/payment/verify",
-                { order_id, payment_id, signature, amount }, // ✅ Axios sends body like this
+                { order_id, payment_id, signature, amount, orderItems, shippingInfo, totalAmount }, // ✅ Axios sends body like this
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -365,12 +376,47 @@ export const AuthProvider = ({ children }) => {
                 }
             );
 
+            if(res.data.success){
+                setUser(res.data.updatedUser);
+            }
+
             return res.data?.success;
         } catch (error) {
             console.error("Verify payment failed:", error?.response?.data || error.message);
             return false;
         }
     };
+
+    const orderCreating = async (product) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await client.post("/orders/createOrder", product, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (response.data.success) {
+                setUser(updatedUser);
+            }
+            return response.data
+        } catch (error) {
+            throw error
+        }
+    }
+
+    const getAllUserOrders = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await client.get("/orders/getOrders", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data
+        } catch (error) {
+            throw error
+        }
+    }
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -395,7 +441,7 @@ export const AuthProvider = ({ children }) => {
 
         fetchUserData();
     }, []);
-    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct, showProduct, showAllProducts, addToCart, addToWishlist, getWishlists, removeWishlist, getCartItems, removeFromCart, updateProduct, listAllProducts, createOrder, verifyPayment }
+    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct, showProduct, showAllProducts, addToCart, addToWishlist, getWishlists, removeWishlist, getCartItems, removeFromCart, updateProduct, listAllProducts, createOrder, verifyPayment, orderCreating, getAllUserOrders }
     return (
         <AuthContext.Provider value={data}>
             {children}

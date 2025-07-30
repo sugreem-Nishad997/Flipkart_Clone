@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const loadRazorpayScript = () => {
     return new Promise((resolve) => {
@@ -12,11 +13,12 @@ const loadRazorpayScript = () => {
     });
 };
 
-export default function PaymentButton({totals}) {
+export default function PaymentButton({totals, orderItems, shippingInfo}) {
 
     const { createOrder, verifyPayment } = useContext(AuthContext);
     const [amount, setAmount] = useState(1);
     const [message, setMessage] = useState("");
+    const navigate  = useNavigate();
     const handlePayment = async () => {
         setAmount(1)
         setMessage("");
@@ -44,16 +46,20 @@ export default function PaymentButton({totals}) {
                     response.razorpay_order_id,
                     response.razorpay_payment_id,
                     response.razorpay_signature,
-                    amount
+                    amount,
+                    orderItems,
+                    shippingInfo,
+                    totals.totalPayable + 166
                 );
 
                 setMessage(success ? "✅ Payment successful!" : "❌ Payment failed to verify");
+                
             },
             theme: { color: "#3399cc" },
         };
-
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
+        navigate("/account/orders");
     };
 
     return (

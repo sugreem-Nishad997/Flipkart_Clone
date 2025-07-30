@@ -40,7 +40,7 @@
 
 @media (min-width:720px) {
     .left {
-        width: 40%;
+        width: 36%;
         position: sticky;
         bottom: 0;
         top: 4.5rem;

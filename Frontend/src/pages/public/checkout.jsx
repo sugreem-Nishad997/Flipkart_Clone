@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import Spinner from '../../Loader/Spinner';
 import { AuthContext } from '../../Context/AuthContext';
 import PaymentButton from '../client/PaymentButton';
+import { KeyboardBackspace } from '@mui/icons-material';
 
 function SlideTransition(props) {
     return <Slide {...props} direction="down" />;
@@ -265,6 +266,10 @@ export default function checkout() {
                     <div></div>
                 </div>
             </div>
+            <div className="mobileCheckoutHeader">
+                <span className=' mx-1' onClick={()=>navigate(-1)}><KeyboardBackspace /></span>
+                <span className='mx-3'>Order Summary</span>
+            </div>
             <div className='checkoutBody'>
                 <div>
                     <div className='buyingProcess'>
@@ -365,6 +370,7 @@ export default function checkout() {
                                     </div>
                                 </div>
                                 <div>
+                                    {(cartItems && cartItems.length === 0) && <p className='p-2' style={{backgroundColor:'#f0eaddff'}}>Your checkout has no items</p>}
                                     <FormControl>
 
                                         <RadioGroup
@@ -655,7 +661,7 @@ export default function checkout() {
 
                         {/* Order Summary section */}
 
-                        {!orderOpen ? <div className='loginStep'>
+                        {!orderOpen  ? <div className='loginStep'>
                             <div className='d-flex' style={{ columnGap: '0.4rem' }}>
                                 <span className='number'>3</span>
                                 <div>
@@ -669,7 +675,7 @@ export default function checkout() {
                             {(userData && !addressOpen) && <div>
                                 <Button variant='outlined' size='small' onClick={() => setOrderOpen(!orderOpen)}>Change</Button>
                             </div>}
-                        </div> : (
+                        </div> : ( (cartItems && cartItems.length>0) &&
                             <div style={{ backgroundColor: 'white', borderRadius: '2px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, .09)' }}>
                                 <div className="loginStep1">
                                     <div className='d-flex' style={{ columnGap: '0.4rem' }}>
@@ -709,15 +715,16 @@ export default function checkout() {
                                 </div>
                             </div>
                         )}
-                        {orderOpen && <div style={{ backgroundColor: 'white', borderRadius: '2px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, .09)' }} >
+                    
+                        {(orderOpen ) ? <div style={{ backgroundColor: 'white', borderRadius: '2px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, .09)' }} >
                             <div className='d-flex justify-content-between p-3'>
                                 <p style={{ fontSize: '0.88rem' }}>Order confirmation email sent to your {userData && userData.email}</p>
-                                <Button variant='contained' sx={{ backgroundColor: '#f8641b', boxShadow: 'none' }} onClick={() => setOrderOpen(!orderOpen)}>Continue</Button>
+                                <Button variant='contained' sx={{ backgroundColor: '#f8641b', boxShadow: 'none' }} onClick={() => setOrderOpen(!orderOpen)} className='m-button'>Continue</Button>
                             </div>
-                        </div>}
-                        <PaymentButton totals = {totals}/>
+                        </div> : (cartItems && cartItems.length === 0) &&<p className='p-2' style={{backgroundColor:'#e6dca1'}}>Your checkout has no items</p>}
+
                     </div>
-                    <div className='priceDetails'>
+                    {(userData && (cartItems && cartItems.length > 0)) && <div className='priceDetails'>
                         <p className='fw-bold text-secondary p-3' style={{ borderBottom: '2px solid rgb(235, 236, 236)' }}>PRICE DETAILS</p>
                         <div className='p-3' style={{ borderBottom: '2px dashed rgba(217, 218, 218, 1)' }} >
                             <div className="d-flex justify-content-between ">
@@ -735,8 +742,9 @@ export default function checkout() {
                             <span>₹{Math.round(totals && totals.totalPayable + 166)}</span>
                         </div>
                         <p className='mt-3 text-success p-3' style={{ fontSize: "1.1rem", fontWeight: '500' }}>Your will save ₹{totals && totals.totalDiscount} on this Order</p>
-                    </div>
+                    </div>}
                 </div>
+                {(userData && (cartItems && cartItems.length > 0)) && <PaymentButton totals={totals} orderItems={cartItems} shippingInfo={radioAddress}/>}
             </div>
             <Snackbar
                 open={snakeOpen.open}

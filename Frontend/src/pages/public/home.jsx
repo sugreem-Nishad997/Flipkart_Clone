@@ -4,7 +4,7 @@ import { useState } from 'react';
 export default function home() {
 
     const navigate = useNavigate();
-    const links = ["Headset", "Smart Watches"];
+    const links = ["Headset", "Smart Watches", "Projectors", "Smart TVs", "Printers"];
     const [linkIndex, setLinkIndex] = useState(0);
     const bestElectronics = [
         {

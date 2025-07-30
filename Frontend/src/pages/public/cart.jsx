@@ -11,6 +11,7 @@ import { blue } from "@mui/material/colors";
 //for Address Dialoge
 function SimpleDialog(props) {
     const { onClose, selectedAddress, open, addresses, setSelectedAddress } = props;
+    const navigate = useNavigate();
 
     const handleClose = () => {
         onClose(selectedAddress);
@@ -45,7 +46,7 @@ function SimpleDialog(props) {
                 <ListItem disablePadding>
                     <ListItemButton
                         autoFocus
-                        onClick={() => handleListItemClick('addAccount')}
+                        onClick={() => navigate('/account/addresses')}
                     >
                         <ListItemAvatar>
                             <Avatar>
@@ -184,17 +185,25 @@ export default function cart() {
                             <div className="loginStep">
                                 <div className='d-flex' style={{ columnGap: '0.4rem' }}>
                                     <div>
-                                        <p>Deliver to: <span className="fw-bold">{userData && userData.name + " , " + radioAddress.pincode}</span>
-                                            <span className="addressType">  {radioAddress.addressType}</span>
-                                            {userData && <Check sx={{ color: '#2874f0', fontSize: '1.3rem', marginLeft: '0.2rem' }} />
-                                            }
-                                        </p>
-                                        {userData && radioAddress &&
-                                            <p style={{ marginTop: '-0.5rem', fontWeight: '400' }}>{radioAddress.locality + " " + radioAddress.area + " " + radioAddress.state}</p>}
+                                        {radioAddress ? (
+                                            <>
+                                                <p>
+                                                    Deliver to: <span className="fw-bold">{userData?.name}, {radioAddress?.pincode}</span>
+                                                    <span className="addressType">{radioAddress?.addressType}</span>
+                                                    <Check sx={{ color: '#2874f0', fontSize: '1.3rem', marginLeft: '0.2rem' }} />
+                                                </p>
+                                                <p style={{ marginTop: '-0.5rem', fontWeight: '400' }}>
+                                                    {radioAddress?.locality} {radioAddress?.area} {radioAddress?.state}
+                                                </p>
+                                            </>
+                                        ) : (
+                                            <p className="text-danger">⚠ No address selected. Please add one to proceed.</p>
+                                        )}
+
                                     </div>
                                 </div>
                                 <div>
-                                    <Button variant='outlined' size='small' onClick={handleClickOpen}>Change</Button>
+                                    <Button variant='outlined' size='small' onClick={()=>radioAddress?handleClickOpen(): navigate('/account/addresses')}>{radioAddress?'Change':'Add new'}</Button>
                                 </div>
                                 <SimpleDialog
                                     selectedAddress={selectedAddress}
@@ -233,7 +242,15 @@ export default function cart() {
                             </div>
                             <div className="placeOrder">
                                 <span>₹{Math.round(totals && totals.totalPayable + 166)}</span>
-                                <Button variant="contained" sx={{ backgroundColor: '#fb641b' }} onClick={() => navigate("/checkout")}>place order</Button>
+                                <Button
+                                    variant="contained"
+                                    sx={{ backgroundColor: '#fb641b' }}
+                                    onClick={() => radioAddress && navigate("/checkout")}
+                                    disabled={!radioAddress}
+                                >
+                                    Place Order
+                                </Button>
+
                             </div>
                         </div>
                         <div className='priceDetails'>

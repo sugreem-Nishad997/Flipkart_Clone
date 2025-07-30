@@ -16,6 +16,7 @@ const userSchema = new Schema({
     },
     wishlist: [{ type: mongoose.Types.ObjectId, ref: 'Product' }],
     cart: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
+    orders: [{ type: mongoose.Types.ObjectId, ref: "Order" }],
     payments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Payment" }]
 
 });
