@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
     const [loader, setLoader] = useState(true);
     const register = async (fullName, email, password, otp) => {
         try {
-            let response = await client.post("/users/register", {
+            let response = await client.post("/auth/register", {
                 name: fullName,
                 email: email,
                 password: password,
@@ -32,19 +32,41 @@ export const AuthProvider = ({ children }) => {
 
     const verifyOtp = async (email, otp) => {
         try {
-            let response = await client.post("/users/otpVerify", {
+            let response = await client.post("/auth/otpVerify", {
                 email: email,
                 otp: otp
             });
+            if(response.data.success){
+                setUser(response.data.user);
+                localStorage.setItem("token", response.data.token);
+            }
             return response.data
         } catch (error) {
             throw error
         }
     }
 
+    const loginWithOtp = async (email) => {
+        try {
+            let response = await client.post("/auth/otpLogin", {email: email});
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    const resendOtp = async(email) => {
+        try {
+            let response = await client.post("/auth/resendOtp", {email: email});
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     const login = async (email, password) => {
         try {
-            let response = await client.post("/users/login", {
+            let response = await client.post("/auth/login", {
                 email: email,
                 password: password
             })
@@ -52,11 +74,26 @@ export const AuthProvider = ({ children }) => {
                 const { user, token } = response.data;
                 localStorage.setItem("token", token);
                 setUser(user);
-                return response.data.message;
             }
             return response.data
         } catch (error) {
             throw error
+        }
+    }
+
+    const googleLogin = async (credentialResponse) => {
+        try {
+            let response = await client.post("/auth/socialLogin", {
+                Token: credentialResponse.credential,
+            });
+            if (response.data.success) {
+                const { user, token } = response.data;
+                localStorage.setItem("token", token);
+                setUser(user);
+            }
+            return response.data;
+        } catch (error) {
+            throw error;
         }
     }
 
@@ -441,7 +478,7 @@ export const AuthProvider = ({ children }) => {
 
         fetchUserData();
     }, []);
-    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct, showProduct, showAllProducts, addToCart, addToWishlist, getWishlists, removeWishlist, getCartItems, removeFromCart, updateProduct, listAllProducts, createOrder, verifyPayment, orderCreating, getAllUserOrders }
+    const data = { register, verifyOtp, login, user, getProfile, logout, updateName, updateEmail, getAddress, addAddress, updateAddress, deleteAddress, loader, addProduct, showProduct, showAllProducts, addToCart, addToWishlist, getWishlists, removeWishlist, getCartItems, removeFromCart, updateProduct, listAllProducts, createOrder, verifyPayment, orderCreating, getAllUserOrders, loginWithOtp, resendOtp, googleLogin}
     return (
         <AuthContext.Provider value={data}>
             {children}

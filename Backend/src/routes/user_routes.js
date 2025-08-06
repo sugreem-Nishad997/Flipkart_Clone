@@ -1,13 +1,11 @@
 import { Router } from "express";
-import { addAddress, addToCart, addToWishlist, deleteAddress, getAllAddress, getCartItems, getUserProfile, getWishlists, login, register, removeFromCart, removeWishlist, updateAddress, updateEmail, updatePersonalInfo, verifyOtp } from "../controllers/user_controller.js";
+import { addAddress, addToCart, addToWishlist, deleteAddress, getAllAddress, getCartItems, getUserProfile, getWishlists, removeFromCart, removeWishlist, updateAddress, updateEmail, updatePersonalInfo} from "../controllers/user_controller.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 import { showAllProducts } from "../controllers/product_controller.js";
 
 const router = Router();
 
-router.route("/users/register").post(register);
-router.route("/users/otpVerify").post(verifyOtp);
-router.route("/users/login").post(login);
+
 router.route("/users/:id").get(authMiddleware, getUserProfile);
 router.route("/users/name/:id").post(authMiddleware, updatePersonalInfo);
 router.route("/users/email/:id").post(authMiddleware, updateEmail);

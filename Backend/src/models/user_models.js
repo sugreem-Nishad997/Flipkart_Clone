@@ -5,7 +5,7 @@ const userSchema = new Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     isVerified: Boolean,
-    password: { type: String, required: true },
+    password: { type: String },
     otp: { type: String },
     otpExpiry: { type: Date },
     gender: { type: String },
@@ -17,7 +17,9 @@ const userSchema = new Schema({
     wishlist: [{ type: mongoose.Types.ObjectId, ref: 'Product' }],
     cart: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
     orders: [{ type: mongoose.Types.ObjectId, ref: "Order" }],
-    payments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Payment" }]
+    payments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Payment" }],
+    socialProvider: { type: String, enum: ["google", "facebook", "instagram", null], default: null },
+    socialId: { type: String, default: null },
 
 });
 

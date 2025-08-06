@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import authRoutes from './routes/auth_routes.js'
 import userRoutes from './routes/user_routes.js';
 import productRoutes from './routes/product_routes.js';
 import paymentRoutes from './routes/payment_routes.js';
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(express.json({limit:'40kb'}));
 app.use(express.urlencoded({limit:'40kb', extended:true}));
 
+app.use(authRoutes);
 app.use(userRoutes);
 app.use(productRoutes);
 app.use(paymentRoutes);

@@ -36,7 +36,12 @@ export default function order() {
                 ) : (orders.flatMap(order => 
                     order.orderItems.map((item, idx) => {
                         return (
-                        <div style={{ backgroundColor: 'white', padding: '1rem', borderRadius: '0.3rem', border: '1px solid #b3b3b3ff' }} key={idx}>{item._id}</div>
+                        <div style={{ backgroundColor: 'white', padding: '1rem', borderRadius: '0.3rem', border: '1px solid #b3b3b3ff'}} key={idx} className="d-flex  mt-3">
+                            <img src={item.image} alt="item" height={'10%'} width={'10%'} className="mx-5"/>
+                            <p className="elipse me-3" style={{width:'15rem'}}>{item.name}</p>
+                            <p className="mx-5 fw-bold">₹{Math.round(item.price-(item.price * item.discount)/100)}</p>
+                            <p className="ms-5"><span style={{backgroundColor:"orange", width:'50%', height:'50%'}}>-</span>{order.status}</p>
+                        </div>
                     )
                     })
                     
