@@ -157,7 +157,7 @@ export default function header() {
                             <Button sx={{ color: 'black' }} startIcon={<SearchIcon />}>mobiles</Button>
                         </li>
                         <li>
-                            <Button sx={{ color: 'black' }} startIcon={<SearchIcon />}>shoes</Button>
+                            <Button sx={{ color: 'black' }} startIcon={<SearchIcon />}>t-shirts</Button>
                         </li>
                         <li>
                             <Button sx={{ color: 'black' }} startIcon={<SearchIcon />}>laptops</Button>
