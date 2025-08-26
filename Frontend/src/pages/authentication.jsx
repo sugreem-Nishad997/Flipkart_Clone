@@ -370,7 +370,7 @@ export default function Authentication() {
                                     </Button>
                                     {/* <Button
                                         variant="outlined"
-                                        onClick={() => console.log("Google Login")}
+                                        onClick={handleGoogleSuccess}
                                         style={{
                                             display: 'flex',
                                             alignItems: 'center',
