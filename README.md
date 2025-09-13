@@ -59,5 +59,42 @@ Clone the repository:
 git clone https://github.com/your-username/flipkart-clone.git
 cd flipkart-clone
 
+```
+
+Backend Setup
+```bash
+cd backend
+npm install
+npm run dev
+
+```
+Create a .env file inside server with:
+```bash
+DB_URL=your_mongodb_connection
+SECRET_KEY=your_secret
+RAZORPAY_KEY_ID=your_key
+RAZORPAY_SECRET=your_secret
+EMAIL_USER=your_email
+EMAIL_PASS=your_secret_pass
+CLOUD_NAME=your_cloud_name
+API_KEY=your_cloud_api_key
+API_SECRET=your_cloud_api_secret
+GOOGLE_CLIENT_ID=your_google_client_id
+
+```
+Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
+
+```
+🔮 Future Enhancements
+
+  * Product reviews & ratings
+
+  * Delivery tracking with live updates
+
+  * AI-based product recommendations
 
 
