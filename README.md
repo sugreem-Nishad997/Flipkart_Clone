@@ -95,6 +95,8 @@ npm run dev
 
   * Delivery tracking with live updates
 
+  * Login with Facebook
+
   * AI-based product recommendations
 
 
