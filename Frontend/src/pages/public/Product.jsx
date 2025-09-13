@@ -226,7 +226,7 @@ export default function Product() {
                             >buy now</Button>
                         </div>
                     </div>
-                    {product && <div style={{ paddingTop: '0.8rem', height: '100%', width: '55%' }}>
+                    {product && <div style={{ paddingTop: '0.8rem', height: '100%', width: '100%' }}>
                         <div>{product.title}</div>
                         <div className="d-flex my-3">
                             <h3>₹{product.discount ? Math.round(product.price - (product.price * product.discount) / 100) : product.price}</h3>

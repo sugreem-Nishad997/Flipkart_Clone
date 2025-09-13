@@ -154,19 +154,19 @@ export default function header() {
                     <ul className='search-dropDown' style={{ display: focus ? '' : 'none' }}>
                         <li>Trending</li>
                         <li>
-                            <Button sx={{ color: 'black' }} startIcon={<SearchIcon />}>mobiles</Button>
+                            <Button sx={{ color: 'black' }} startIcon={<SearchIcon />} onClick={()=>navigate('/showList/Mobiles')}>mobiles</Button>
                         </li>
                         <li>
-                            <Button sx={{ color: 'black' }} startIcon={<SearchIcon />}>t-shirts</Button>
+                            <Button sx={{ color: 'black' }} startIcon={<SearchIcon />}  onClick={()=>navigate('/showList/T-shirts')}>t-shirts</Button>
                         </li>
                         <li>
-                            <Button sx={{ color: 'black' }} startIcon={<SearchIcon />}>laptops</Button>
+                            <Button sx={{ color: 'black' }} startIcon={<SearchIcon />} onClick={()=>navigate('/showList/Laptops')}>laptops</Button>
                         </li>
                         <li>
-                            <Button sx={{ color: 'black' }} startIcon={<SearchIcon />}>watches</Button>
+                            <Button sx={{ color: 'black' }} startIcon={<SearchIcon />} onClick={()=>navigate('/showList/Smart Watches')}>watches</Button>
                         </li>
                         <li>
-                            <Button sx={{ color: 'black' }} startIcon={<SearchIcon />}>t-shirts</Button>
+                            <Button sx={{ color: 'black' }} startIcon={<SearchIcon />} onClick={()=>navigate('/showList/Headset')}>headsets</Button>
                         </li>
                     </ul>
                 </div>
@@ -218,19 +218,19 @@ export default function header() {
                 <ul className='search-dropDown' style={{ display: focus ? '' : 'none' }}>
                     <li>Trending</li>
                     <li>
-                        <Button sx={{ color: 'black' }} startIcon={<SearchIcon />}>mobiles</Button>
+                        <Button sx={{ color: 'black' }} startIcon={<SearchIcon />} onClick={()=>navigate('/showList/Mobile')}>mobiles</Button>
                     </li>
                     <li>
-                        <Button sx={{ color: 'black' }} startIcon={<SearchIcon />}>shoes</Button>
+                        <Button sx={{ color: 'black' }} startIcon={<SearchIcon />} onClick={()=>navigate('/showList/shoes')}>shoes</Button>
                     </li>
                     <li>
-                        <Button sx={{ color: 'black' }} startIcon={<SearchIcon />}>laptops</Button>
+                        <Button sx={{ color: 'black' }} startIcon={<SearchIcon />} onClick={()=>navigate('/showList/Laptops')}>laptops</Button>
                     </li>
                     <li>
-                        <Button sx={{ color: 'black' }} startIcon={<SearchIcon />}>watches</Button>
+                        <Button sx={{ color: 'black' }} startIcon={<SearchIcon />} onClick={()=>navigate('/showList/Smart Watches')}>watches</Button>
                     </li>
                     <li>
-                        <Button sx={{ color: 'black' }} startIcon={<SearchIcon />}>t-shirts</Button>
+                        <Button sx={{ color: 'black' }} startIcon={<SearchIcon />} onClick={()=>navigate('/showList/T-shirts')}>t-shirts</Button>
                     </li>
                 </ul>
             </div>

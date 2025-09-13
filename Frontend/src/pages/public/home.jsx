@@ -34,6 +34,60 @@ export default function home() {
         },
 
     ];
+    const trending = [
+        {
+            title: "Air Coolers",
+            url: "https://rukminim2.flixcart.com/image/420/420/xif0q/air-cooler/i/m/y/5-5-usb-air-cooler-small-carry-cooler-mini-desk-cooling-fan-with-original-imaha8umwewxztp8.jpeg?q=60",
+            dis: "Min 50% Off",
+            link: "Coolers"
+        },
+        {
+            title: "Cameras",
+            url: "https://rukminim2.flixcart.com/image/420/420/xif0q/drone/z/2/k/50-30-30-new-good-quality-quadcopter-e88-wifi-drone-with-wide-original-imaha66vdgbsrrxk.jpeg?q=60",
+            dis: "Min 30% Off",
+            link: "Cameras"
+        },
+        {
+            title: "Wireless Headsets",
+            url: "https://rukminim2.flixcart.com/image/420/420/xif0q/headphone/t/w/1/comfortable-ear-pads-wireless-headphone-with-aux-support-original-imah9sv7jzpdcbdm.jpeg?q=60",
+            dis: "Big savings",
+            link: "Headsets"
+        },
+        {
+            title: "Refrigerators",
+            url: "https://rukminim2.flixcart.com/image/420/420/xif0q/refrigerator-new/g/e/b/-original-imah8vzm36httsbc.jpeg?q=60",
+            dis: "Min 50% Off",
+            link: "Refrigerators"
+        },
+
+
+    ];
+
+     const seasonTopPics = [
+        {
+            title: "Casual Shirts",
+            url: "https://rukminim2.flixcart.com/image/420/420/xif0q/shirt/5/d/y/xxl-frml-st2-vebnor-original-imah89h9ysyg2jth.jpeg?q=60",
+            dis: "Special Offers",
+        },
+        {
+            title: "Wall Clocks",
+            url: "https://rukminim2.flixcart.com/image/420/420/xif0q/wall-clock/r/o/b/handpainted-peacock-wall-clock-32-5-wc-331-analog-divinecrafts-original-imahbzdadxeahpj5.jpeg?q=60",
+            dis: "Min 50% Off",
+        },
+        {
+            title: "Women's Sarees",
+            url: "https://rukminim2.flixcart.com/image/420/420/xif0q/sari/i/4/w/free-rama-saree-with-fancy-hotfix-work-durvacreation-unstitched-original-imaha7pq45ds9e7b.jpeg?q=60",
+            dis: "Special Offers",
+        },
+        {
+            title: "Arm Sleeves",
+            url: "https://rukminim2.flixcart.com/image/420/420/l4zxn680/arm-sleeve/p/i/x/free-no-02-cool-arm-sleev-gry-blu-p02-styleacademy-original-imagfs3n9gvhusnp.jpeg?q=60",
+            dis: "Min 50% Off",
+        },
+
+
+    ];
+
     return (
         <div className='container-1'>
             <div className="catigory-items">
@@ -72,13 +126,13 @@ export default function home() {
 
             <div id="carouselExampleAutoplaying" className="carousel slide" data-bs-ride="carousel" >
                 <div className="carousel-inner">
-                    <div className="carousel-item active">
+                    <div className="carousel-item active" onClick={()=>navigate('/68c4e8e33c086455b099d389')} style={{cursor:'pointer'}}>
                         <img src="https://rukminim2.flixcart.com/fk-p-flap/960/160/image/e26a921db8ae588e.jpeg?q=60" className="d-block w-100 carousel-img" alt="..." />
                     </div>
-                    <div className="carousel-item">
+                    <div className="carousel-item"  >
                         <img src="https://rukminim2.flixcart.com/fk-p-flap/2020/340/image/cc08176877cb794a.png?q=60" className="d-block w-100 carousel-img" alt="..." />
                     </div>
-                    <div className="carousel-item">
+                    <div className="carousel-item" onClick={()=>navigate('/687defa1e718e01a8e4a72de')} style={{cursor:'pointer'}}>
                         <img src="https://rukminim2.flixcart.com/fk-p-flap/2020/340/image/9e51c145e7782e85.jpeg?q=60" className="d-block w-100 carousel-img" alt="..." />
                     </div>
                     <div className="carousel-item">
@@ -102,10 +156,11 @@ export default function home() {
                         return (
                             <div className='bestInElectronics-li' onClick={() => {
                                 setLinkIndex(idx)
-                                idx === linkIndex && navigate(`/showList/${links[idx]}`)}}
-                            key={idx}>
+                                idx === linkIndex && navigate(`/showList/${links[idx]}`)
+                            }}
+                                key={idx}>
                                 <div>
-                                    <img src= {best.url}/>
+                                    <img src={best.url} />
                                 </div>
                                 <div className='li-tag'>
                                     <p>{best.title}</p>
@@ -122,53 +177,24 @@ export default function home() {
                 <div className="fashTopDContainer">
                     <h5 style={{ padding: '1rem' }}>Trending Gadgets & Appliances</h5>
                     <div class="row row-cols-2 row-cols-md-2 g-4 row-clos-sm-2 row-cols-xl-2 row-cols-xsm-2" style={{ padding: '0.5rem' }}>
-                        <div class="col-xsm-6">
-                            <div class="card card-1">
-                                <div className="custom-img">
-                                    <img src="https://rukminim2.flixcart.com/image/420/420/xif0q/air-cooler/i/m/y/5-5-usb-air-cooler-small-carry-cooler-mini-desk-cooling-fan-with-original-imaha8umwewxztp8.jpeg?q=60" alt="..."></img>
+                        {trending.map((tren, idx) => {
+                            return (
+                                <div class="col-xsm-6">
+                                    <div class="card card-1" onClick={() => {
+                                        setLinkIndex(idx)
+                                        idx === linkIndex && navigate(`/showList/${tren.link}`)
+                                    }} style={{cursor:'pointer'}}>
+                                        <div className="custom-img">
+                                            <img src={tren.url} alt="..."></img>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="elipse">{tren.title}</p>
+                                            <p class="card-text fw-bold text-success">{tren.dis}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-body">
-                                    <p class="elipse">Air Coolers</p>
-                                    <p class="card-text fw-bold text-success">Min. 50% Off</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xsm-6">
-                            <div class="card card-1">
-                                <div className="custom-img">
-                                    <img src="https://rukminim2.flixcart.com/image/420/420/xif0q/drone/z/2/k/50-30-30-new-good-quality-quadcopter-e88-wifi-drone-with-wide-original-imaha66vdgbsrrxk.jpeg?q=60" alt="..." />
-                                </div>
-                                <div class="card-body">
-                                    <p class="elipse">Camera's</p>
-                                    <p class="card-text fw-bold text-success">Min. 30% Off</p>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xsm-6">
-                            <div class="card card-1">
-                                <div className="custom-img">
-                                    <img src="https://rukminim2.flixcart.com/image/420/420/xif0q/headphone/t/w/1/comfortable-ear-pads-wireless-headphone-with-aux-support-original-imah9sv7jzpdcbdm.jpeg?q=60" alt="..."></img>
-                                </div>
-                                <div class="card-body">
-                                    <p class="elipse">Wireless Headphones</p>
-                                    <p class="card-text fw-bold text-success">Big savings</p>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xsm-6 ">
-                            <div class="card card-1">
-                                <div className='custom-img'>
-                                    <img src="https://rukminim2.flixcart.com/image/420/420/xif0q/refrigerator-new/g/e/b/-original-imah8vzm36httsbc.jpeg?q=60" alt="..." />
-                                </div>
-                                <div class="card-body">
-                                    <p>Rafrigerators</p>
-                                    <p class="card-text fw-bold text-success">Min. 50% Off</p>
-
-                                </div>
-                            </div>
-                        </div>
+                            )
+                        })}                       
 
                     </div>
 
@@ -178,55 +204,25 @@ export default function home() {
                 <div className="fashTopDContainer">
                     <h5 style={{ padding: '1rem' }}>Season's Top Pics</h5>
                     <div class="row row-cols-2 row-cols-md-2 g-4 row-clos-sm-2 row-cols-xl-2 row-cols-xsm-2" style={{ padding: '0.5rem' }}>
-                        <div class="col-xsm-6">
-                            <div class="card card-1">
-                                <div className="custom-img">
-                                    <img src="https://rukminim2.flixcart.com/image/420/420/xif0q/shirt/5/d/y/xxl-frml-st2-vebnor-original-imah89h9ysyg2jth.jpeg?q=60" alt="..."></img>
+                        {seasonTopPics.map((season, idx) => {
+                            return (
+                                <div class="col-xsm-6">
+                                    <div class="card card-1" onClick={() => {
+                                        setLinkIndex(idx)
+                                        idx === linkIndex && navigate(`/showList/${season.title}`)
+                                    }} style={{cursor:'pointer'}}>
+                                        <div className="custom-img">
+                                            <img src={season.url} alt="..."></img>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="elipse">{season.title}</p>
+                                            <p class="card-text fw-bold text-success">{season.dis}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-body">
-                                    <p class="elipse"> Casual Shirts</p>
-                                    <p class="card-text fw-bold text-success">Special Offers</p>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xsm-6">
-                            <div class="card card-1">
-                                <div className="custom-img">
-                                    <img src="https://rukminim2.flixcart.com/image/420/420/xif0q/wall-clock/r/o/b/handpainted-peacock-wall-clock-32-5-wc-331-analog-divinecrafts-original-imahbzdadxeahpj5.jpeg?q=60" alt="..." />
-                                </div>
-                                <div class="card-body">
-                                    <p class="elipse">Wall Clocks</p>
-                                    <p class="card-text fw-bold text-success">Min. 50% Off</p>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xsm-6">
-                            <div class="card card-1">
-                                <div className="custom-img">
-                                    <img src="https://rukminim2.flixcart.com/image/420/420/xif0q/sari/i/4/w/free-rama-saree-with-fancy-hotfix-work-durvacreation-unstitched-original-imaha7pq45ds9e7b.jpeg?q=60" alt="..."></img>
-                                </div>
-                                <div class="card-body">
-                                    <p class="elipse">Women's Sarees</p>
-                                    <p class="card-text fw-bold text-success">Special Offer</p>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xsm-6 ">
-                            <div class="card card-1">
-                                <div className='custom-img'>
-                                    <img src="https://rukminim2.flixcart.com/image/420/420/l4zxn680/arm-sleeve/p/i/x/free-no-02-cool-arm-sleev-gry-blu-p02-styleacademy-original-imagfs3n9gvhusnp.jpeg?q=60" alt="..." />
-                                </div>
-                                <div class="card-body">
-                                    <p>Arm Sleeves</p>
-                                    <p class="card-text fw-bold text-success">Min. 50% Off</p>
-
-                                </div>
-                            </div>
-                        </div>
-
+                            )
+                        })} 
+                       
                     </div>
 
 
