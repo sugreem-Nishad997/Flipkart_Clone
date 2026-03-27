@@ -6,7 +6,7 @@ This project demonstrates **e-commerce application development** skills includin
 ---
 ## 🚀 Live Demo
 
-https://flipkart-clone-two-liart.vercel.app/
+https://flipkart-clonefrontend-theta.vercel.app/
 
 ---
 ## 🚀 Features
